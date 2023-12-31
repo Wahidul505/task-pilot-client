@@ -10,7 +10,7 @@ import {
 
 const MainNavbar = () => {
   return (
-    <Navbar className="bg-gray-300">
+    <Navbar className="bg-white shadow">
       <NavbarBrand>
         <p className="font-bold text-inherit">Task Pilot</p>
       </NavbarBrand>
