@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Navbar,
@@ -7,14 +8,19 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
+import PrimaryButton from "../Button/PrimaryButton";
+import { useRouter } from "next/navigation";
 
 const MainNavbar = () => {
+  const router = useRouter();
   return (
-    <Navbar className="bg-white shadow">
+    <Navbar className="bg-white max-w-7xl mx-auto " maxWidth="full">
       <NavbarBrand>
-        <p className="font-bold text-inherit">Task Pilot</p>
+        <p className="font-bold text-inherit text-[#1a759f] text-lg md:text-xl lg:text-2xl">
+          Task Pilot
+        </p>
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      {/* <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
           <Link color="foreground" href="#">
             Features
@@ -30,15 +36,19 @@ const MainNavbar = () => {
             Integrations
           </Link>
         </NavbarItem>
-      </NavbarContent>
+      </NavbarContent> */}
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+        <NavbarItem className="flex ">
+          <Link href="/login" className="text-gray-800">
+            Login
+          </Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
+          <PrimaryButton
+            onClick={() => router.push("/signup")}
+            label="Sign Up"
+            size="small"
+          />
         </NavbarItem>
       </NavbarContent>
     </Navbar>
