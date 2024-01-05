@@ -8,10 +8,16 @@ import CenterLayout from "../Layout/CenterLayout";
 import Form from "../Forms/Form";
 import FormInput from "../Forms/FormInput";
 import PrimaryButton from "../Button/PrimaryButton";
+import { useAppDispatch } from "@/redux/hooks";
+import { storeEmail } from "@/redux/slices/emailSlice";
+import { useRouter } from "next/navigation";
 
 const Banner = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const handleSubmit = (data: any) => {
-    console.log(data);
+    dispatch(storeEmail(data.email));
+    router.push("/signup");
   };
   return (
     <div>
