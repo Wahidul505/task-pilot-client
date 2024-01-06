@@ -35,7 +35,7 @@ instance.interceptors.response.use(
   },
   function (error) {
     const errorResponseObject: IResponseError = {
-      statusCode: error?.response?.data?.statusCode,
+      status: error?.response?.data?.statusCode || error?.response?.status,
       message: error?.response?.data?.message,
       errorMessages: error?.response?.data?.errorMessages,
     };

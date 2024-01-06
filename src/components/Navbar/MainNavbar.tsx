@@ -20,23 +20,6 @@ const MainNavbar = () => {
           Task Pilot
         </p>
       </NavbarBrand>
-      {/* <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
-        </NavbarItem>
-      </NavbarContent> */}
       <NavbarContent justify="end">
         <NavbarItem className="flex ">
           <Link href="/login" className="text-gray-800">
@@ -45,9 +28,9 @@ const MainNavbar = () => {
         </NavbarItem>
         <NavbarItem>
           <PrimaryButton
-            onClick={() => router.push("/signup")}
+            onClick={() => router.push("/sign-up")}
             label="Sign Up"
-            size="small"
+            size="sm"
           />
         </NavbarItem>
       </NavbarContent>

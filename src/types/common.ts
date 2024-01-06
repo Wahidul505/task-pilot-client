@@ -12,7 +12,7 @@ export type IResponseSuccess = {
 };
 
 export type IResponseError = {
-  statusCode: number;
+  status: number;
   message: string;
   errorMessages: IGenericErrorMessage[];
 };

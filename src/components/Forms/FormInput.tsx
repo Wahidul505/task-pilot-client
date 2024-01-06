@@ -53,7 +53,9 @@ const FormInput = ({
             disabled={disabled}
             defaultValue={defaultValue}
             className={`px-1 md:px-2 lg:px-3 focus:outline-none md:text-lg w-full bg-transparent box-border text-black rounded ${
-              bordered ? "border border-solid border-gray-500" : "border-none"
+              bordered
+                ? " border-2 border-solid border-gray-300 focus:border-[#0099ff]"
+                : "border-none"
             } ${
               size === "big" ? "h-8 md:h-9 lg:h-12" : "h-7 md:h-8 lg:h-10"
             } ${className}`}
