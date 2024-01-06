@@ -1,19 +1,12 @@
 import { IChildrenProps } from "@/types/common";
 import React from "react";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  Button,
-  Avatar,
-} from "@nextui-org/react";
+import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 
 const PopoverModal = ({
   button,
   children,
   placement,
   key,
-  avatar,
 }: {
   button: IChildrenProps;
   avatar?: string;
@@ -36,7 +29,9 @@ const PopoverModal = ({
   return (
     <Popover key={key} placement={placement}>
       <PopoverTrigger>{button}</PopoverTrigger>
-      <PopoverContent>{children}</PopoverContent>
+      <PopoverContent className="p-2 md:p-2 lg:p-3 rounded">
+        {children}
+      </PopoverContent>
     </Popover>
   );
 };

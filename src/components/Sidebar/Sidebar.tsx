@@ -5,6 +5,7 @@ import Text from "../Formatting/Text";
 import Info from "../Formatting/Info";
 import { BiLeftArrow } from "react-icons/bi";
 import { BiRightArrow } from "react-icons/bi";
+import AvatarLayout from "../Layout/AvatarLayout";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -29,18 +30,14 @@ const Sidebar = () => {
       )}
       <div className={`pb-20 p-1 md:p-2 lg:p-4 ${isOpen ? "block" : "hidden"}`}>
         <div className="flex justify-between items-center">
-          <div className="flex space-x-1 md:space-x-2">
+          <AvatarLayout text="Wahid co" info="owner">
             <Avatar
               name="W"
               radius="sm"
               size="sm"
-              className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+              className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg rounded"
             />
-            <div>
-              <Text>Wahid Co</Text>
-              <Info>Owner</Info>
-            </div>
-          </div>
+          </AvatarLayout>
           <Button
             variant="light"
             isIconOnly

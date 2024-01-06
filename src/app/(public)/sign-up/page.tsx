@@ -28,7 +28,7 @@ const SignupPage = () => {
       }
       if (result) {
         storeUserInfo({ accessToken: result });
-        router.push("/");
+        router.push("/dashboard");
         toast.success("Account Created");
       }
     } catch (error) {
