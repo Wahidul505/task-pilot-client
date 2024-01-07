@@ -1,17 +1,23 @@
 "use client";
 import { Avatar, Button } from "@nextui-org/react";
 import React, { useState } from "react";
-import Text from "../Formatting/Text";
-import Info from "../Formatting/Info";
 import { BiLeftArrow } from "react-icons/bi";
 import { BiRightArrow } from "react-icons/bi";
 import AvatarLayout from "../Layout/AvatarLayout";
+import { IChildrenProps } from "@/types/common";
+import CustomDivider from "../Divider/CustomDivider";
 
-const Sidebar = () => {
+const Sidebar = ({
+  children,
+  avatarLayout,
+}: {
+  children: IChildrenProps;
+  avatarLayout: IChildrenProps;
+}) => {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <div
-      className={`h-full overflow-y-auto bg-black text-white transition-all duration-250 relative ${
+      className={`h-full overflow-y-auto bg-white text-black transition-all duration-250 relative border-r border-solid border-l-gray-500 ${
         isOpen ? "w-64" : "w-8"
       }`}
     >
@@ -29,15 +35,8 @@ const Sidebar = () => {
         </div>
       )}
       <div className={`pb-20 p-1 md:p-2 lg:p-4 ${isOpen ? "block" : "hidden"}`}>
-        <div className="flex justify-between items-center">
-          <AvatarLayout text="Wahid co" info="owner">
-            <Avatar
-              name="W"
-              radius="sm"
-              size="sm"
-              className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg rounded"
-            />
-          </AvatarLayout>
+        <div className="flex justify-between items-center text-gray-900">
+          {avatarLayout}
           <Button
             variant="light"
             isIconOnly
@@ -48,6 +47,8 @@ const Sidebar = () => {
             <BiLeftArrow />
           </Button>
         </div>
+        <CustomDivider />
+        {children}
       </div>
     </div>
   );

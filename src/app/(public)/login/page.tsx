@@ -24,7 +24,7 @@ const LoginPage = () => {
       const result = await login({ ...data }).unwrap();
       if (result) {
         storeUserInfo({ accessToken: result });
-        router.push("/dashboard");
+        router.push("/home");
         toast.success("Logged in");
       }
     } catch (error) {

@@ -7,17 +7,24 @@ const AvatarLayout = ({
   children,
   text,
   info,
+  className,
+  onClick,
 }: {
   children: IChildrenProps;
-  text: string;
-  info: string;
+  text?: string;
+  info?: string;
+  className?: string;
+  onClick?: () => void;
 }) => {
   return (
-    <div className="flex space-x-1 md:space-x-2 items-center">
+    <div
+      onClick={onClick}
+      className={`flex space-x-1 md:space-x-2 items-center ${className}`}
+    >
       {children}
       <div>
-        <Text>{text}</Text>
-        <Info>{info}</Info>
+        {text && <Text>{text}</Text>}
+        {info && <Info>{info}</Info>}
       </div>
     </div>
   );

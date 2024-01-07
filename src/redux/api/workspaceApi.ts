@@ -10,7 +10,15 @@ export const workspaceApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getSingleWorkspace: build.query({
+      query: (id: string) => ({
+        url: `${WORKSPACE_URL}/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllWorkspacesOfAdminQuery } = workspaceApi;
+export const { useGetAllWorkspacesOfAdminQuery, useGetSingleWorkspaceQuery } =
+  workspaceApi;

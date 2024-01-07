@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -13,17 +13,40 @@ import { useGetAllWorkspacesOfAdminQuery } from "@/redux/api/workspaceApi";
 import PopoverModal from "../Modal/PopoverModal";
 import AvatarLayout from "../Layout/AvatarLayout";
 import CustomDivider from "../Divider/CustomDivider";
-import { removeUserInfo } from "@/services/auth.service";
+import { getUserInfo, removeUserInfo } from "@/services/auth.service";
 import { authKey } from "@/constants/authToken";
 
 const DashboardNavbar = () => {
+  const [user, setUser] = useState({
+    id: "",
+    email: "",
+    name: "",
+  });
   const { data, isLoading } = useGetAllWorkspacesOfAdminQuery(undefined);
   const router = useRouter();
+  const { userId, userEmail, userName } = getUserInfo() as {
+    userId: string;
+    userEmail: string;
+    userName: string;
+  };
 
   const handleLogout = () => {
     removeUserInfo(authKey);
+    setUser({
+      id: "",
+      email: "",
+      name: "",
+    });
     router.push("/login");
   };
+
+  useEffect(() => {
+    setUser({
+      id: userId,
+      email: userEmail,
+      name: userName,
+    });
+  }, [userId, userEmail, userName]);
 
   if (isLoading) return <></>;
 
@@ -33,16 +56,12 @@ const DashboardNavbar = () => {
   }));
 
   return (
-    <Navbar className="bg-white h-12 shadow" maxWidth="full">
+    <Navbar className="bg-white h-12 shadow-sm" maxWidth="full">
       <NavbarBrand className="flex space-x-2 lg:space-x-6">
         <p className="font-bold text-inherit text-[#1a759f] text-lg md:text-xl lg:text-2xl">
           Task Pilot
         </p>
-        <NavbarDropdown
-          label="workspace"
-          href="/dashboard/workspace"
-          items={items}
-        />
+        <NavbarDropdown label="workspace" href="/w" items={items} />
         <PopoverModal
           placement="bottom"
           key="create-btn"
@@ -56,48 +75,60 @@ const DashboardNavbar = () => {
         </PopoverModal>
       </NavbarBrand>
       <NavbarContent justify="end">
-        <PopoverModal
-          key="user-profile"
-          placement="bottom"
-          button={
-            <Avatar
-              as="button"
-              name="W"
-              radius="full"
-              size="sm"
-              className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-            />
-          }
-        >
-          <div>
-            <AvatarLayout text="Wahidul Alam" info="wahidul505@gmail.com">
+        {user?.email && (
+          <PopoverModal
+            key="user-profile"
+            placement="bottom"
+            button={
               <Avatar
                 as="button"
-                name="W"
+                name={
+                  user?.name?.slice(0, 1).toUpperCase() ||
+                  user?.email?.slice(0, 1).toUpperCase()
+                }
                 radius="full"
                 size="sm"
                 className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-                onClick={() => router.push("/dashboard/profile")}
               />
-            </AvatarLayout>
-            <CustomDivider />
-            <PopoverModal
-              key="profile/theme"
-              placement="left"
-              button={
-                <Button size="sm" className="rounded w-full">
-                  Theme
-                </Button>
-              }
-            >
-              <div></div>
-            </PopoverModal>
-            <CustomDivider />
-            <Button size="sm" className="rounded w-full" onClick={handleLogout}>
-              Logout
-            </Button>
-          </div>
-        </PopoverModal>
+            }
+          >
+            <div>
+              <AvatarLayout text={user?.name || ""} info={user?.email}>
+                <Avatar
+                  as="button"
+                  name={
+                    user?.name?.slice(0, 1).toUpperCase() ||
+                    user?.email?.slice(0, 1).toUpperCase()
+                  }
+                  radius="full"
+                  size="sm"
+                  className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+                  onClick={() => router.push("/dashboard/profile")}
+                />
+              </AvatarLayout>
+              <CustomDivider />
+              <PopoverModal
+                key="profile/theme"
+                placement="left"
+                button={
+                  <Button size="sm" className="rounded w-full">
+                    Theme
+                  </Button>
+                }
+              >
+                <div></div>
+              </PopoverModal>
+              <CustomDivider />
+              <Button
+                size="sm"
+                className="rounded w-full"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            </div>
+          </PopoverModal>
+        )}
       </NavbarContent>
     </Navbar>
   );
