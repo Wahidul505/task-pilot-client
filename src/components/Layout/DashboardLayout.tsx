@@ -14,7 +14,9 @@ const DashboardLayout = ({
       <DashboardNavbar />
       <div className="flex h-full">
         <div className="h-full">{sidebar}</div>
-        <div className=" overflow-y-auto h-full">{children}</div>
+        <div className=" overflow-y-auto h-full p-2 md:p-3 lg:p-4">
+          {children}
+        </div>
       </div>
     </div>
   );

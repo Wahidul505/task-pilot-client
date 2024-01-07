@@ -64,7 +64,7 @@ const DashboardNavbar = () => {
         <NavbarDropdown label="workspace" href="/w" items={items} />
         <PopoverModal
           placement="bottom"
-          key="create-btn"
+          htmlFor="create-btn"
           button={
             <Button size="sm" radius="sm" className="rounded">
               Create
@@ -77,7 +77,7 @@ const DashboardNavbar = () => {
       <NavbarContent justify="end">
         {user?.email && (
           <PopoverModal
-            key="user-profile"
+            htmlFor="user-profile"
             placement="bottom"
             button={
               <Avatar
@@ -108,7 +108,7 @@ const DashboardNavbar = () => {
               </AvatarLayout>
               <CustomDivider />
               <PopoverModal
-                key="profile/theme"
+                htmlFor="profile/theme"
                 placement="left"
                 button={
                   <Button size="sm" className="rounded w-full">

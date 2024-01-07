@@ -56,7 +56,7 @@ const Banner = () => {
                     name="email"
                     type="email"
                     placeholder="Email"
-                    size="big"
+                    size="lg"
                     bordered={false}
                     className="bg-white hidden md:block"
                   />
@@ -64,7 +64,7 @@ const Banner = () => {
                     name="email"
                     type="email"
                     placeholder="Email"
-                    size="big"
+                    size="lg"
                     bordered={true}
                     className="bg-white md:hidden"
                   />

@@ -40,7 +40,6 @@ const HomeSidebar = () => {
       avatarLayout={
         <AvatarLayout text={user?.name || ""} info={user?.email}>
           <Avatar
-            as="button"
             name={
               user?.name?.slice(0, 1).toUpperCase() ||
               user?.email?.slice(0, 1).toUpperCase()
@@ -60,6 +59,7 @@ const HomeSidebar = () => {
             text={item.workspace.title}
             key={index}
             className="cursor-pointer mt-2"
+            onClick={() => router.push(`/w/${item.workspace.id}`)}
           >
             <Avatar
               name={item.workspace.title.slice(0, 1).toUpperCase()}

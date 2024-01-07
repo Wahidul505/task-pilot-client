@@ -6,12 +6,12 @@ const PopoverModal = ({
   button,
   children,
   placement,
-  key,
+  htmlFor,
 }: {
   button: IChildrenProps;
   avatar?: string;
   children: IChildrenProps;
-  key: string;
+  htmlFor: string;
   placement:
     | "top-start"
     | "top"
@@ -27,7 +27,7 @@ const PopoverModal = ({
     | "right-end";
 }) => {
   return (
-    <Popover key={key} placement={placement}>
+    <Popover key={htmlFor} placement={placement}>
       <PopoverTrigger>{button}</PopoverTrigger>
       <PopoverContent className="p-2 md:p-2 lg:p-3 rounded">
         {children}

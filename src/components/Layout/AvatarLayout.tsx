@@ -9,12 +9,14 @@ const AvatarLayout = ({
   info,
   className,
   onClick,
+  button,
 }: {
   children: IChildrenProps;
   text?: string;
   info?: string;
   className?: string;
   onClick?: () => void;
+  button?: IChildrenProps;
 }) => {
   return (
     <div
@@ -25,6 +27,7 @@ const AvatarLayout = ({
       <div>
         {text && <Text>{text}</Text>}
         {info && <Info>{info}</Info>}
+        {button}
       </div>
     </div>
   );
