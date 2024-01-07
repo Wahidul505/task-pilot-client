@@ -10,7 +10,7 @@ export const workspaceApi = baseApi.injectEndpoints({
         url: `${WORKSPACE_URL}/admin`,
         method: "GET",
       }),
-      providesTags: [tagTypes.workspace],
+      providesTags: [tagTypes.workspace, tagTypes.board],
     }),
 
     getSingleWorkspace: build.query({
@@ -18,7 +18,7 @@ export const workspaceApi = baseApi.injectEndpoints({
         url: `${WORKSPACE_URL}/${id}`,
         method: "GET",
       }),
-      providesTags: [tagTypes.workspace],
+      providesTags: [tagTypes.workspace, tagTypes.board],
     }),
 
     updateSingleWorkspace: build.mutation({
@@ -27,7 +27,7 @@ export const workspaceApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: payload,
       }),
-      invalidatesTags: [tagTypes.workspace],
+      invalidatesTags: [tagTypes.workspace, tagTypes.board],
     }),
   }),
 });

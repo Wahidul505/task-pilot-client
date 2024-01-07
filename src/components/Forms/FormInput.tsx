@@ -72,7 +72,7 @@ const FormInput = ({
         )}
       />
       {errorMessage && (
-        <div className="text-red-500 mt-1 text-sm">{errorMessage}</div>
+        <div className="text-red-500 mt-1 text-xs">{errorMessage}</div>
       )}
     </div>
   );
