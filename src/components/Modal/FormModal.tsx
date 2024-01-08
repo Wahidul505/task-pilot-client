@@ -10,6 +10,7 @@ import React from "react";
 import Form from "../Forms/Form";
 import { IChildrenProps } from "@/types/common";
 import { yupResolver } from "@hookform/resolvers/yup";
+import PublicHeading2 from "../Formatting/PublicHeading2";
 
 type IModalProps = {
   children: IChildrenProps;
@@ -22,6 +23,8 @@ type IModalProps = {
   isOpen: any;
   onOpenChange: any;
   resolver?: any;
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+  gradientHeading?: boolean;
 };
 
 const FormModal = ({
@@ -35,6 +38,8 @@ const FormModal = ({
   isOpen,
   onOpenChange,
   resolver,
+  size = "sm",
+  gradientHeading = false,
 }: IModalProps) => {
   const handleSubmit = async (data: any) => {
     // Call submitHandler and wait for it to complete
@@ -53,11 +58,18 @@ const FormModal = ({
         onOpenChange={onOpenChange}
         className="rounded"
         scrollBehavior="inside"
+        size={size}
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="">{title}</ModalHeader>
+              <ModalHeader className="">
+                {gradientHeading ? (
+                  <PublicHeading2>{title}</PublicHeading2>
+                ) : (
+                  <>{title}</>
+                )}
+              </ModalHeader>
               <ModalBody>
                 <Form
                   submitHandler={handleSubmit}

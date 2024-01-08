@@ -1,6 +1,7 @@
 import React from "react";
 import DashboardNavbar from "../Navbar/DashboardNavbar";
 import { IChildrenProps } from "@/types/common";
+import CenterLayout from "./CenterLayout";
 
 const DashboardLayout = ({
   children,
@@ -14,8 +15,8 @@ const DashboardLayout = ({
       <DashboardNavbar />
       <div className="flex h-full">
         <div className="h-full">{sidebar}</div>
-        <div className=" overflow-y-auto h-full p-2 md:p-3 lg:p-4">
-          {children}
+        <div className="overflow-y-auto h-full py-2 md:py-3 lg:py-4 w-full">
+          <CenterLayout className="pb-16 lg:pb-20">{children}</CenterLayout>
         </div>
       </div>
     </div>

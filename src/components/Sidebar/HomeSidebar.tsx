@@ -7,6 +7,7 @@ import AvatarLayout from "../Layout/AvatarLayout";
 import { Avatar } from "@nextui-org/react";
 import { getUserInfo } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const HomeSidebar = () => {
   const [user, setUser] = useState({
@@ -47,7 +48,6 @@ const HomeSidebar = () => {
             radius="full"
             size="sm"
             className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-            onClick={() => router.push("/profile")}
           />
         </AvatarLayout>
       }
@@ -55,19 +55,19 @@ const HomeSidebar = () => {
       <div>
         <Info className="font-semibold">Workspaces</Info>
         {data?.map((item: any, index: number) => (
-          <AvatarLayout
-            text={item.workspace.title}
-            key={index}
-            className="cursor-pointer mt-2"
-            onClick={() => router.push(`/w/${item.workspace.id}`)}
-          >
-            <Avatar
-              name={item.workspace.title.slice(0, 1).toUpperCase()}
-              radius="sm"
-              size="sm"
-              className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg rounded"
-            />
-          </AvatarLayout>
+          <Link key={index} href={`/w/${item.workspace.id}`}>
+            <AvatarLayout
+              text={item.workspace.title}
+              className="cursor-pointer mt-2"
+            >
+              <Avatar
+                name={item.workspace.title.slice(0, 1).toUpperCase()}
+                radius="sm"
+                size="sm"
+                className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg rounded"
+              />
+            </AvatarLayout>
+          </Link>
         ))}
       </div>
     </Sidebar>

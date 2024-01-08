@@ -15,6 +15,9 @@ import AvatarLayout from "../Layout/AvatarLayout";
 import CustomDivider from "../Divider/CustomDivider";
 import { getUserInfo, removeUserInfo } from "@/services/auth.service";
 import { authKey } from "@/constants/authToken";
+import { RiDashboardLine } from "react-icons/ri";
+import CreateBoardForm from "../Forms/CreateBoardForm";
+import CreateWorkspaceForm from "../Forms/CreateWorkspaceForm";
 
 const DashboardNavbar = () => {
   const [user, setUser] = useState({
@@ -71,7 +74,14 @@ const DashboardNavbar = () => {
             </Button>
           }
         >
-          <div>ads</div>
+          <div>
+            <CreateBoardForm btnClassName="w-full" btnLabel="Create Board" />
+            <CustomDivider size="sm" />
+            <CreateWorkspaceForm
+              btnClassName="w-full"
+              btnLabel="Create Workspace"
+            />
+          </div>
         </PopoverModal>
       </NavbarBrand>
       <NavbarContent justify="end">

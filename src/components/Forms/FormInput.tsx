@@ -54,7 +54,7 @@ const FormInput = ({
             value={value ? value : field?.value}
             disabled={disabled}
             defaultValue={defaultValue}
-            className={`px-1 md:px-2 lg:px-3 focus:outline-none w-full bg-transparent box-border text-black rounded ${
+            className={`mt-1 px-1 md:px-2 lg:px-3 focus:outline-none w-full bg-transparent box-border text-black rounded ${
               bordered
                 ? " border-2 border-solid border-gray-300 focus:border-[#0099ff]"
                 : "border-none"
