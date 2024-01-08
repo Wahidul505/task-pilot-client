@@ -27,7 +27,7 @@ const Sidebar = ({
             variant="light"
             isIconOnly
             size="sm"
-            className="text-white"
+            className="text-black"
             onClick={() => setIsOpen(true)}
           >
             <BiRightArrow />
@@ -41,7 +41,7 @@ const Sidebar = ({
             variant="light"
             isIconOnly
             size="sm"
-            className="text-white"
+            className="text-black"
             onClick={() => setIsOpen(false)}
           >
             <BiLeftArrow />

@@ -3,7 +3,7 @@ import React from "react";
 import Sidebar from "./Sidebar";
 import Info from "../Formatting/Info";
 import AvatarLayout from "../Layout/AvatarLayout";
-import { Avatar, Button } from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
 import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
 import Link from "next/link";
 import Text from "../Formatting/Text";

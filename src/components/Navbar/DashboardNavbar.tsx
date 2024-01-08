@@ -15,9 +15,10 @@ import AvatarLayout from "../Layout/AvatarLayout";
 import CustomDivider from "../Divider/CustomDivider";
 import { getUserInfo, removeUserInfo } from "@/services/auth.service";
 import { authKey } from "@/constants/authToken";
-import { RiDashboardLine } from "react-icons/ri";
 import CreateBoardForm from "../Forms/CreateBoardForm";
 import CreateWorkspaceForm from "../Forms/CreateWorkspaceForm";
+import Link from "next/link";
+import { getFromLocalStorage } from "@/utils/localStorage";
 
 const DashboardNavbar = () => {
   const [user, setUser] = useState({
@@ -32,6 +33,9 @@ const DashboardNavbar = () => {
     userEmail: string;
     userName: string;
   };
+
+  const abc = getFromLocalStorage(authKey);
+  console.log({ abc });
 
   const handleLogout = () => {
     removeUserInfo(authKey);
@@ -61,8 +65,13 @@ const DashboardNavbar = () => {
   return (
     <Navbar className="bg-white h-12 shadow-sm" maxWidth="full">
       <NavbarBrand className="flex space-x-2 lg:space-x-6">
-        <p className="font-bold text-inherit text-[#1a759f] text-lg md:text-xl lg:text-2xl">
-          Task Pilot
+        <p>
+          <Link
+            href={"/home"}
+            className="text-base md:text-lg lg:text-2xl mb-3 md:mb-4 lg:mb-6 font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#0099ff] to-[#00cba9]"
+          >
+            Task Pilot
+          </Link>
         </p>
         <NavbarDropdown label="workspace" href="/w" items={items} />
         <PopoverModal
