@@ -21,7 +21,29 @@ export const boardApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.board, tagTypes.workspace],
     }),
+
+    getSingleBoard: build.query({
+      query: (id: string) => ({
+        url: `${BOARD_URL}/${id}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.board, tagTypes.workspace],
+    }),
+
+    updateBoardTitle: build.mutation({
+      query: ({ id, payload }: { id: string; payload: { title: string } }) => ({
+        url: `${BOARD_URL}/${id}/title`,
+        method: "PATCH",
+        data: payload,
+      }),
+      invalidatesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+    }),
   }),
 });
 
-export const { useCreateBoardMutation, useGetBoardsQuery } = boardApi;
+export const {
+  useCreateBoardMutation,
+  useGetBoardsQuery,
+  useGetSingleBoardQuery,
+  useUpdateBoardTitleMutation,
+} = boardApi;

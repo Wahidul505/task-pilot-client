@@ -42,8 +42,6 @@ const DynamicInputBox = ({
     setItems(updatedItems);
   };
 
-  console.log({ items });
-
   const newUsers = users?.filter((user: any) => user?.id !== excludedUser);
 
   return (

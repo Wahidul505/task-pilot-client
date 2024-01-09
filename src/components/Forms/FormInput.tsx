@@ -17,6 +17,8 @@ interface IProps {
   size?: "lg" | "md" | "sm";
   bordered?: boolean;
   className?: string;
+  margin?: boolean;
+  autoFocus?: boolean;
 }
 
 const FormInput = ({
@@ -30,6 +32,8 @@ const FormInput = ({
   size = "md",
   bordered = true,
   className,
+  margin = true,
+  autoFocus = false,
 }: IProps) => {
   const {
     control,
@@ -39,7 +43,7 @@ const FormInput = ({
   const errorMessage = getErrorMessageByPropertyName(name, errors);
 
   return (
-    <div className="mb-5">
+    <div className={margin ? "mb-5" : ""}>
       {label && size === "lg" && <PublicInfo>{label ? label : ""}</PublicInfo>}
       {label && size === "md" && <PublicInfo>{label ? label : ""}</PublicInfo>}
       {label && size === "sm" && <Text>{label ? label : ""}</Text>}
@@ -49,6 +53,7 @@ const FormInput = ({
         render={({ field }) => (
           <input
             type={type}
+            autoFocus={autoFocus}
             placeholder={placeholder}
             {...field}
             value={value ? value : field?.value}

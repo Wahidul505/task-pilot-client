@@ -18,7 +18,6 @@ import { authKey } from "@/constants/authToken";
 import CreateBoardForm from "../Forms/CreateBoardForm";
 import CreateWorkspaceForm from "../Forms/CreateWorkspaceForm";
 import Link from "next/link";
-import { getFromLocalStorage } from "@/utils/localStorage";
 
 const DashboardNavbar = () => {
   const [user, setUser] = useState({
@@ -33,9 +32,6 @@ const DashboardNavbar = () => {
     userEmail: string;
     userName: string;
   };
-
-  const abc = getFromLocalStorage(authKey);
-  console.log({ abc });
 
   const handleLogout = () => {
     removeUserInfo(authKey);
