@@ -70,24 +70,13 @@ const DashboardNavbar = () => {
           </Link>
         </p>
         <NavbarDropdown label="workspace" href="/w" items={items} />
-        <PopoverModal
-          placement="bottom"
-          htmlFor="create-btn"
-          button={
-            <Button size="sm" radius="sm" className="rounded">
-              Create
-            </Button>
-          }
-        >
-          <div>
-            <CreateBoardForm btnClassName="w-full" btnLabel="Create Board" />
-            <CustomDivider size="sm" />
-            <CreateWorkspaceForm
-              btnClassName="w-full"
-              btnLabel="Create Workspace"
-            />
-          </div>
-        </PopoverModal>
+        <div className="flex space-x-1 lg:space-x-3">
+          <CreateWorkspaceForm
+            btnClassName="w-full"
+            btnLabel="Create Workspace"
+          />
+          <CreateBoardForm btnClassName="w-full" btnLabel="Create Board" />
+        </div>
       </NavbarBrand>
       <NavbarContent justify="end">
         {user?.email && (

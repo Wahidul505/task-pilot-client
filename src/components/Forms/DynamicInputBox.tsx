@@ -5,12 +5,12 @@ const DynamicInputBox = ({
   items,
   setItems,
   users,
-  excludedUser = "",
+  excludedUsers = [],
 }: {
   items: any;
   setItems: (params: any) => void;
   users: any;
-  excludedUser?: string;
+  excludedUsers?: string[];
 }) => {
   const [inputText, setInputText] = useState<string>("");
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
@@ -42,7 +42,14 @@ const DynamicInputBox = ({
     setItems(updatedItems);
   };
 
-  const newUsers = users?.filter((user: any) => user?.id !== excludedUser);
+  const newUsers =
+    excludedUsers?.length < 1
+      ? excludedUsers
+      : users?.filter((user: any) => !excludedUsers.includes(user?.id));
+
+  // const newUsers = users?.filter((user: any) => user?.id !== excludedUsers);
+
+  console.log({ newUsers });
 
   return (
     <div className="flex items-start gap-1 lg:gap-2 w-full flex-wrap mt-1 p-1 md:p-2 lg:p-3 focus:outline-none bg-transparent box-border text-black rounded border-2 border-solid border-[#0099ff] relative">
@@ -69,9 +76,10 @@ const DynamicInputBox = ({
         value={inputText}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
+        autoFocus
       />
       {showDropdown && (
-        <div className="absolute top-full left-0 bg-white border rounded mt-1 w-2/3">
+        <div className="absolute top-full left-0 bg-white border rounded mt-1 w-2/3 z-40">
           {newUsers
             ?.filter((user: any) =>
               user?.email?.toLowerCase().includes(inputText.toLowerCase())

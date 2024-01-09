@@ -13,8 +13,6 @@ const BoardPage = ({ params }: { params: any }) => {
 
   if (isBoardLoading) return <></>;
 
-  console.log({ boardData });
-
   return (
     <DashboardLayout
       sidebar={<WorkspaceSidebar workspace={boardData?.workspace} />}

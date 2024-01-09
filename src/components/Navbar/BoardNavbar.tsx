@@ -7,15 +7,34 @@ import { Avatar, AvatarGroup, Button, useDisclosure } from "@nextui-org/react";
 import { getUserInfo } from "@/services/auth.service";
 import Form from "../Forms/Form";
 import FormInput from "../Forms/FormInput";
-import { useUpdateBoardTitleMutation } from "@/redux/api/boardApi";
+import {
+  useAddBoardMembersMutation,
+  useRemoveBoardMemberMutation,
+  useUpdateBoardTitleMutation,
+} from "@/redux/api/boardApi";
 import toast from "react-hot-toast";
 import PrimaryModal from "../Modal/PrimaryModal";
 import Text from "../Formatting/Text";
+import DynamicInputBox from "../Forms/DynamicInputBox";
+import { useGetUsersQuery } from "@/redux/api/userApi";
+import PrimaryButton from "../Button/PrimaryButton";
+import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
+import AvatarLayout from "../Layout/AvatarLayout";
 
 const BoardNavbar = ({ board }: { board: any }) => {
+  const [items, setItems] = useState([]);
   const [clicked, setClicked] = useState(false);
   const { userId } = getUserInfo() as { userId: string };
+  const [isLoading, setIsLoading] = useState(false);
+
   const [updateBoardTitle] = useUpdateBoardTitleMutation();
+
+  const [addBoardMembers] = useAddBoardMembersMutation();
+
+  const [removeBoardMember] = useRemoveBoardMemberMutation();
+
+  const { data: usersData, isLoading: isUsersLoading } =
+    useGetUsersQuery(undefined);
 
   const {
     isOpen: isMembersModalOpen,
@@ -32,9 +51,51 @@ const BoardNavbar = ({ board }: { board: any }) => {
     setClicked(false);
     if (!result) {
       toast.error("Something Went Wrong");
-      return;
     }
   };
+
+  const handleAddMemberSubmit = async (data: any) => {
+    setIsLoading(true);
+    if (items?.length < 1) {
+      toast.error("You didn't add any member");
+      setIsLoading(false);
+      return;
+    }
+    data.members = items?.map((item: any) => item?.id);
+    const result = await addBoardMembers({
+      id: board?.id,
+      payload: data,
+    }).unwrap();
+
+    if (result) {
+      setIsLoading(false);
+      toast("Added");
+      setItems([]);
+    }
+    setIsLoading(false);
+  };
+
+  const handleRemoveBoardMember = async (id: string) => {
+    if (id) {
+      const payload = { memberId: id };
+      const result = await removeBoardMember({
+        id: board?.id,
+        payload,
+      }).unwrap();
+      if (result) {
+        toast("Removed");
+      } else {
+        toast.error("Something Went Wrong");
+      }
+    }
+  };
+
+  if (isUsersLoading) return <></>;
+
+  const excludedUsers =
+    board?.BoardMembers?.map((boardMember: any) => boardMember?.user?.id) || [];
+
+  console.log({ board });
 
   return (
     <div className="backdrop-filter backdrop-blur-md bg-black bg-opacity-50 w-full flex justify-between p-1 md:p-2 lg:p-3 items-center flex-wrap">
@@ -70,19 +131,21 @@ const BoardNavbar = ({ board }: { board: any }) => {
       </div>
 
       <div className="flex items-center gap-2 lg:gap-3">
-        <AvatarGroup isBordered max={3} total={10}>
-          <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
+        <AvatarGroup isBordered>
+          {board?.BoardMembers?.map((boardMember: any, index: number) => (
+            <Avatar
+              key={index}
+              name={getTheFirstLetter(boardMember?.user?.email)}
+              className="bg-white"
+              size="sm"
+            />
+          ))}
         </AvatarGroup>
         <PrimaryModal
           title="Add Members"
           btnChildren={
             <div className="flex items-center space-x-2 ">
-              <TbUsersPlus className="" />
+              <TbUsersPlus className="font-semibold" />
               <Text>Add</Text>
             </div>
           }
@@ -92,7 +155,87 @@ const BoardNavbar = ({ board }: { board: any }) => {
           onOpenChange={onMembersModalOpenChange}
           size="xl"
         >
-          <div></div>
+          <div>
+            <div>
+              <Form submitHandler={handleAddMemberSubmit} doReset={false}>
+                <DynamicInputBox
+                  excludedUsers={[...excludedUsers, board?.admin]}
+                  items={items}
+                  setItems={setItems}
+                  users={usersData}
+                />
+                <div className="flex justify-end mt-2">
+                  {isLoading ? (
+                    <PrimaryButton type="button" size="sm" label="..." />
+                  ) : (
+                    <PrimaryButton type="submit" size="sm" label="Add" />
+                  )}
+                </div>
+              </Form>
+            </div>
+            <div>
+              <Heading className="mb-1 md:mb-2 lg:mb-3">Admin</Heading>
+              {board?.user && (
+                <AvatarLayout
+                  text={board?.user?.name || ""}
+                  info={board?.user?.email}
+                >
+                  <Avatar
+                    as="button"
+                    name={
+                      board?.user?.name?.slice(0, 1).toUpperCase() ||
+                      board?.user?.email?.slice(0, 1).toUpperCase()
+                    }
+                    radius="full"
+                    size="sm"
+                    className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+                  />
+                </AvatarLayout>
+              )}
+
+              <Heading className="mb-1 md:mb-2 lg:mb-3 mt-3">Members</Heading>
+              <div className="flex flex-col space-y-2 lg:space-y-5">
+                {board?.BoardMembers?.length > 0 &&
+                  board?.BoardMembers?.map(
+                    (boardMember: any, index: number) => (
+                      <div
+                        key={index}
+                        className="flex justify-between items-center"
+                      >
+                        <AvatarLayout
+                          text={boardMember?.user?.name || ""}
+                          info={boardMember?.user?.email}
+                        >
+                          <Avatar
+                            as="button"
+                            name={
+                              boardMember?.user?.name
+                                ?.slice(0, 1)
+                                .toUpperCase() ||
+                              boardMember?.user?.email
+                                ?.slice(0, 1)
+                                .toUpperCase()
+                            }
+                            radius="full"
+                            size="sm"
+                            className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+                          />
+                        </AvatarLayout>
+                        <Button
+                          size="sm"
+                          className="bg-red-400 text-white"
+                          onClick={() =>
+                            handleRemoveBoardMember(boardMember?.userId)
+                          }
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    )
+                  )}
+              </div>
+            </div>
+          </div>
         </PrimaryModal>
         <Button size="sm" variant="light" className="rounded" isIconOnly>
           <TbDots className="text-white" />

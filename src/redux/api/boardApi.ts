@@ -27,13 +27,43 @@ export const boardApi = baseApi.injectEndpoints({
         url: `${BOARD_URL}/${id}`,
         method: "GET",
       }),
-      providesTags: [tagTypes.board, tagTypes.workspace],
+      providesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
     }),
 
     updateBoardTitle: build.mutation({
       query: ({ id, payload }: { id: string; payload: { title: string } }) => ({
         url: `${BOARD_URL}/${id}/title`,
         method: "PATCH",
+        data: payload,
+      }),
+      invalidatesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+    }),
+
+    addBoardMembers: build.mutation({
+      query: ({
+        id,
+        payload,
+      }: {
+        id: string;
+        payload: { members: string[] };
+      }) => ({
+        url: `${BOARD_URL}/${id}/member`,
+        method: "POST",
+        data: payload,
+      }),
+      invalidatesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+    }),
+
+    removeBoardMember: build.mutation({
+      query: ({
+        id,
+        payload,
+      }: {
+        id: string;
+        payload: { memberId: string };
+      }) => ({
+        url: `${BOARD_URL}/${id}/member`,
+        method: "DELETE",
         data: payload,
       }),
       invalidatesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
@@ -46,4 +76,6 @@ export const {
   useGetBoardsQuery,
   useGetSingleBoardQuery,
   useUpdateBoardTitleMutation,
+  useAddBoardMembersMutation,
+  useRemoveBoardMemberMutation,
 } = boardApi;

@@ -77,7 +77,7 @@ const CreateWorkspaceForm = ({
           items={items}
           setItems={setItems}
           users={usersData}
-          excludedUser={userId}
+          excludedUsers={[userId]}
         />
       </div>
     </FormModal>

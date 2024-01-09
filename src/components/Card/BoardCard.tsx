@@ -17,8 +17,6 @@ const BoardCard = ({ board }: { board: any }) => {
   const className =
     "md:h-20 lg:h-24 w-full cursor-pointer rounded overflow-hidden relative md:h-20 lg:h-24 w-full cursor-pointer rounded overflow-hidden relative";
 
-  console.log(board);
-
   return (
     <>
       {"workspace" && board?.template?.bgColor && (

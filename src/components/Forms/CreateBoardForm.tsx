@@ -56,11 +56,6 @@ const CreateBoardForm = ({
     label: item?.workspace?.title,
   }));
 
-  const privacyOptions = [
-    { value: "workspace", label: "Workspace" },
-    { value: "private", label: "Private" },
-  ];
-
   const handleCreateBoardSubmit = async (data: any) => {
     if (!selectedTemplate) {
       toast.error("Please select a template first");
@@ -80,75 +75,76 @@ const CreateBoardForm = ({
   if (isWorkspacesLoading || isTemplateLoading) return <></>;
 
   return (
-    <FormModal
-      title="Create Board"
-      btnLabel={btnLabel}
-      btnClassName={btnClassName}
-      modalBtnLabel="Create"
-      submitHandler={handleCreateBoardSubmit}
-      isOpen={isBoardCreateModalOpen}
-      onOpen={onBoardCreateModalOpen}
-      onOpenChange={onBoardCreateModalOpenChange}
-      resolver={boardSchema}
-    >
-      <FormInput name="title" placeholder="Board Name" label="Name" size="sm" />
-      <FormSelect
-        name="workspaceId"
-        options={options}
-        label="Workspace"
-        size="sm"
-        selectedValue={workspace?.id || options[0].value}
-        selectedLabel={workspace?.title || options[0].label}
-      />
-      <FormSelect
-        name="privacy"
-        options={privacyOptions}
-        label="Privacy"
-        size="sm"
-        selectedValue={privacyOptions[0].value}
-        selectedLabel={privacyOptions[0].label}
-      />
-      <div>
-        <Text className="my-1 lg:my-2 text-black">Template Colors</Text>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 lg:gap-2">
-          {templateColors?.map((template: any) => (
-            <div
-              key={template?.id}
-              style={{ backgroundColor: template?.bgColor }}
-              className="md:h-20 lg:h-24 w-full cursor-pointer rounded overflow-hidden relative"
-              onClick={() => setSelectedTemplate(template?.id)}
-            >
-              {selectedTemplate &&
-                selectedTemplate === template?.id &&
-                checkedComponent}
+    <>
+      {workspaces?.length > 0 && (
+        <FormModal
+          title="Create Board"
+          btnLabel={btnLabel}
+          btnClassName={btnClassName}
+          modalBtnLabel="Create"
+          submitHandler={handleCreateBoardSubmit}
+          isOpen={isBoardCreateModalOpen}
+          onOpen={onBoardCreateModalOpen}
+          onOpenChange={onBoardCreateModalOpenChange}
+          resolver={boardSchema}
+        >
+          <FormInput
+            name="title"
+            placeholder="Board Name"
+            label="Name"
+            size="sm"
+          />
+          <FormSelect
+            name="workspaceId"
+            options={options}
+            label="Workspace"
+            size="sm"
+            selectedValue={workspace?.id || options[0].value}
+            selectedLabel={workspace?.title || options[0].label}
+          />
+          <div>
+            <Text className="my-1 lg:my-2 text-black">Template Colors</Text>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 lg:gap-2">
+              {templateColors?.map((template: any) => (
+                <div
+                  key={template?.id}
+                  style={{ backgroundColor: template?.bgColor }}
+                  className="md:h-20 lg:h-24 w-full cursor-pointer rounded overflow-hidden relative"
+                  onClick={() => setSelectedTemplate(template?.id)}
+                >
+                  {selectedTemplate &&
+                    selectedTemplate === template?.id &&
+                    checkedComponent}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-      <div>
-        <Text className="my-1 lg:my-2 text-black">Template Photos</Text>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 lg:gap-2">
-          {templateImages?.map((template: any) => (
-            <div
-              key={template?.id}
-              className="cursor-pointer rounded overflow-hidden relative"
-              onClick={() => setSelectedTemplate(template?.id)}
-            >
-              <Image
-                src={template?.bgImg}
-                alt=""
-                width={100}
-                height={100}
-                className="md:h-20 lg:h-24 w-full"
-              />
-              {selectedTemplate &&
-                selectedTemplate === template?.id &&
-                checkedComponent}
+          </div>
+          <div>
+            <Text className="my-1 lg:my-2 text-black">Template Photos</Text>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 lg:gap-2">
+              {templateImages?.map((template: any) => (
+                <div
+                  key={template?.id}
+                  className="cursor-pointer rounded overflow-hidden relative"
+                  onClick={() => setSelectedTemplate(template?.id)}
+                >
+                  <Image
+                    src={template?.bgImg}
+                    alt=""
+                    width={100}
+                    height={100}
+                    className="md:h-20 lg:h-24 w-full"
+                  />
+                  {selectedTemplate &&
+                    selectedTemplate === template?.id &&
+                    checkedComponent}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-    </FormModal>
+          </div>
+        </FormModal>
+      )}
+    </>
   );
 };
 
