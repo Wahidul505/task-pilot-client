@@ -1,15 +1,37 @@
 "use client";
+import PrimaryButton from "@/components/Button/PrimaryButton";
+import Text from "@/components/Formatting/Text";
+import Form from "@/components/Forms/Form";
+import FormInput from "@/components/Forms/FormInput";
 import DashboardLayout from "@/components/Layout/DashboardLayout";
 import BoardNavbar from "@/components/Navbar/BoardNavbar";
 import WorkspaceSidebar from "@/components/Sidebar/WorkspaceSidebar";
 import { useGetSingleBoardQuery } from "@/redux/api/boardApi";
-import React from "react";
+import { useCreateListMutation } from "@/redux/api/listApi";
+import { listSchema } from "@/schema/list";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "@nextui-org/react";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const BoardPage = ({ params }: { params: any }) => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const { id } = params;
 
   const { data: boardData, isLoading: isBoardLoading } =
     useGetSingleBoardQuery(id);
+
+  const [createList] = useCreateListMutation();
+
+  const handleCreateListSubmit = async (data: any) => {
+    if (id) {
+      data.boardId = id;
+      const result = await createList(data).unwrap();
+    } else {
+      toast.error("Something Went Wrong");
+    }
+    setIsFormOpen(false);
+  };
 
   if (isBoardLoading) return <></>;
 
@@ -18,20 +40,46 @@ const BoardPage = ({ params }: { params: any }) => {
       sidebar={<WorkspaceSidebar workspace={boardData?.workspace} />}
       navbar={<BoardNavbar board={boardData} />}
     >
-      <div>
-        <div>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
-          optio numquam dignissimos molestiae iure, architecto ut dolore ab nam
-          aliquid laudantium. Adipisci minima nobis neque sequi eum dignissimos
-          quam, a non quas quae itaque impedit, ad ipsum reprehenderit, iusto
-          aut. Quam labore, ipsa numquam dolore adipisci optio quaerat animi
-          officiis, cupiditate officia nemo. Illum repudiandae tempora esse
-          placeat beatae, amet dolore! Nemo commodi id consectetur iure
-          laudantium sunt perspiciatis, esse voluptatibus inventore eum corrupti
-          fugiat quam itaque deserunt ad officia et pariatur provident quisquam?
-          Fugiat veniam repellendus quod blanditiis inventore ut voluptatem,
-          dolorem, itaque molestias nisi suscipit minima voluptatum voluptate.
-        </div>
+      <div className="flex space-x-1 md:space-x-2 lg:space-x-3 w-full">
+        {}
+        {isFormOpen ? (
+          <div className="bg-black rounded bg-opacity-70 p-3">
+            <Form
+              submitHandler={handleCreateListSubmit}
+              doReset={false}
+              resolver={yupResolver(listSchema)}
+            >
+              <FormInput
+                type="text"
+                name="title"
+                size="sm"
+                placeholder="Enter List Title"
+                className="w-32 mb-3 text-white"
+                autoFocus={true}
+                margin={false}
+              />
+              <div className="flex justify-between items-center">
+                <PrimaryButton size="sm" label="Add" type="submit" />
+                <Button
+                  isIconOnly
+                  variant="light"
+                  size="sm"
+                  onClick={() => setIsFormOpen(false)}
+                >
+                  <Text className="text-white">x</Text>
+                </Button>
+              </div>
+            </Form>
+          </div>
+        ) : (
+          <Button
+            onClick={() => setIsFormOpen(true)}
+            className="rounded bg-black text-white bg-opacity-40 w-32"
+            size="lg"
+          >
+            + Add list
+          </Button>
+        )}
       </div>
     </DashboardLayout>
   );

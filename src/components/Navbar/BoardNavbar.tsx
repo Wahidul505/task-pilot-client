@@ -193,47 +193,53 @@ const BoardNavbar = ({ board }: { board: any }) => {
                 </AvatarLayout>
               )}
 
-              <Heading className="mb-1 md:mb-2 lg:mb-3 mt-3">Members</Heading>
-              <div className="flex flex-col space-y-2 lg:space-y-5">
-                {board?.BoardMembers?.length > 0 &&
-                  board?.BoardMembers?.map(
-                    (boardMember: any, index: number) => (
-                      <div
-                        key={index}
-                        className="flex justify-between items-center"
-                      >
-                        <AvatarLayout
-                          text={boardMember?.user?.name || ""}
-                          info={boardMember?.user?.email}
-                        >
-                          <Avatar
-                            as="button"
-                            name={
-                              boardMember?.user?.name
-                                ?.slice(0, 1)
-                                .toUpperCase() ||
-                              boardMember?.user?.email
-                                ?.slice(0, 1)
-                                .toUpperCase()
-                            }
-                            radius="full"
-                            size="sm"
-                            className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-                          />
-                        </AvatarLayout>
-                        <Button
-                          size="sm"
-                          className="bg-red-400 text-white"
-                          onClick={() =>
-                            handleRemoveBoardMember(boardMember?.userId)
-                          }
-                        >
-                          Remove
-                        </Button>
-                      </div>
-                    )
-                  )}
-              </div>
+              {board?.BoardMembers?.length > 0 && (
+                <>
+                  <Heading className="mb-1 md:mb-2 lg:mb-3 mt-3">
+                    Members
+                  </Heading>
+                  <div className="flex flex-col space-y-2 lg:space-y-5">
+                    {board?.BoardMembers?.length > 0 &&
+                      board?.BoardMembers?.map(
+                        (boardMember: any, index: number) => (
+                          <div
+                            key={index}
+                            className="flex justify-between items-center"
+                          >
+                            <AvatarLayout
+                              text={boardMember?.user?.name || ""}
+                              info={boardMember?.user?.email}
+                            >
+                              <Avatar
+                                as="button"
+                                name={
+                                  boardMember?.user?.name
+                                    ?.slice(0, 1)
+                                    .toUpperCase() ||
+                                  boardMember?.user?.email
+                                    ?.slice(0, 1)
+                                    .toUpperCase()
+                                }
+                                radius="full"
+                                size="sm"
+                                className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+                              />
+                            </AvatarLayout>
+                            <Button
+                              size="sm"
+                              className="bg-red-400 text-white rounded"
+                              onClick={() =>
+                                handleRemoveBoardMember(boardMember?.userId)
+                              }
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                        )
+                      )}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </PrimaryModal>

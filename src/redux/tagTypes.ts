@@ -4,6 +4,8 @@ export enum tagTypes {
   board = "board",
   workspaceAdmin = "workspaceAdmin",
   boardMember = "boardMember",
+  list = "list",
+  card = "card",
 }
 
 export const tagTypesList = [
@@ -12,4 +14,6 @@ export const tagTypesList = [
   tagTypes.workspaceAdmin,
   tagTypes.board,
   tagTypes.boardMember,
+  tagTypes.list,
+  tagTypes.card,
 ];
