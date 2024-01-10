@@ -70,7 +70,7 @@ const DynamicInputBox = ({
       <input
         type="text"
         className="bg-transparent border-none focus:outline-none focus:border-transparent w-fit"
-        placeholder="Type & Press"
+        placeholder="new@gmail.com"
         value={inputText}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}

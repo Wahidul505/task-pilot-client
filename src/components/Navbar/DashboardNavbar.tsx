@@ -110,11 +110,11 @@ const DashboardNavbar = () => {
                   radius="full"
                   size="sm"
                   className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-                  onClick={() => router.push("/dashboard/profile")}
+                  // onClick={() => router.push("/dashboard/profile")}
                 />
               </AvatarLayout>
               <CustomDivider />
-              <PopoverModal
+              {/* <PopoverModal
                 htmlFor="profile/theme"
                 placement="left"
                 button={
@@ -124,7 +124,7 @@ const DashboardNavbar = () => {
                 }
               >
                 <div></div>
-              </PopoverModal>
+              </PopoverModal> */}
               <CustomDivider />
               <Button
                 size="sm"

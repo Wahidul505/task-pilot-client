@@ -17,7 +17,7 @@ const Banner = () => {
   const dispatch = useAppDispatch();
   const handleSubmit = (data: any) => {
     dispatch(storeEmail(data.email));
-    router.push("/signup");
+    router.push("/sign-up");
   };
   return (
     <div>
@@ -53,8 +53,8 @@ const Banner = () => {
               <Form submitHandler={handleSubmit} doReset={false}>
                 <div className="flex space-x-2 lg:space-x-3 justify-start">
                   <FormInput
-                    name="email"
-                    type="email"
+                    name="name"
+                    type="text"
                     placeholder="Email"
                     size="lg"
                     bordered={false}

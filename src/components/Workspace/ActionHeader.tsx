@@ -1,6 +1,7 @@
 "use client";
 import {
   useAddWorkspaceAdminsMutation,
+  useRemoveWorkspaceAdminMutation,
   useUpdateSingleWorkspaceMutation,
 } from "@/redux/api/workspaceApi";
 import { Button, useDisclosure } from "@nextui-org/react";
@@ -21,12 +22,16 @@ import DynamicInputBox from "../Forms/DynamicInputBox";
 import { useGetUsersQuery } from "@/redux/api/userApi";
 import PrimaryButton from "../Button/PrimaryButton";
 import Heading from "../Formatting/Heading";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { getUserInfo } from "@/services/auth.service";
 
 const ActionHeader = ({ workspace }: { workspace: any }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [items, setItems] = useState([]);
   const [updateSingleWorkspace] = useUpdateSingleWorkspaceMutation();
   const [addWorkspaceAdmins] = useAddWorkspaceAdminsMutation();
+  const [removeWorkspaceAdmin] = useRemoveWorkspaceAdminMutation();
+  const { userId } = getUserInfo() as { userId: string };
   const { data: usersData, isLoading: isUsersLoading } =
     useGetUsersQuery(undefined);
   const {
@@ -76,13 +81,29 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
     setIsLoading(false);
   };
 
+  const handleRemoveBoardMember = async (id: string) => {
+    if (id) {
+      const payload = { adminId: id };
+      const result = await removeWorkspaceAdmin({
+        id: workspace?.id,
+        payload,
+      }).unwrap();
+      if (result) {
+        toast("Removed");
+      } else {
+        toast.error("Something Went Wrong");
+      }
+    }
+  };
+
   const excludedUsers =
     workspace?.WorkspaceAdmins?.map((admin: any) => admin?.user?.id) || [];
 
   return (
-    <div className="grid md:grid-cols-2 space-x-2">
+    <div className="flex justify-between">
       <div>
         <AvatarLayout
+          className="text-white"
           text={workspace?.title || ""}
           button={
             <FormModal
@@ -118,7 +139,7 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
             className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg rounded"
           />
         </AvatarLayout>
-        <Info className="mt-1 text-justify">
+        <Info className="mt-1 text-justify text-white">
           {workspace?.description || ""}
         </Info>
       </div>
@@ -127,10 +148,10 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
         btnChildren={
           <div className="flex items-center space-x-2 ">
             <TbUsersPlus className="font-semibold" />
-            <Text>Admins</Text>
+            <Text>Members</Text>
           </div>
         }
-        btnClassName=""
+        btnClassName="w-32"
         isOpen={isAdminsModalOpen}
         onOpen={onAdminsModalOpen}
         onOpenChange={onAdminsModalOpenChange}
@@ -181,15 +202,20 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
                               className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
                             />
                           </AvatarLayout>
-                          {/* <Button
+                          {userId !== admin?.userId ? (
+                            <Button
                               size="sm"
-                              className="bg-red-400 text-white rounded"
+                              className=" bg-transparent rounded"
                               onClick={() =>
                                 handleRemoveBoardMember(admin?.userId)
                               }
+                              isIconOnly
                             >
-                              Remove
-                            </Button> */}
+                              <FaRegTrashAlt className="text-red-500 text-xl" />
+                            </Button>
+                          ) : (
+                            <div>(You)</div>
+                          )}
                         </div>
                       )
                     )}

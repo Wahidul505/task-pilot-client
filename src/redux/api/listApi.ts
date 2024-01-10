@@ -66,6 +66,19 @@ export const listApi = baseApi.injectEndpoints({
         tagTypes.user,
       ],
     }),
+
+    removeList: build.mutation({
+      query: (id: string) => ({
+        url: `${LIST_URL}/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [
+        tagTypes.list,
+        tagTypes.board,
+        tagTypes.workspace,
+        tagTypes.user,
+      ],
+    }),
   }),
 });
 
@@ -74,4 +87,5 @@ export const {
   useGetAllListsQuery,
   useGetSingleListQuery,
   useUpdateListTitleMutation,
+  useRemoveListMutation,
 } = listApi;

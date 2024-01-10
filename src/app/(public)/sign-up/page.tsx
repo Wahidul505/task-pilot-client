@@ -14,6 +14,7 @@ import { signUpSchema } from "@/schema/auth";
 import toast from "react-hot-toast";
 import { storeUserInfo } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/hooks";
 
 const SignupPage = () => {
   const [signup] = useSignupMutation();

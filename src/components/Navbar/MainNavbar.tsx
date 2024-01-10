@@ -10,9 +10,11 @@ import {
 } from "@nextui-org/react";
 import PrimaryButton from "../Button/PrimaryButton";
 import { useRouter } from "next/navigation";
+import { getUserInfo } from "@/services/auth.service";
 
 const MainNavbar = () => {
   const router = useRouter();
+  const { userId } = getUserInfo() as { userId: string };
   return (
     <Navbar className="bg-white max-w-7xl mx-auto " maxWidth="full">
       <NavbarBrand>
@@ -21,18 +23,28 @@ const MainNavbar = () => {
         </p>
       </NavbarBrand>
       <NavbarContent justify="end">
-        <NavbarItem className="flex ">
-          <Link href="/login" className="text-gray-800">
-            Login
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <PrimaryButton
-            onClick={() => router.push("/sign-up")}
-            label="Sign Up"
-            size="sm"
-          />
-        </NavbarItem>
+        {userId ? (
+          <NavbarItem className="flex ">
+            <Link href="/home" className="text-gray-800">
+              Dashboard
+            </Link>
+          </NavbarItem>
+        ) : (
+          <>
+            <NavbarItem className="flex ">
+              <Link href="/login" className="text-gray-800">
+                Login
+              </Link>
+            </NavbarItem>
+            <NavbarItem>
+              <PrimaryButton
+                onClick={() => router.push("/sign-up")}
+                label="Sign Up"
+                size="sm"
+              />
+            </NavbarItem>
+          </>
+        )}
       </NavbarContent>
     </Navbar>
   );

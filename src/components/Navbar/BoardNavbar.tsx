@@ -20,6 +20,7 @@ import { useGetUsersQuery } from "@/redux/api/userApi";
 import PrimaryButton from "../Button/PrimaryButton";
 import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
 import AvatarLayout from "../Layout/AvatarLayout";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const BoardNavbar = ({ board }: { board: any }) => {
   const [items, setItems] = useState([]);
@@ -227,12 +228,13 @@ const BoardNavbar = ({ board }: { board: any }) => {
                             </AvatarLayout>
                             <Button
                               size="sm"
-                              className="bg-red-400 text-white rounded"
+                              className="bg-transparent rounded"
                               onClick={() =>
                                 handleRemoveBoardMember(boardMember?.userId)
                               }
+                              isIconOnly
                             >
-                              Remove
+                              <FaRegTrashAlt className="text-red-500 text-xl" />
                             </Button>
                           </div>
                         )
@@ -243,9 +245,9 @@ const BoardNavbar = ({ board }: { board: any }) => {
             </div>
           </div>
         </PrimaryModal>
-        <Button size="sm" variant="light" className="rounded" isIconOnly>
+        {/* <Button size="sm" variant="light" className="rounded" isIconOnly>
           <TbDots className="text-white" />
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

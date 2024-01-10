@@ -3,8 +3,10 @@ import React from "react";
 import Heading from "../Formatting/Heading";
 import BoardCard from "../Card/BoardCard";
 import CreateBoardForm from "../Forms/CreateBoardForm";
+import { getUserInfo } from "@/services/auth.service";
 
 const BoardsContainer = ({ workspace }: { workspace: any }) => {
+  const { userId } = getUserInfo() as { userId: string };
   return (
     <div>
       <Heading>Boards</Heading>

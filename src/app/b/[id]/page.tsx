@@ -12,14 +12,18 @@ import {
   useCreateListMutation,
   useGetAllListsQuery,
 } from "@/redux/api/listApi";
+import { useAppDispatch } from "@/redux/hooks";
+import { saveColor, saveImg } from "@/redux/slices/bgSlice";
 import { listSchema } from "@/schema/list";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const BoardPage = ({ params }: { params: any }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const dispatch = useAppDispatch();
+
   const { id } = params;
 
   const { data: boardData, isLoading: isBoardLoading } =
@@ -40,7 +44,16 @@ const BoardPage = ({ params }: { params: any }) => {
     }
   };
 
+  useEffect(() => {
+    if (boardData?.template?.bgColor)
+      dispatch(saveColor(boardData?.template?.bgColor));
+    if (boardData?.template?.bgImg)
+      dispatch(saveImg(boardData?.template?.bgImg));
+  }, [boardData, dispatch]);
+
   if (isBoardLoading || isListsLoading) return <></>;
+
+  console.log(boardData?.template);
 
   return (
     <DashboardLayout
