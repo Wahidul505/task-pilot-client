@@ -43,12 +43,12 @@ const BoardNavbar = ({ board }: { board: any }) => {
   } = useDisclosure();
 
   const handleSubmit = async (data: any) => {
+    setClicked(false);
     data.title = data?.title ? data?.title : board?.title;
     const result = await updateBoardTitle({
       id: board?.id,
       payload: data,
     }).unwrap();
-    setClicked(false);
     if (!result) {
       toast.error("Something Went Wrong");
     }
@@ -95,8 +95,6 @@ const BoardNavbar = ({ board }: { board: any }) => {
   const excludedUsers =
     board?.BoardMembers?.map((boardMember: any) => boardMember?.user?.id) || [];
 
-  console.log({ board });
-
   return (
     <div className="backdrop-filter backdrop-blur-md bg-black bg-opacity-50 w-full flex justify-between p-1 md:p-2 lg:p-3 items-center flex-wrap">
       <div className="flex items-center gap-2">
@@ -108,6 +106,8 @@ const BoardNavbar = ({ board }: { board: any }) => {
               placeholder="Board Name"
               margin={false}
               autoFocus={true}
+              size="sm"
+              className="text-white"
             />
           </Form>
         ) : (

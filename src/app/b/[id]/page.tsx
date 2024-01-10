@@ -1,5 +1,6 @@
 "use client";
 import PrimaryButton from "@/components/Button/PrimaryButton";
+import ListCard from "@/components/Card/ListCard";
 import Text from "@/components/Formatting/Text";
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
@@ -7,7 +8,10 @@ import DashboardLayout from "@/components/Layout/DashboardLayout";
 import BoardNavbar from "@/components/Navbar/BoardNavbar";
 import WorkspaceSidebar from "@/components/Sidebar/WorkspaceSidebar";
 import { useGetSingleBoardQuery } from "@/redux/api/boardApi";
-import { useCreateListMutation } from "@/redux/api/listApi";
+import {
+  useCreateListMutation,
+  useGetAllListsQuery,
+} from "@/redux/api/listApi";
 import { listSchema } from "@/schema/list";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@nextui-org/react";
@@ -21,19 +25,24 @@ const BoardPage = ({ params }: { params: any }) => {
   const { data: boardData, isLoading: isBoardLoading } =
     useGetSingleBoardQuery(id);
 
+  const { data: listsData, isLoading: isListsLoading } =
+    useGetAllListsQuery(id);
+
   const [createList] = useCreateListMutation();
 
   const handleCreateListSubmit = async (data: any) => {
+    setIsFormOpen(false);
     if (id) {
       data.boardId = id;
-      const result = await createList(data).unwrap();
+      await createList(data).unwrap();
     } else {
       toast.error("Something Went Wrong");
     }
-    setIsFormOpen(false);
   };
 
-  if (isBoardLoading) return <></>;
+  if (isBoardLoading || isListsLoading) return <></>;
+
+  console.log({ listsData });
 
   return (
     <DashboardLayout
@@ -41,7 +50,10 @@ const BoardPage = ({ params }: { params: any }) => {
       navbar={<BoardNavbar board={boardData} />}
     >
       <div className="flex space-x-1 md:space-x-2 lg:space-x-3 w-full">
-        {}
+        {listsData?.length > 0 &&
+          listsData?.map((list: any) => (
+            <ListCard key={list?.id} list={list} />
+          ))}
         {isFormOpen ? (
           <div className="bg-black rounded bg-opacity-70 p-3">
             <Form

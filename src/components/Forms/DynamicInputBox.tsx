@@ -49,8 +49,6 @@ const DynamicInputBox = ({
 
   // const newUsers = users?.filter((user: any) => user?.id !== excludedUsers);
 
-  console.log({ newUsers });
-
   return (
     <div className="flex items-start gap-1 lg:gap-2 w-full flex-wrap mt-1 p-1 md:p-2 lg:p-3 focus:outline-none bg-transparent box-border text-black rounded border-2 border-solid border-[#0099ff] relative">
       {items?.map((item: any, index: number) => (
