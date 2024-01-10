@@ -1,13 +1,13 @@
 import { tagTypes } from "../tagTypes";
 import { baseApi } from "./baseApi";
 
-const LIST_URL = "/list";
+const CARD_API = "/card";
 
-export const listApi = baseApi.injectEndpoints({
+export const cardApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    createList: build.mutation({
-      query: (payload: any) => ({
-        url: LIST_URL,
+    createCard: build.mutation({
+      query: (payload: { title: string; listId: string }) => ({
+        url: CARD_API,
         method: "POST",
         data: payload,
       }),
@@ -16,12 +16,13 @@ export const listApi = baseApi.injectEndpoints({
         tagTypes.board,
         tagTypes.workspace,
         tagTypes.user,
+        tagTypes.card,
       ],
     }),
 
-    getAllLists: build.query({
-      query: (boardId: string) => ({
-        url: `${LIST_URL}/${boardId}/board`,
+    getAllCards: build.query({
+      query: (listId: string) => ({
+        url: `${CARD_API}/${listId}`,
         method: "GET",
       }),
       providesTags: [
@@ -33,29 +34,15 @@ export const listApi = baseApi.injectEndpoints({
       ],
     }),
 
-    getSingleList: build.query({
-      query: (id: string) => ({
-        url: `${LIST_URL}/${id}`,
-        method: "GET",
-      }),
-      providesTags: [
-        tagTypes.list,
-        tagTypes.board,
-        tagTypes.workspace,
-        tagTypes.user,
-        tagTypes.card,
-      ],
-    }),
-
-    updateListTitle: build.mutation({
+    updateListId: build.mutation({
       query: ({
         id,
         payload,
       }: {
         id: string;
-        payload: { title: string; boardId: string };
+        payload: { listId: string };
       }) => ({
-        url: `${LIST_URL}/${id}/title`,
+        url: `${CARD_API}/${id}/list`,
         method: "PATCH",
         data: payload,
       }),
@@ -64,14 +51,14 @@ export const listApi = baseApi.injectEndpoints({
         tagTypes.board,
         tagTypes.workspace,
         tagTypes.user,
+        tagTypes.card,
       ],
     }),
   }),
 });
 
 export const {
-  useCreateListMutation,
-  useGetAllListsQuery,
-  useGetSingleListQuery,
-  useUpdateListTitleMutation,
-} = listApi;
+  useCreateCardMutation,
+  useGetAllCardsQuery,
+  useUpdateListIdMutation,
+} = cardApi;

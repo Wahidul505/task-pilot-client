@@ -27,7 +27,8 @@ const NavbarDropdown = ({
     <Dropdown className="rounded">
       <DropdownTrigger>
         <div className="flex items-center space-x-2 cursor-pointer rounded">
-          <Text>{label}</Text> <IoIosArrowDown />
+          <Text className="text-white">{label}</Text>{" "}
+          <IoIosArrowDown className="text-white" />
         </div>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">

@@ -59,7 +59,10 @@ const DashboardNavbar = () => {
   }));
 
   return (
-    <Navbar className="bg-white h-12 shadow-sm" maxWidth="full">
+    <Navbar
+      className="bg-black bg-opacity-80 h-12 border-b border-solid border-white"
+      maxWidth="full"
+    >
       <NavbarBrand className="flex space-x-2 lg:space-x-6">
         <p>
           <Link

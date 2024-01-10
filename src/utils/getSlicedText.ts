@@ -1,3 +1,4 @@
-export const getSlicedText = (text: string, to: number, from: number) => {
-  return text.slice(to, from) + "...";
+export const getSlicedText = (text: string, index: number) => {
+  const newText = text[index] ? text.slice(0, index) + "..." : text;
+  return newText;
 };

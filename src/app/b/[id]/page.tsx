@@ -42,8 +42,6 @@ const BoardPage = ({ params }: { params: any }) => {
 
   if (isBoardLoading || isListsLoading) return <></>;
 
-  console.log({ listsData });
-
   return (
     <DashboardLayout
       sidebar={<WorkspaceSidebar workspace={boardData?.workspace} />}
@@ -52,7 +50,9 @@ const BoardPage = ({ params }: { params: any }) => {
       <div className="flex space-x-1 md:space-x-2 lg:space-x-3 w-full">
         {listsData?.length > 0 &&
           listsData?.map((list: any) => (
-            <ListCard key={list?.id} list={list} />
+            <div key={list?.id} className="h-full">
+              <ListCard list={list} />
+            </div>
           ))}
         {isFormOpen ? (
           <div className="bg-black rounded bg-opacity-70 p-3">

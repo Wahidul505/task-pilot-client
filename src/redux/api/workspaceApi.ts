@@ -38,6 +38,21 @@ export const workspaceApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.workspace, tagTypes.board],
     }),
+
+    addWorkspaceAdmins: build.mutation({
+      query: ({
+        id,
+        payload,
+      }: {
+        id: string;
+        payload: { admins: string[] };
+      }) => ({
+        url: `${WORKSPACE_URL}/${id}/admin`,
+        method: "POST",
+        data: payload,
+      }),
+      invalidatesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+    }),
   }),
 });
 
@@ -46,4 +61,5 @@ export const {
   useGetSingleWorkspaceQuery,
   useUpdateSingleWorkspaceMutation,
   useCreateWorkspaceMutation,
+  useAddWorkspaceAdminsMutation,
 } = workspaceApi;

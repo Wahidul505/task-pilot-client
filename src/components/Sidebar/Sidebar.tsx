@@ -17,7 +17,7 @@ const Sidebar = ({
   const [isOpen, setIsOpen] = useState(true);
   return (
     <div
-      className={`h-full overflow-y-auto bg-white text-black transition-all duration-250 relative border-r border-solid border-l-gray-500 ${
+      className={`h-full overflow-y-auto bg-black text-white transition-all duration-250 relative border-r border-solid border-l-gray-500 bg-opacity-80 ${
         isOpen ? "w-64" : "w-8"
       }`}
     >
@@ -30,21 +30,21 @@ const Sidebar = ({
             className="text-black"
             onClick={() => setIsOpen(true)}
           >
-            <BiRightArrow />
+            <BiRightArrow className="text-white" />
           </Button>
         </div>
       )}
       <div className={`pb-20 p-1 md:p-2 lg:p-4 ${isOpen ? "block" : "hidden"}`}>
-        <div className="flex justify-between items-center text-gray-900">
+        <div className="flex justify-between items-center text-white">
           {avatarLayout}
           <Button
             variant="light"
             isIconOnly
             size="sm"
-            className="text-black"
+            className="text-white"
             onClick={() => setIsOpen(false)}
           >
-            <BiLeftArrow />
+            <BiLeftArrow className="text-white" />
           </Button>
         </div>
         <CustomDivider />
