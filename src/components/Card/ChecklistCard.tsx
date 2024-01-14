@@ -1,13 +1,17 @@
 "use client";
 import React, { useState } from "react";
-import Heading from "../Formatting/Heading";
 import { Button } from "@nextui-org/react";
 import { useUpdateChecklistTitleMutation } from "@/redux/api/checklistApi";
 import PopupForm from "../Forms/PopupForm";
 import { getSlicedText } from "@/utils/getSlicedText";
 import Form from "../Forms/Form";
 import FormInput from "../Forms/FormInput";
-import { useCreateChecklistItemMutation } from "@/redux/api/checklistItemApi";
+import Info from "../Formatting/Info";
+import {
+  useCreateItemMutation,
+  useUpdateSingleItemMutation,
+} from "@/redux/api/checklistItemApi";
+import ChecklistItemCard from "./ChecklistItemCard";
 
 const ChecklistCard = ({ checklist }: { checklist: any }) => {
   const [isEditChecklistTitleOpen, setIsEditChecklistTitleOpen] =
@@ -15,7 +19,8 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
   const [isAddItemOpen, setIsAddItemOpen] = useState(false);
 
   const [updateChecklistTitle] = useUpdateChecklistTitleMutation();
-  const [createChecklistItem] = useCreateChecklistItemMutation();
+  const [createItem] = useCreateItemMutation();
+  const [updateSingleItem] = useUpdateSingleItemMutation();
 
   const handleUpdateChecklistTitle = async (data: { title: string }) => {
     if (data?.title) {
@@ -30,12 +35,10 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
   const handleAddChecklistItem = async (data: any) => {
     if (checklist?.id && data?.title) {
       data.checklistId = checklist?.id;
-      const result = await createChecklistItem(data).unwrap();
+      const result = await createItem(data).unwrap();
       console.log(result);
     }
   };
-
-  console.log({ checklist });
 
   return (
     <div>
@@ -72,6 +75,10 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
           </Button>
         )}
       </div>
+      {checklist?.ChecklistItems?.length > 0 &&
+        checklist?.ChecklistItems?.map((item: any) => (
+          <ChecklistItemCard key={item?.id} item={item} />
+        ))}
       {isAddItemOpen ? (
         <Form submitHandler={handleAddChecklistItem} doReset={false}>
           <FormInput
@@ -100,7 +107,7 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
       ) : (
         <Button
           size="sm"
-          className="rounded"
+          className="rounded mt-2"
           onClick={() => setIsAddItemOpen(true)}
         >
           Add an Item
