@@ -60,7 +60,7 @@ const DashboardNavbar = () => {
 
   return (
     <Navbar
-      className="bg-black bg-opacity-80 h-12 border-b border-solid border-white"
+      className="bg-black bg-opacity-90 h-12 border-b border-solid border-white"
       maxWidth="full"
     >
       <NavbarBrand className="flex space-x-2 lg:space-x-6">
@@ -99,7 +99,7 @@ const DashboardNavbar = () => {
               />
             }
           >
-            <div>
+            <div className="">
               <AvatarLayout text={user?.name || ""} info={user?.email}>
                 <Avatar
                   as="button"
@@ -125,7 +125,6 @@ const DashboardNavbar = () => {
               >
                 <div></div>
               </PopoverModal> */}
-              <CustomDivider />
               <Button
                 size="sm"
                 className="rounded w-full"

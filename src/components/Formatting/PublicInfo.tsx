@@ -9,7 +9,7 @@ const PublicInfo = ({
   className?: string;
 }) => {
   return (
-    <div className={`text-xs md:text-sm lg:text-base ${className}`}>
+    <div className={`text-xs md:text-sm lg:text-base text-white ${className}`}>
       {children}
     </div>
   );

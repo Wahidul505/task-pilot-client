@@ -145,14 +145,16 @@ const BoardNavbar = ({ board }: { board: any }) => {
         <PrimaryModal
           title="Add Members"
           btnChildren={
-            <div className="flex items-center space-x-2 ">
-              <TbUsersPlus className="font-semibold" />
+            <Button
+              onPress={onMembersModalOpen}
+              size="sm"
+              className="rounded flex items-center space-x-2"
+            >
+              <TbUsersPlus className="font-semibold " />
               <Text>Add</Text>
-            </div>
+            </Button>
           }
-          btnClassName=""
           isOpen={isMembersModalOpen}
-          onOpen={onMembersModalOpen}
           onOpenChange={onMembersModalOpenChange}
           size="xl"
         >

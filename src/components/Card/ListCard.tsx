@@ -12,9 +12,7 @@ import {
   useCreateCardMutation,
   useUpdateListIdMutation,
 } from "@/redux/api/cardApi";
-import { getSlicedText } from "@/utils/getSlicedText";
-import { Button } from "@nextui-org/react";
-import { FaRegTrashAlt } from "react-icons/fa";
+import CardCard from "./CardCard";
 
 const ListCard = ({ list }: { list: any }) => {
   const [clicked, setClicked] = useState(false);
@@ -84,7 +82,7 @@ const ListCard = ({ list }: { list: any }) => {
     <div
       onDrop={handleOnDrop}
       onDragOver={handleDragOver}
-      className="rounded bg-black bg-opacity-80 p-1 md:p-2 lg:p-3 w-32 md:w-56"
+      className="rounded bg-black bg-opacity-80 p-1 md:p-2 lg:p-3 w-32 md:w-56 min-h-32"
     >
       <div className="flex justify-between">
         <PopupForm
@@ -108,30 +106,27 @@ const ListCard = ({ list }: { list: any }) => {
               margin={false}
               autoFocus={true}
               size="sm"
-              className="text-white"
+              className="text-white mb-2"
             />
           </Form>
         </PopupForm>
-        <Button
+        {/* <Button
           size="sm"
           className="bg-transparent rounded"
           onClick={() => handleRemoveList(list?.id)}
           isIconOnly
         >
           <FaRegTrashAlt className="text-red-500 text-lg" />
-        </Button>
+        </Button> */}
       </div>
       <div>
         {list?.Cards?.length > 0 &&
           list?.Cards?.map((card: any) => (
-            <div
+            <CardCard
               key={card?.id}
-              className="bg-gray-700 text-white mb-2 rounded text-base p-1 cursor-pointer border-2 border-solid border-gray-700 hover:border-[#0099ff]"
-              onDragStart={(e) => handleOnDrag(e, card?.id)}
-              draggable
-            >
-              {getSlicedText(card?.title, 12)}
-            </div>
+              card={card}
+              handleOnDrag={(e) => handleOnDrag(e, card?.id)}
+            />
           ))}
       </div>
       <div className="mt-4">

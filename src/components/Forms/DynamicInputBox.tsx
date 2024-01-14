@@ -56,20 +56,22 @@ const DynamicInputBox = ({
           key={index}
           className="flex items-center bg-gray-200 rounded py-1 px-2"
         >
-          <span className="mr-2 text-gray-900">
-            <Text>{item?.email}</Text>
+          <span className="mr-2 ">
+            <div className="text-black text-xs md:text-sm lg:text-base">
+              {item?.email}
+            </div>
           </span>
           <button
-            className="text-gray-900 bg-transparent cursor-pointer"
+            className="text-black bg-transparent cursor-pointer"
             onClick={() => handleDelete(index)}
           >
-            <Text className="font-semibold">x</Text>
+            <div className="font-semibold text-black">x</div>
           </button>
         </div>
       ))}
       <input
         type="text"
-        className="bg-transparent border-none focus:outline-none focus:border-transparent w-fit"
+        className="bg-transparent border-none focus:outline-none focus:border-transparent w-fit text-white"
         placeholder="new@gmail.com"
         value={inputText}
         onChange={handleInputChange}

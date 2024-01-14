@@ -7,13 +7,16 @@ import FormInput from "@/components/Forms/FormInput";
 import DashboardLayout from "@/components/Layout/DashboardLayout";
 import BoardNavbar from "@/components/Navbar/BoardNavbar";
 import WorkspaceSidebar from "@/components/Sidebar/WorkspaceSidebar";
-import { useGetSingleBoardQuery } from "@/redux/api/boardApi";
+import {
+  useGetBoardsOfSingleWorkspaceQuery,
+  useGetSingleBoardQuery,
+} from "@/redux/api/boardApi";
 import {
   useCreateListMutation,
   useGetAllListsQuery,
 } from "@/redux/api/listApi";
 import { useAppDispatch } from "@/redux/hooks";
-import { saveColor, saveImg } from "@/redux/slices/bgSlice";
+import { saveBg } from "@/redux/slices/bgSlice";
 import { listSchema } from "@/schema/list";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@nextui-org/react";
@@ -26,11 +29,13 @@ const BoardPage = ({ params }: { params: any }) => {
 
   const { id } = params;
 
-  const { data: boardData, isLoading: isBoardLoading } =
-    useGetSingleBoardQuery(id);
+  const { data, isLoading } = useGetSingleBoardQuery(id);
 
   const { data: listsData, isLoading: isListsLoading } =
     useGetAllListsQuery(id);
+
+  const { data: boardsData, isLoading: isBoardsLoading } =
+    useGetBoardsOfSingleWorkspaceQuery(data?.workspace?.id);
 
   const [createList] = useCreateListMutation();
 
@@ -44,21 +49,19 @@ const BoardPage = ({ params }: { params: any }) => {
     }
   };
 
-  useEffect(() => {
-    if (boardData?.template?.bgColor)
-      dispatch(saveColor(boardData?.template?.bgColor));
-    if (boardData?.template?.bgImg)
-      dispatch(saveImg(boardData?.template?.bgImg));
-  }, [boardData, dispatch]);
+  if (isLoading || isListsLoading || isBoardsLoading) return <></>;
 
-  if (isBoardLoading || isListsLoading) return <></>;
-
-  console.log(boardData?.template);
+  if (data?.template?.bgColor)
+    dispatch(saveBg({ color: data?.template?.bgColor, img: "" }));
+  if (data?.template?.bgImg)
+    dispatch(saveBg({ color: "", img: data?.template?.bgImg }));
 
   return (
     <DashboardLayout
-      sidebar={<WorkspaceSidebar workspace={boardData?.workspace} />}
-      navbar={<BoardNavbar board={boardData} />}
+      sidebar={
+        <WorkspaceSidebar workspace={data?.workspace} boards={boardsData} />
+      }
+      navbar={<BoardNavbar board={data} />}
     >
       <div className="flex space-x-1 md:space-x-2 lg:space-x-3 w-full">
         {listsData?.length > 0 &&
@@ -99,7 +102,7 @@ const BoardPage = ({ params }: { params: any }) => {
         ) : (
           <Button
             onClick={() => setIsFormOpen(true)}
-            className="rounded bg-black text-white bg-opacity-40 w-32"
+            className="rounded bg-black text-white bg-opacity-70 w-32"
             size="lg"
           >
             + Add list

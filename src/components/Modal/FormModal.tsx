@@ -56,14 +56,14 @@ const FormModal = ({
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className="rounded"
+        className="rounded bg-black bg-opacity-90"
         scrollBehavior="inside"
         size={size}
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="">
+              <ModalHeader className="text-white">
                 {gradientHeading ? (
                   <PublicHeading2>{title}</PublicHeading2>
                 ) : (

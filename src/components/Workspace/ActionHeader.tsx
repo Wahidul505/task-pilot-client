@@ -146,14 +146,16 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
       <PrimaryModal
         title="Add Admins"
         btnChildren={
-          <div className="flex items-center space-x-2 ">
+          <Button
+            onPress={onAdminsModalOpen}
+            size="sm"
+            className="rounded flex items-center space-x-2"
+          >
             <TbUsersPlus className="font-semibold" />
             <Text>Members</Text>
-          </div>
+          </Button>
         }
-        btnClassName="w-32"
         isOpen={isAdminsModalOpen}
-        onOpen={onAdminsModalOpen}
         onOpenChange={onAdminsModalOpenChange}
         size="xl"
       >
@@ -214,7 +216,7 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
                               <FaRegTrashAlt className="text-red-500 text-xl" />
                             </Button>
                           ) : (
-                            <div>(You)</div>
+                            <Text>(You)</Text>
                           )}
                         </div>
                       )

@@ -40,8 +40,18 @@ const LoginPage = () => {
         resolver={yupResolver(loginSchema)}
       >
         <PublicHeading2>Login to your Account</PublicHeading2>
-        <FormInput name="email" type="email" placeholder="Email" />
-        <FormInput name="password" type="password" placeholder="Password" />
+        <FormInput
+          name="email"
+          type="email"
+          placeholder="Email"
+          theme="light"
+        />
+        <FormInput
+          name="password"
+          type="password"
+          placeholder="Password"
+          theme="light"
+        />
         <div className="flex justify-between items-center">
           <PrimaryButton label="Login" type="submit" />
           <Link href={"/sign-up"} className="underline text-gray-900">

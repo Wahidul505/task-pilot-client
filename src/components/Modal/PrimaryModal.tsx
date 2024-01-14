@@ -12,10 +12,8 @@ import PublicHeading2 from "../Formatting/PublicHeading2";
 
 type IModalProps = {
   children: IChildrenProps;
-  title: string;
+  title: string | IChildrenProps;
   btnChildren: IChildrenProps;
-  btnClassName?: string;
-  onOpen: any;
   isOpen: any;
   onOpenChange: any;
   size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
@@ -26,8 +24,6 @@ const PrimaryModal = ({
   children,
   title,
   btnChildren,
-  btnClassName,
-  onOpen,
   isOpen,
   onOpenChange,
   size = "sm",
@@ -35,20 +31,18 @@ const PrimaryModal = ({
 }: IModalProps) => {
   return (
     <>
-      <Button onPress={onOpen} size="sm" className={`rounded ${btnClassName}`}>
-        {btnChildren}
-      </Button>
+      <>{btnChildren}</>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className="rounded"
+        className="rounded bg-black bg-opacity-90"
         scrollBehavior="inside"
         size={size}
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="">
+              <ModalHeader className="text-white">
                 {gradientHeading ? (
                   <PublicHeading2>{title}</PublicHeading2>
                 ) : (

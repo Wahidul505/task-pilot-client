@@ -45,9 +45,19 @@ const SignupPage = () => {
         resolver={yupResolver(signUpSchema)}
       >
         <PublicHeading2>Create An Account</PublicHeading2>
-        <FormInput name="name" type="text" placeholder="Name" />
-        <FormInput name="email" type="email" placeholder="Email" />
-        <FormInput name="password" type="password" placeholder="Password" />
+        <FormInput name="name" type="text" placeholder="Name" theme="light" />
+        <FormInput
+          name="email"
+          type="email"
+          placeholder="Email"
+          theme="light"
+        />
+        <FormInput
+          name="password"
+          type="password"
+          placeholder="Password"
+          theme="light"
+        />
         <div className="flex justify-between items-center">
           <PrimaryButton label="Sign up" type="submit" />
           <Link href={"/login"} className="underline text-gray-900">

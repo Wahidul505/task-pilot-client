@@ -1,13 +1,13 @@
 import { tagTypes } from "../tagTypes";
 import { baseApi } from "./baseApi";
 
-const CARD_API = "/card";
+const CARD_URL = "/card";
 
 export const cardApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     createCard: build.mutation({
       query: (payload: { title: string; listId: string }) => ({
-        url: CARD_API,
+        url: CARD_URL,
         method: "POST",
         data: payload,
       }),
@@ -22,7 +22,7 @@ export const cardApi = baseApi.injectEndpoints({
 
     getAllCards: build.query({
       query: (listId: string) => ({
-        url: `${CARD_API}/${listId}`,
+        url: `${CARD_URL}/${listId}`,
         method: "GET",
       }),
       providesTags: [
@@ -42,7 +42,7 @@ export const cardApi = baseApi.injectEndpoints({
         id: string;
         payload: { listId: string };
       }) => ({
-        url: `${CARD_API}/${id}/list`,
+        url: `${CARD_URL}/${id}/list`,
         method: "PATCH",
         data: payload,
       }),
@@ -54,6 +54,69 @@ export const cardApi = baseApi.injectEndpoints({
         tagTypes.card,
       ],
     }),
+
+    addCardMember: build.mutation({
+      query: ({
+        id,
+        payload,
+      }: {
+        id: string;
+        payload: { memberId: string };
+      }) => ({
+        url: `${CARD_URL}/${id}/member`,
+        method: "POST",
+        data: payload,
+      }),
+      invalidatesTags: [
+        tagTypes.board,
+        tagTypes.workspace,
+        tagTypes.user,
+        tagTypes.list,
+        tagTypes.card,
+      ],
+    }),
+
+    removeCardMember: build.mutation({
+      query: ({
+        id,
+        payload,
+      }: {
+        id: string;
+        payload: { memberId: string };
+      }) => ({
+        url: `${CARD_URL}/${id}/member`,
+        method: "DELETE",
+        data: payload,
+      }),
+      invalidatesTags: [
+        tagTypes.board,
+        tagTypes.workspace,
+        tagTypes.user,
+        tagTypes.list,
+        tagTypes.card,
+      ],
+    }),
+
+    updateSingleCard: build.mutation({
+      query: ({
+        id,
+        payload,
+      }: {
+        id: string;
+        payload: { title?: string; description?: string };
+      }) => ({
+        url: `${CARD_URL}/${id}`,
+        method: "PATCH",
+        data: payload,
+      }),
+      invalidatesTags: [
+        tagTypes.board,
+        tagTypes.workspace,
+        tagTypes.user,
+        tagTypes.list,
+        tagTypes.card,
+      ],
+    }),
   }),
 });
 
@@ -61,4 +124,7 @@ export const {
   useCreateCardMutation,
   useGetAllCardsQuery,
   useUpdateListIdMutation,
+  useAddCardMemberMutation,
+  useRemoveCardMemberMutation,
+  useUpdateSingleCardMutation,
 } = cardApi;

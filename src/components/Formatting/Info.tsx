@@ -8,7 +8,7 @@ const Info = ({
   children: IChildrenProps;
   className?: string;
 }) => {
-  return <div className={`text-sm ${className}`}>{children}</div>;
+  return <div className={`text-sm text-white ${className}`}>{children}</div>;
 };
 
 export default Info;

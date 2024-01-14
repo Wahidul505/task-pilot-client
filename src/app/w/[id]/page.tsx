@@ -16,7 +16,14 @@ const WorkspacePage = ({ params }: { params: any }) => {
   if (isSingleWorkspaceLoading) return <></>;
 
   return (
-    <DashboardLayout sidebar={<WorkspaceSidebar workspace={workspaceData} />}>
+    <DashboardLayout
+      sidebar={
+        <WorkspaceSidebar
+          workspace={workspaceData}
+          boards={workspaceData?.Boards}
+        />
+      }
+    >
       <div>
         <ActionHeader workspace={workspaceData} />
         <CustomDivider />

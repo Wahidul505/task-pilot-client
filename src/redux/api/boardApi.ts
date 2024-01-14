@@ -19,7 +19,15 @@ export const boardApi = baseApi.injectEndpoints({
         url: BOARD_URL,
         method: "GET",
       }),
-      providesTags: [tagTypes.board, tagTypes.workspace],
+      providesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+    }),
+
+    getBoardsOfSingleWorkspace: build.query({
+      query: (workspaceId: string) => ({
+        url: `${BOARD_URL}/${workspaceId}/common`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
     }),
 
     getSingleBoard: build.query({
@@ -74,6 +82,7 @@ export const boardApi = baseApi.injectEndpoints({
 export const {
   useCreateBoardMutation,
   useGetBoardsQuery,
+  useGetBoardsOfSingleWorkspaceQuery,
   useGetSingleBoardQuery,
   useUpdateBoardTitleMutation,
   useAddBoardMembersMutation,

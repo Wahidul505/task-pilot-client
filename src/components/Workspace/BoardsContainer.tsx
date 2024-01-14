@@ -3,16 +3,14 @@ import React from "react";
 import Heading from "../Formatting/Heading";
 import BoardCard from "../Card/BoardCard";
 import CreateBoardForm from "../Forms/CreateBoardForm";
-import { getUserInfo } from "@/services/auth.service";
 
 const BoardsContainer = ({ workspace }: { workspace: any }) => {
-  const { userId } = getUserInfo() as { userId: string };
   return (
     <div>
-      <Heading>Boards</Heading>
+      <Heading className="text-white mb-3">Boards</Heading>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-1 md:gap-2 lg:gap-3">
         <CreateBoardForm
-          btnClassName="md:h-20 lg:h-24"
+          btnClassName="h-20 md:h-24 lg:h-28"
           btnLabel="Create Board"
           workspace={workspace}
         />

@@ -13,6 +13,14 @@ export const workspaceApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.workspace, tagTypes.board, tagTypes.user],
     }),
 
+    getAllWorkspacesOfGuest: build.query({
+      query: () => ({
+        url: `${WORKSPACE_URL}/guest`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.workspace, tagTypes.board, tagTypes.user],
+    }),
+
     getSingleWorkspace: build.query({
       query: (id: string) => ({
         url: `${WORKSPACE_URL}/${id}`,
@@ -73,6 +81,7 @@ export const workspaceApi = baseApi.injectEndpoints({
 
 export const {
   useGetAllWorkspacesOfAdminQuery,
+  useGetAllWorkspacesOfGuestQuery,
   useGetSingleWorkspaceQuery,
   useUpdateSingleWorkspaceMutation,
   useCreateWorkspaceMutation,

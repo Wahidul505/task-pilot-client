@@ -46,7 +46,7 @@ const FormSelect = ({
         render={({ field: { value, onChange } }) => (
           <select
             onChange={onChange}
-            className={`mt-1 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border text-black rounded border-2 border-solid border-gray-300 focus:border-[#0099ff] ${
+            className={`mt-1 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border text-white rounded border-2 border-solid border-gray-300 focus:border-[#0099ff] ${
               size === "lg" &&
               "h-8 md:h-9 lg:h-12 text-base md:text-lg lg:text-xl"
             } ${

@@ -27,9 +27,13 @@ const PopoverModal = ({
     | "right-end";
 }) => {
   return (
-    <Popover key={htmlFor} placement={placement}>
+    <Popover
+      key={htmlFor}
+      placement={placement}
+      className="bg-black bg-opacity-90"
+    >
       <PopoverTrigger>{button}</PopoverTrigger>
-      <PopoverContent className="p-2 md:p-2 lg:p-3 rounded">
+      <PopoverContent className="p-2 md:p-2 lg:p-3 rounded bg-black bg-opacity-80">
         {children}
       </PopoverContent>
     </Popover>

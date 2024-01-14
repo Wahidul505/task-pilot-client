@@ -11,6 +11,7 @@ interface IProps {
   label?: string;
   size?: "md" | "lg" | "sm";
   defaultValue?: string;
+  className?: string;
 }
 
 const FormTextArea = ({
@@ -20,6 +21,7 @@ const FormTextArea = ({
   label,
   size = "md",
   defaultValue,
+  className,
 }: IProps) => {
   const {
     control,
@@ -42,11 +44,11 @@ const FormTextArea = ({
             {...field}
             value={value ? value : field?.value}
             defaultValue={defaultValue}
-            className={`mt-1 px-1 md:px-2 lg:px-3 focus:outline-none md:text-lg w-full bg-transparent box-border text-black rounded border-2 border-solid border-gray-300 focus:border-[#0099ff]${
+            className={`mt-1 px-1 md:px-2 py-1 lg:px-3 focus:outline-none md:text-lg w-full bg-transparent box-border text-white rounded border-2 border-solid border-gray-300 focus:border-[#0099ff]${
               size === "lg" && "text-base md:text-lg lg:text-xl"
             } ${size === "md" && "text-sm md:text-base lg:text-lg"} ${
               size === "sm" && "text-xs md:text-sm lg:text-base"
-            }`}
+            } ${className}`}
           />
         )}
       />

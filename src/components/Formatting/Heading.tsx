@@ -9,7 +9,7 @@ const Heading = ({
   className?: string;
 }) => {
   return (
-    <div className={`text-lg md:text-xl font-semibold ${className}`}>
+    <div className={`text-lg md:text-xl font-semibold text-white ${className}`}>
       {children}
     </div>
   );

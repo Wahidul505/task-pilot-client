@@ -15,18 +15,14 @@ export const bgSlice = createSlice({
   name: "bg",
   initialState,
   reducers: {
-    saveColor: (state, action: PayloadAction<string>) => {
-      state.color = action.payload;
-      state.img = "";
-    },
-    saveImg: (state, action: PayloadAction<string>) => {
-      state.img = action.payload;
-      state.color = "";
+    saveBg: (state, action: PayloadAction<{ color: string; img: string }>) => {
+      state.color = action?.payload?.color;
+      state.img = action?.payload?.img;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { saveColor, saveImg } = bgSlice.actions;
+export const { saveBg } = bgSlice.actions;
 
 export default bgSlice.reducer;

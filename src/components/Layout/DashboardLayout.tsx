@@ -14,15 +14,22 @@ const DashboardLayout = ({
   navbar?: IChildrenProps;
 }) => {
   const bg = useAppSelector((store: any) => store.bg);
-  console.log({ bg });
+
   return (
     <div className="h-screen overflow-y-hidden fixed z-10 top-0 bottom-0 right-0 left-0">
       <DashboardNavbar />
       <div
         className="flex h-full w-full bg-center bg-fixed bg-cover"
         style={{
-          background: bg?.color || `url(${bg?.img})`,
+          minHeight: "100vh",
+          background: !navbar
+            ? "rgb(55 65 81)"
+            : bg?.color
+            ? `${bg?.color}`
+            : `url(${bg?.img})`,
           backgroundSize: "cover",
+          backgroundAttachment: "fixed",
+          backgroundPosition: "center",
         }}
       >
         <div className="h-full">{sidebar}</div>
@@ -36,7 +43,7 @@ const DashboardLayout = ({
             </div>
           </div>
         ) : (
-          <div className="overflow-y-auto h-full py-2 md:py-3 lg:py-4 w-full bg-gray-700">
+          <div className="overflow-y-auto h-full py-2 md:py-3 lg:py-4 w-full bg-[#1D2125]">
             <CenterLayout className="pb-16 lg:pb-20">{children}</CenterLayout>
           </div>
         )}
