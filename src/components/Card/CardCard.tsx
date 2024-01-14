@@ -21,6 +21,12 @@ import FormTextArea from "../Forms/FormTextarea";
 import PrimaryButton from "../Button/PrimaryButton";
 import PopupForm from "../Forms/PopupForm";
 import FormInput from "../Forms/FormInput";
+import Text from "../Formatting/Text";
+import {
+  useCreateChecklistMutation,
+  useGetAllChecklistsQuery,
+} from "@/redux/api/checklistApi";
+import ChecklistCard from "./ChecklistCard";
 
 const CardCard = ({
   card,
@@ -29,6 +35,9 @@ const CardCard = ({
   card: any;
   handleOnDrag: (params1: any, params2: any) => void;
 }) => {
+  const { data: checklistData, isLoading: isChecklistLoading } =
+    useGetAllChecklistsQuery(card?.id);
+
   const [isEditDescriptionOpen, setIsEditDescriptionOpen] = useState(false);
   const [isEditTitleOpen, setIsEditTitleOpen] = useState(false);
 
@@ -41,6 +50,7 @@ const CardCard = ({
   const [addCardMember] = useAddCardMemberMutation();
   const [removeCardMember] = useRemoveCardMemberMutation();
   const [updateSingleCard] = useUpdateSingleCardMutation();
+  const [createChecklist] = useCreateChecklistMutation();
 
   const handleAddCardMember = async (userId: string) => {
     if (userId) {
@@ -75,6 +85,16 @@ const CardCard = ({
       payload: data,
     }).unwrap();
   };
+
+  const handleCreateChecklist = async (data: any) => {
+    if (data?.title) {
+      data.cardId = card?.id;
+      const result = await createChecklist(data).unwrap();
+      if (result) toast("Checklist Added");
+    }
+  };
+
+  if (isChecklistLoading) return <></>;
 
   return (
     <div
@@ -145,7 +165,7 @@ const CardCard = ({
                 <Heading>Description</Heading>
                 {!isEditDescriptionOpen && (
                   <Button
-                    className="rounded "
+                    className="rounded"
                     size="sm"
                     isIconOnly
                     variant="light"
@@ -186,6 +206,10 @@ const CardCard = ({
                   </Button>
                 </Form>
               )}
+              {checklistData?.length > 0 &&
+                checklistData?.map((checklist: any, index: number) => (
+                  <ChecklistCard checklist={checklist} key={index} />
+                ))}
             </div>
             <div className="md:col-span-1 ">
               <Info className="mb-1 lg:mb-2">Modify</Info>
@@ -263,9 +287,36 @@ const CardCard = ({
                     )}
                 </div>
               </PopoverModal>
-              <Button size="sm" className="rounded w-full mb-1 lg:mb-2">
-                Checklists
-              </Button>
+              <PopoverModal
+                htmlFor="create-checklist"
+                placement="bottom-start"
+                button={
+                  <Button size="sm" className="rounded w-full mb-1 lg:mb-2">
+                    Checklist
+                  </Button>
+                }
+              >
+                <div className="min-w-52 lg:min-w-64">
+                  <Text className="mb-2 md:mb-3">Add Checklist</Text>
+                  <Form submitHandler={handleCreateChecklist} doReset={false}>
+                    <FormInput
+                      name="title"
+                      placeholder="Enter Title"
+                      label="Title"
+                      size="sm"
+                    />
+                    <Button
+                      color="primary"
+                      className="rounded "
+                      size="sm"
+                      type="submit"
+                    >
+                      Add
+                    </Button>
+                  </Form>
+                </div>
+              </PopoverModal>
+
               <Button size="sm" className="rounded w-full mb-1 lg:mb-2">
                 Date
               </Button>

@@ -45,7 +45,15 @@ const FormInput = ({
   const errorMessage = getErrorMessageByPropertyName(name, errors);
 
   return (
-    <div className={margin ? "mb-5" : ""}>
+    <div
+      className={
+        margin
+          ? `${size === "md" && "mb-5"} ${size === "sm" && "mb-3"} ${
+              size === "lg" && "mb-5"
+            }`
+          : ""
+      }
+    >
       {label && size === "lg" && <PublicInfo>{label ? label : ""}</PublicInfo>}
       {label && size === "md" && <PublicInfo>{label ? label : ""}</PublicInfo>}
       {label && size === "sm" && <Text>{label ? label : ""}</Text>}
