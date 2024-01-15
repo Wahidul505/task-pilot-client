@@ -6,7 +6,7 @@ import FormSelect from "./FormSelect";
 import Text from "../Formatting/Text";
 import Image from "next/image";
 import { GiCheckMark } from "react-icons/gi";
-import { useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { useGetAllWorkspacesOfAdminQuery } from "@/redux/api/workspaceApi";
 import { useGetTemplatesQuery } from "@/redux/api/templateApi";
 import { useCreateBoardMutation } from "@/redux/api/boardApi";
@@ -79,12 +79,17 @@ const CreateBoardForm = ({
       {workspaces?.length > 0 && (
         <FormModal
           title="Create Board"
-          btnLabel={btnLabel}
-          btnClassName={btnClassName}
+          button={
+            <Button
+              className={`${btnClassName} rounded`}
+              onPress={onBoardCreateModalOpen}
+            >
+              {btnLabel}
+            </Button>
+          }
           modalBtnLabel="Create"
           submitHandler={handleCreateBoardSubmit}
           isOpen={isBoardCreateModalOpen}
-          onOpen={onBoardCreateModalOpen}
           onOpenChange={onBoardCreateModalOpenChange}
           resolver={boardSchema}
         >

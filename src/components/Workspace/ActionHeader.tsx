@@ -24,6 +24,7 @@ import PrimaryButton from "../Button/PrimaryButton";
 import Heading from "../Formatting/Heading";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { getUserInfo } from "@/services/auth.service";
+import { FiEdit } from "react-icons/fi";
 
 const ActionHeader = ({ workspace }: { workspace: any }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -108,11 +109,20 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
           button={
             <FormModal
               title="Edit Workspace"
-              btnLabel="Edit"
+              button={
+                <Button
+                  isIconOnly
+                  onPress={onWorkspaceEditModalOpen}
+                  size="sm"
+                  className="rounded text-white lg:text-lg"
+                  variant="light"
+                >
+                  <FiEdit />
+                </Button>
+              }
               modalBtnLabel="Save"
               submitHandler={handleEditWorkspaceSubmit}
               isOpen={isWorkspaceEditModalOpen}
-              onOpen={onWorkspaceEditModalOpen}
               onOpenChange={onWorkspaceEditModalChange}
             >
               <FormInput

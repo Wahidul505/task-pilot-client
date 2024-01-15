@@ -9,6 +9,7 @@ import Form from "../Forms/Form";
 import FormInput from "../Forms/FormInput";
 import {
   useAddBoardMembersMutation,
+  useLeaveBoardMutation,
   useRemoveBoardMemberMutation,
   useUpdateBoardTitleMutation,
 } from "@/redux/api/boardApi";
@@ -21,6 +22,7 @@ import PrimaryButton from "../Button/PrimaryButton";
 import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
 import AvatarLayout from "../Layout/AvatarLayout";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const BoardNavbar = ({ board }: { board: any }) => {
   const [items, setItems] = useState([]);
@@ -34,8 +36,12 @@ const BoardNavbar = ({ board }: { board: any }) => {
 
   const [removeBoardMember] = useRemoveBoardMemberMutation();
 
+  const [leaveBoard] = useLeaveBoardMutation();
+
   const { data: usersData, isLoading: isUsersLoading } =
     useGetUsersQuery(undefined);
+
+  const router = useRouter();
 
   const {
     isOpen: isMembersModalOpen,
@@ -85,6 +91,18 @@ const BoardNavbar = ({ board }: { board: any }) => {
       }).unwrap();
       if (result) {
         toast("Removed");
+      } else {
+        toast.error("Something Went Wrong");
+      }
+    }
+  };
+
+  const handleLeaveBoard = async (id: string) => {
+    if (id) {
+      const result = await leaveBoard(id).unwrap();
+      if (result) {
+        toast("You left the board");
+        router.push("/home");
       } else {
         toast.error("Something Went Wrong");
       }
@@ -180,7 +198,9 @@ const BoardNavbar = ({ board }: { board: any }) => {
               <Heading className="mb-1 md:mb-2 lg:mb-3">Admin</Heading>
               {board?.user && (
                 <AvatarLayout
-                  text={board?.user?.name || ""}
+                  text={`${board?.user?.name || ""} ${
+                    board?.user?.id === userId ? "(You)" : ""
+                  }`}
                   info={board?.user?.email}
                 >
                   <Avatar
@@ -210,7 +230,9 @@ const BoardNavbar = ({ board }: { board: any }) => {
                             className="flex justify-between items-center"
                           >
                             <AvatarLayout
-                              text={boardMember?.user?.name || ""}
+                              text={`${boardMember?.user?.name || ""} ${
+                                boardMember?.user?.id === userId ? "(You)" : ""
+                              }`}
                               info={boardMember?.user?.email}
                             >
                               <Avatar
@@ -228,16 +250,27 @@ const BoardNavbar = ({ board }: { board: any }) => {
                                 className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
                               />
                             </AvatarLayout>
-                            <Button
-                              size="sm"
-                              className="bg-transparent rounded"
-                              onClick={() =>
-                                handleRemoveBoardMember(boardMember?.userId)
-                              }
-                              isIconOnly
-                            >
-                              <FaRegTrashAlt className="text-red-500 text-xl" />
-                            </Button>
+                            {board?.admin === userId && (
+                              <Button
+                                size="sm"
+                                className="bg-transparent rounded"
+                                onClick={() =>
+                                  handleRemoveBoardMember(boardMember?.userId)
+                                }
+                                isIconOnly
+                              >
+                                <FaRegTrashAlt className="text-red-500 text-xl" />
+                              </Button>
+                            )}
+                            {boardMember?.userId === userId && (
+                              <Button
+                                size="sm"
+                                className=" rounded"
+                                onClick={() => handleLeaveBoard(board?.id)}
+                              >
+                                Leave
+                              </Button>
+                            )}
                           </div>
                         )
                       )}

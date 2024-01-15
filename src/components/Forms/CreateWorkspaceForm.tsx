@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FormModal from "../Modal/FormModal";
-import { useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { workspaceSchema } from "@/schema/workspace";
 import FormInput from "./FormInput";
 import FormTextArea from "./FormTextarea";
@@ -49,12 +49,17 @@ const CreateWorkspaceForm = ({
   return (
     <FormModal
       title="Create Workspace"
-      btnLabel={btnLabel}
-      btnClassName={btnClassName}
+      button={
+        <Button
+          className={`${btnClassName} rounded`}
+          onPress={onWorkspaceCreateModalOpen}
+        >
+          {btnLabel}
+        </Button>
+      }
       modalBtnLabel="Create"
       submitHandler={handleCreateWorkspaceSubmit}
       isOpen={isWorkspaceCreateModalOpen}
-      onOpen={onWorkspaceCreateModalOpen}
       onOpenChange={onWorkspaceCreateModalOpenChange}
       resolver={workspaceSchema}
       size="xl"

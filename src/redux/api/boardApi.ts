@@ -76,6 +76,20 @@ export const boardApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
     }),
+
+    leaveBoard: build.mutation({
+      query: (id) => ({
+        url: `${BOARD_URL}/${id}/self`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [
+        tagTypes.board,
+        tagTypes.workspace,
+        tagTypes.user,
+        tagTypes.list,
+        tagTypes.card,
+      ],
+    }),
   }),
 });
 
@@ -87,4 +101,5 @@ export const {
   useUpdateBoardTitleMutation,
   useAddBoardMembersMutation,
   useRemoveBoardMemberMutation,
+  useLeaveBoardMutation,
 } = boardApi;

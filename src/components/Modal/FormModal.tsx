@@ -15,11 +15,9 @@ import PublicHeading2 from "../Formatting/PublicHeading2";
 type IModalProps = {
   children: IChildrenProps;
   title: string;
-  btnLabel: string;
-  btnClassName?: string;
+  button: IChildrenProps;
   modalBtnLabel: string;
   submitHandler: (data: any) => Promise<void>;
-  onOpen: any;
   isOpen: any;
   onOpenChange: any;
   resolver?: any;
@@ -30,11 +28,9 @@ type IModalProps = {
 const FormModal = ({
   children,
   title,
-  btnLabel,
-  btnClassName,
+  button,
   modalBtnLabel,
   submitHandler,
-  onOpen,
   isOpen,
   onOpenChange,
   resolver,
@@ -50,9 +46,10 @@ const FormModal = ({
   };
   return (
     <>
-      <Button onPress={onOpen} size="sm" className={`rounded ${btnClassName}`}>
+      {/* <Button onPress={onOpen} size="sm" className={`rounded ${btnClassName}`}>
         {btnLabel}
-      </Button>
+      </Button> */}
+      <>{button}</>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
