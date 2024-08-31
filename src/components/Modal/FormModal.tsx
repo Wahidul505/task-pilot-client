@@ -46,14 +46,11 @@ const FormModal = ({
   };
   return (
     <>
-      {/* <Button onPress={onOpen} size="sm" className={`rounded ${btnClassName}`}>
-        {btnLabel}
-      </Button> */}
       <>{button}</>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className="rounded bg-black bg-opacity-90"
+        className="rounded bg-slate-900 bg-opacity-50 backdrop-filter backdrop-blur-md"
         scrollBehavior="inside"
         size={size}
       >

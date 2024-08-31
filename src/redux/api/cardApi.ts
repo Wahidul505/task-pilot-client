@@ -6,7 +6,7 @@ const CARD_URL = "/card";
 export const cardApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     createCard: build.mutation({
-      query: (payload: { title: string; listId: string }) => ({
+      query: (payload: { title: string; listId: string; status: string }) => ({
         url: CARD_URL,
         method: "POST",
         data: payload,
@@ -103,11 +103,30 @@ export const cardApi = baseApi.injectEndpoints({
         payload,
       }: {
         id: string;
-        payload: { title?: string; description?: string };
+        payload: {
+          title?: string;
+          description?: string;
+          dueDate?: Date;
+          status?: "pending" | "done";
+        };
       }) => ({
         url: `${CARD_URL}/${id}`,
         method: "PATCH",
         data: payload,
+      }),
+      invalidatesTags: [
+        tagTypes.board,
+        tagTypes.workspace,
+        tagTypes.user,
+        tagTypes.list,
+        tagTypes.card,
+      ],
+    }),
+
+    removeSingleCard: build.mutation({
+      query: (id: string) => ({
+        url: `${CARD_URL}/${id}`,
+        method: "DELETE",
       }),
       invalidatesTags: [
         tagTypes.board,
@@ -127,4 +146,5 @@ export const {
   useAddCardMemberMutation,
   useRemoveCardMemberMutation,
   useUpdateSingleCardMutation,
+  useRemoveSingleCardMutation,
 } = cardApi;

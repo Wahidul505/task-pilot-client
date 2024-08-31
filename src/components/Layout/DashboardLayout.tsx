@@ -43,7 +43,7 @@ const DashboardLayout = ({
             </div>
           </div>
         ) : (
-          <div className="overflow-y-auto h-full py-2 md:py-3 lg:py-4 w-full bg-[#1D2125]">
+          <div className="overflow-y-auto h-full py-2 md:py-3 lg:py-4 w-full bg-slate-800">
             <CenterLayout className="pb-16 lg:pb-20">{children}</CenterLayout>
           </div>
         )}

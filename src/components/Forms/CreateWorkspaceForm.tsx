@@ -9,6 +9,7 @@ import { useGetUsersQuery } from "@/redux/api/userApi";
 import { getUserInfo } from "@/services/auth.service";
 import { useCreateWorkspaceMutation } from "@/redux/api/workspaceApi";
 import toast from "react-hot-toast";
+import LoadingPage from "@/app/loading";
 
 const CreateWorkspaceForm = ({
   btnLabel,
@@ -31,9 +32,11 @@ const CreateWorkspaceForm = ({
   const { userId } = getUserInfo() as { userId: string };
 
   const handleCreateWorkspaceSubmit = async (data: any) => {
-    if (items?.length > 0) {
-      data.admins = items?.map((item: any) => item?.id);
-    }
+    data.admins =
+      items?.length > 0
+        ? [...items?.map((item: any) => item?.id), userId]
+        : [userId];
+
     const result = await createWorkspace(data).unwrap();
     if (result) {
       toast.success("Workspace Created");
@@ -44,15 +47,17 @@ const CreateWorkspaceForm = ({
     }
   };
 
-  if (isLoading) return <></>;
+  if (isLoading) return <LoadingPage />;
 
   return (
     <FormModal
       title="Create Workspace"
       button={
         <Button
-          className={`${btnClassName} rounded`}
+          className={`${btnClassName} rounded `}
           onPress={onWorkspaceCreateModalOpen}
+          size="sm"
+          color="primary"
         >
           {btnLabel}
         </Button>

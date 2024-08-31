@@ -12,9 +12,10 @@ import { useGetTemplatesQuery } from "@/redux/api/templateApi";
 import { useCreateBoardMutation } from "@/redux/api/boardApi";
 import toast from "react-hot-toast";
 import { boardSchema } from "@/schema/board";
+import LoadingPage from "@/app/loading";
 
 const checkedComponent = (
-  <div className="md:h-20 lg:h-24 w-full absolute bg-black bg-opacity-15 top-0 rounded flex justify-center items-center">
+  <div className="md:h-20 lg:h-24 w-full absolute bg-slate-900 bg-opacity-15 top-0 rounded flex justify-center items-center">
     <GiCheckMark className="text-white text-base md:text-lg lg:text-xl" />
   </div>
 );
@@ -72,7 +73,7 @@ const CreateBoardForm = ({
     }
   };
 
-  if (isWorkspacesLoading || isTemplateLoading) return <></>;
+  if (isWorkspacesLoading || isTemplateLoading) return <LoadingPage />;
 
   return (
     <>
@@ -83,6 +84,8 @@ const CreateBoardForm = ({
             <Button
               className={`${btnClassName} rounded`}
               onPress={onBoardCreateModalOpen}
+              size="sm"
+              color="primary"
             >
               {btnLabel}
             </Button>

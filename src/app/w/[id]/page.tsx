@@ -1,4 +1,5 @@
 "use client";
+import LoadingPage from "@/app/loading";
 import CustomDivider from "@/components/Divider/CustomDivider";
 import DashboardLayout from "@/components/Layout/DashboardLayout";
 import WorkspaceSidebar from "@/components/Sidebar/WorkspaceSidebar";
@@ -13,7 +14,7 @@ const WorkspacePage = ({ params }: { params: any }) => {
   const { data: workspaceData, isLoading: isSingleWorkspaceLoading } =
     useGetSingleWorkspaceQuery(id);
 
-  if (isSingleWorkspaceLoading) return <></>;
+  if (isSingleWorkspaceLoading) return <LoadingPage />;
 
   return (
     <DashboardLayout

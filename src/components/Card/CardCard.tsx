@@ -5,12 +5,10 @@ import { Avatar, Button, useDisclosure } from "@nextui-org/react";
 import { FaRegEye } from "react-icons/fa";
 import Info from "../Formatting/Info";
 import Heading from "../Formatting/Heading";
-import PopoverModal from "../Modal/PopoverModal";
-import AvatarLayout from "../Layout/AvatarLayout";
-import { IoMdCheckmark } from "react-icons/io";
 import {
   useAddCardMemberMutation,
   useRemoveCardMemberMutation,
+  useRemoveSingleCardMutation,
   useUpdateSingleCardMutation,
 } from "@/redux/api/cardApi";
 import toast from "react-hot-toast";
@@ -18,15 +16,22 @@ import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
 import { FiEdit } from "react-icons/fi";
 import Form from "../Forms/Form";
 import FormTextArea from "../Forms/FormTextarea";
-import PrimaryButton from "../Button/PrimaryButton";
-import PopupForm from "../Forms/PopupForm";
-import FormInput from "../Forms/FormInput";
-import Text from "../Formatting/Text";
 import {
   useCreateChecklistMutation,
   useGetAllChecklistsQuery,
 } from "@/redux/api/checklistApi";
 import ChecklistCard from "./ChecklistCard";
+import AddCardMember from "./AddCardMember";
+import AddChecklist from "./AddChecklist";
+import AddDueDate from "./AddDueDate";
+import CardStatus from "./CardStatus";
+import CardTitle from "./CardTitle";
+import PopoverModal from "../Modal/PopoverModal";
+import Text from "../Formatting/Text";
+
+type ValuePiece = Date | null;
+
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const CardCard = ({
   card,
@@ -40,6 +45,8 @@ const CardCard = ({
 
   const [isEditDescriptionOpen, setIsEditDescriptionOpen] = useState(false);
   const [isEditTitleOpen, setIsEditTitleOpen] = useState(false);
+  const [date, setDate] = useState<Value>(new Date());
+  const [time, setTime] = useState("00:00:00");
 
   const {
     isOpen: isCardModalOpen,
@@ -50,6 +57,7 @@ const CardCard = ({
   const [addCardMember] = useAddCardMemberMutation();
   const [removeCardMember] = useRemoveCardMemberMutation();
   const [updateSingleCard] = useUpdateSingleCardMutation();
+  const [removeSingleCard] = useRemoveSingleCardMutation();
   const [createChecklist] = useCreateChecklistMutation();
 
   const handleAddCardMember = async (userId: string) => {
@@ -75,6 +83,7 @@ const CardCard = ({
   const handleUpdateCard = async (data: {
     title?: string;
     description?: string;
+    status?: "pending" | "done";
   }) => {
     data?.description && setIsEditDescriptionOpen(false);
     data?.title && setIsEditTitleOpen(false);
@@ -86,6 +95,10 @@ const CardCard = ({
     }).unwrap();
   };
 
+  const handleRemoveCard = async (id: string) => {
+    await removeSingleCard(id as string);
+  };
+
   const handleCreateChecklist = async (data: any) => {
     if (data?.title) {
       data.cardId = card?.id;
@@ -93,6 +106,8 @@ const CardCard = ({
       if (result) toast("Checklist Added");
     }
   };
+
+  console.log(card);
 
   if (isChecklistLoading) return <></>;
 
@@ -105,38 +120,18 @@ const CardCard = ({
       <div>{getSlicedText(card?.title, 12)}</div>
       <PrimaryModal
         title={
-          <PopupForm
-            clicked={isEditTitleOpen}
-            setClicked={setIsEditTitleOpen}
-            button={
-              <button
-                className="bg-transparent border-none py-1 cursor-pointer text-white w-full text-start text-lg"
-                onClick={() => setIsEditTitleOpen(true)}
-                id="click"
-                title={card?.title || ""}
-              >
-                {getSlicedText(card?.title, 40) || ""}
-              </button>
-            }
-          >
-            <Form submitHandler={handleUpdateCard} doReset={false}>
-              <FormInput
-                name="title"
-                defaultValue={card?.title || ""}
-                placeholder="Card Title"
-                margin={false}
-                autoFocus={true}
-                size="sm"
-                className="text-white mb-2 "
-              />
-            </Form>
-          </PopupForm>
+          <CardTitle
+            card={card}
+            isEditTitleOpen={isEditTitleOpen}
+            setIsEditTitleOpen={setIsEditTitleOpen}
+            handleUpdateCard={handleUpdateCard}
+          />
         }
         btnChildren={
           <Button
             onPress={onCardModalOpen}
             size="sm"
-            className="rounded bg-black bg-opacity-50 text-white "
+            className="rounded bg-slate-900 bg-opacity-50 text-white "
             isIconOnly
           >
             <FaRegEye className="text-base" />
@@ -149,18 +144,22 @@ const CardCard = ({
         <div>
           <div className="md:grid grid-cols-4 space-x-2 md:space-x-3 lg:space-x-6">
             <div className="md:col-span-3">
-              <Info className="mb-1 lg:mb-2">Members</Info>
-              <div className="flex space-x-1">
-                {card?.CardMembers?.map((member: any) => (
-                  <Avatar
-                    key={member?.user?.id}
-                    name={getTheFirstLetter(member?.user?.email)}
-                    className="bg-white"
-                    size="sm"
-                  />
-                ))}
-              </div>
-
+              {card?.CardMembers?.length > 0 && (
+                <div>
+                  <Info className="mb-1 lg:mb-2">Members</Info>
+                  <div className="flex space-x-1">
+                    {card?.CardMembers?.map((member: any) => (
+                      <Avatar
+                        key={member?.user?.id}
+                        name={getTheFirstLetter(member?.user?.email)}
+                        className="bg-white"
+                        size="sm"
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+              <CardStatus card={card} handleUpdateCard={handleUpdateCard} />
               <div className="flex justify-between items-center mb-1 lg:mb-2 mt-2 lg:mt-4">
                 <Heading>Description</Heading>
                 {!isEditDescriptionOpen && (
@@ -214,112 +213,44 @@ const CardCard = ({
             <div className="md:col-span-1 ">
               <Info className="mb-1 lg:mb-2">Modify</Info>
 
+              <AddCardMember
+                card={card}
+                handleAddCardMember={handleAddCardMember}
+                handleRemoveCardMember={handleRemoveCardMember}
+              />
+              <AddChecklist handleCreateChecklist={handleCreateChecklist} />
+              <AddDueDate
+                card={card}
+                date={date}
+                setDate={setDate}
+                time={time}
+                setTime={setTime}
+              />
               <PopoverModal
-                htmlFor="card-member"
-                placement="bottom-start"
+                htmlFor="delete-card"
+                placement="right-start"
                 button={
-                  <Button size="sm" className="rounded w-full mb-1 lg:mb-2">
-                    Members
+                  <Button
+                    size="sm"
+                    className="rounded w-full mb-1 lg:mb-2 bg-red-500 text-white"
+                  >
+                    Delete
                   </Button>
                 }
               >
-                <div className="min-w-52 lg:min-w-64">
-                  {card?.list?.board?.BoardMembers?.length > 0 &&
-                    card?.list?.board?.BoardMembers?.map(
-                      (member: any, index: number) => {
-                        const isCardMember = card?.CardMembers?.find(
-                          (cardMember: any) =>
-                            cardMember?.userId === member?.user?.id
-                        );
-                        return isCardMember ? (
-                          <div
-                            onClick={() =>
-                              handleRemoveCardMember(member?.user?.id)
-                            }
-                            key={index}
-                            className="flex justify-between items-center hover:bg-gray-500 rounded cursor-pointer px-1 py-1"
-                          >
-                            <AvatarLayout
-                              text={member?.user?.name || ""}
-                              info={member?.user?.email}
-                            >
-                              <Avatar
-                                name={
-                                  member?.user?.name
-                                    ?.slice(0, 1)
-                                    .toUpperCase() ||
-                                  member?.user?.email?.slice(0, 1).toUpperCase()
-                                }
-                                radius="full"
-                                size="sm"
-                                className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-                              />
-                            </AvatarLayout>
-                            <IoMdCheckmark className="text-white text-base" />
-                          </div>
-                        ) : (
-                          <div
-                            onClick={() =>
-                              handleAddCardMember(member?.user?.id)
-                            }
-                            key={index}
-                            className="flex justify-between items-center hover:bg-gray-500 rounded cursor-pointer px-1 py-1"
-                          >
-                            <AvatarLayout
-                              text={member?.user?.name || ""}
-                              info={member?.user?.email}
-                            >
-                              <Avatar
-                                name={
-                                  member?.user?.name
-                                    ?.slice(0, 1)
-                                    .toUpperCase() ||
-                                  member?.user?.email?.slice(0, 1).toUpperCase()
-                                }
-                                radius="full"
-                                size="sm"
-                                className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-                              />
-                            </AvatarLayout>
-                          </div>
-                        );
-                      }
-                    )}
-                </div>
-              </PopoverModal>
-              <PopoverModal
-                htmlFor="create-checklist"
-                placement="bottom-start"
-                button={
-                  <Button size="sm" className="rounded w-full mb-1 lg:mb-2">
-                    Checklist
-                  </Button>
-                }
-              >
-                <div className="min-w-52 lg:min-w-64">
-                  <Text className="mb-2 md:mb-3">Add Checklist</Text>
-                  <Form submitHandler={handleCreateChecklist} doReset={false}>
-                    <FormInput
-                      name="title"
-                      placeholder="Enter Title"
-                      label="Title"
-                      size="sm"
-                    />
+                <div className="min-w-40 lg:min-w-52">
+                  <div className="flex flex-col justify-center items-center space-y-3">
+                    <Text>Confirmation</Text>
                     <Button
-                      color="primary"
-                      className="rounded "
+                      onClick={() => handleRemoveCard(card?.id)}
                       size="sm"
-                      type="submit"
+                      className="rounded w-1/2 mb-1 lg:mb-2 bg-red-500 text-white"
                     >
-                      Add
+                      Delete
                     </Button>
-                  </Form>
+                  </div>
                 </div>
               </PopoverModal>
-
-              <Button size="sm" className="rounded w-full mb-1 lg:mb-2">
-                Date
-              </Button>
             </div>
           </div>
         </div>

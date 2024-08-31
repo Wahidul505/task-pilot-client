@@ -1,5 +1,4 @@
-import React, { useState, KeyboardEvent, FormEvent, ChangeEvent } from "react";
-import Text from "../Formatting/Text";
+import React, { useState, KeyboardEvent, ChangeEvent } from "react";
 
 const DynamicInputBox = ({
   items,

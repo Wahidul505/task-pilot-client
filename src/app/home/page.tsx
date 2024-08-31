@@ -21,7 +21,7 @@ const DashboardPage = () => {
             className="z-0 w-full h-full object-cover"
             src="https://i.ibb.co/SJt5Mqd/create-workspace.jpg"
           />
-          <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100 flex justify-between rounded">
+          <CardFooter className="absolute bg-slate-900 backdrop-blur-md bg-opacity-80 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100 flex justify-between rounded-none">
             <div className="flex flex-grow gap-2 items-center">
               <div className="flex flex-col">
                 <Heading className="text-white">Create your Workspace</Heading>

@@ -17,7 +17,7 @@ const Sidebar = ({
   const [isOpen, setIsOpen] = useState(true);
   return (
     <div
-      className={`h-full overflow-y-auto bg-black text-white transition-all duration-250 relative border-r border-solid border-l-gray-500 bg-opacity-80 ${
+      className={`h-full overflow-y-auto bg-slate-950 bg-opacity-80 backdrop-filter backdrop-blur-md text-white transition-all duration-250 relative border-r border-solid border-l-gray-500  ${
         isOpen ? "w-64" : "w-8"
       }`}
     >

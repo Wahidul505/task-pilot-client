@@ -36,7 +36,6 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
     if (checklist?.id && data?.title) {
       data.checklistId = checklist?.id;
       const result = await createItem(data).unwrap();
-      console.log(result);
     }
   };
 
@@ -70,9 +69,10 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
           </Form>
         </PopupForm>
         {!isEditChecklistTitleOpen && (
-          <Button className="rounded" size="sm" isIconOnly variant="light">
-            Delete
-          </Button>
+          // <Button className="rounded" size="sm" isIconOnly variant="light">
+          //   Delete
+          // </Button>
+          <></>
         )}
       </div>
       {checklist?.ChecklistItems?.length > 0 &&
@@ -109,6 +109,8 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
           size="sm"
           className="rounded mt-2"
           onClick={() => setIsAddItemOpen(true)}
+          variant="light"
+          color="primary"
         >
           Add an Item
         </Button>

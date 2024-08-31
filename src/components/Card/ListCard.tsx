@@ -41,6 +41,7 @@ const ListCard = ({ list }: { list: any }) => {
       const result = await createCard({
         title: data?.title,
         listId: list?.id,
+        status: "pending",
       }).unwrap();
       if (!result) toast.error("Something Went wrong");
     }
@@ -82,7 +83,7 @@ const ListCard = ({ list }: { list: any }) => {
     <div
       onDrop={handleOnDrop}
       onDragOver={handleDragOver}
-      className="rounded bg-black bg-opacity-80 p-1 md:p-2 lg:p-3 w-32 md:w-56 min-h-32"
+      className="rounded bg-slate-900 bg-opacity-90 p-1 md:p-2 lg:p-3 w-32 md:w-56 min-h-32"
     >
       <div className="flex justify-between">
         <PopupForm

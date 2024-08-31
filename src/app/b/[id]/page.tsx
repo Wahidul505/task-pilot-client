@@ -1,4 +1,5 @@
 "use client";
+import LoadingPage from "@/app/loading";
 import PrimaryButton from "@/components/Button/PrimaryButton";
 import ListCard from "@/components/Card/ListCard";
 import Text from "@/components/Formatting/Text";
@@ -49,7 +50,7 @@ const BoardPage = ({ params }: { params: any }) => {
     }
   };
 
-  if (isLoading || isListsLoading || isBoardsLoading) return <></>;
+  if (isLoading || isListsLoading || isBoardsLoading) return <LoadingPage />;
 
   if (data?.template?.bgColor)
     dispatch(saveBg({ color: data?.template?.bgColor, img: "" }));
@@ -71,7 +72,7 @@ const BoardPage = ({ params }: { params: any }) => {
             </div>
           ))}
         {isFormOpen ? (
-          <div className="bg-black rounded bg-opacity-70 p-3">
+          <div className="bg-slate-900 rounded bg-opacity-70 p-3">
             <Form
               submitHandler={handleCreateListSubmit}
               doReset={false}
@@ -102,7 +103,7 @@ const BoardPage = ({ params }: { params: any }) => {
         ) : (
           <Button
             onClick={() => setIsFormOpen(true)}
-            className="rounded bg-black text-white bg-opacity-70 w-32"
+            className="rounded bg-slate-900 text-white bg-opacity-80 w-32"
             size="lg"
           >
             + Add list

@@ -20,7 +20,6 @@ import PrimaryModal from "../Modal/PrimaryModal";
 import Form from "../Forms/Form";
 import DynamicInputBox from "../Forms/DynamicInputBox";
 import { useGetUsersQuery } from "@/redux/api/userApi";
-import PrimaryButton from "../Button/PrimaryButton";
 import Heading from "../Formatting/Heading";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { getUserInfo } from "@/services/auth.service";
@@ -159,9 +158,10 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
           <Button
             onPress={onAdminsModalOpen}
             size="sm"
-            className="rounded flex items-center space-x-2"
+            className="rounded flex items-center text-white"
+            color="primary"
           >
-            <TbUsersPlus className="font-semibold" />
+            <TbUsersPlus className="text-base" />
             <Text>Members</Text>
           </Button>
         }
@@ -180,9 +180,23 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
               />
               <div className="flex justify-end mt-2">
                 {isLoading ? (
-                  <PrimaryButton type="button" size="sm" label="..." />
+                  <Button
+                    color="primary"
+                    size="sm"
+                    className="rounded"
+                    disabled
+                  >
+                    ...
+                  </Button>
                 ) : (
-                  <PrimaryButton type="submit" size="sm" label="Add" />
+                  <Button
+                    color="primary"
+                    size="sm"
+                    className="rounded"
+                    type="submit"
+                  >
+                    Add
+                  </Button>
                 )}
               </div>
             </Form>

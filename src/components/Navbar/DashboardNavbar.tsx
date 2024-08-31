@@ -6,6 +6,7 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
+  Switch,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import NavbarDropdown from "../Dropdown/NavbarDropdown";
@@ -18,6 +19,9 @@ import { authKey } from "@/constants/authToken";
 import CreateBoardForm from "../Forms/CreateBoardForm";
 import CreateWorkspaceForm from "../Forms/CreateWorkspaceForm";
 import Link from "next/link";
+import { CiDark } from "react-icons/ci";
+import { CiLight } from "react-icons/ci";
+import LoadingPage from "@/app/loading";
 
 const DashboardNavbar = () => {
   const [user, setUser] = useState({
@@ -25,6 +29,7 @@ const DashboardNavbar = () => {
     email: "",
     name: "",
   });
+  const [isSelected, setIsSelected] = useState(true);
   const { data, isLoading } = useGetAllWorkspacesOfAdminQuery(undefined);
   const router = useRouter();
   const { userId, userEmail, userName } = getUserInfo() as {
@@ -51,7 +56,7 @@ const DashboardNavbar = () => {
     });
   }, [userId, userEmail, userName]);
 
-  if (isLoading) return <></>;
+  if (isLoading) return <LoadingPage />;
 
   const items = data?.map((item: any) => ({
     id: item?.workspace?.id,
@@ -60,7 +65,7 @@ const DashboardNavbar = () => {
 
   return (
     <Navbar
-      className="bg-black bg-opacity-90 h-12 border-b border-solid border-white"
+      className="bg-slate-900 h-14 border-b border-solid border-white"
       maxWidth="full"
     >
       <NavbarBrand className="flex space-x-2 lg:space-x-6">
@@ -82,6 +87,20 @@ const DashboardNavbar = () => {
         </div>
       </NavbarBrand>
       <NavbarContent justify="end">
+        <Switch
+          defaultSelected
+          size="lg"
+          className="w-full"
+          isSelected={isSelected}
+          onValueChange={setIsSelected}
+          thumbIcon={({ isSelected }) =>
+            isSelected ? (
+              <CiDark className="text-black text-base md:text-lg lg:text-xl" />
+            ) : (
+              <CiLight className="text-black text-base md:text-lg lg:text-xl" />
+            )
+          }
+        ></Switch>
         {user?.email && (
           <PopoverModal
             htmlFor="user-profile"
@@ -113,22 +132,12 @@ const DashboardNavbar = () => {
                   // onClick={() => router.push("/dashboard/profile")}
                 />
               </AvatarLayout>
-              <CustomDivider />
-              {/* <PopoverModal
-                htmlFor="profile/theme"
-                placement="left"
-                button={
-                  <Button size="sm" className="rounded w-full">
-                    Theme
-                  </Button>
-                }
-              >
-                <div></div>
-              </PopoverModal> */}
+              <CustomDivider size="sm" />
               <Button
                 size="sm"
-                className="rounded w-full"
+                className="rounded w-full text-white"
                 onClick={handleLogout}
+                variant="light"
               >
                 Logout
               </Button>

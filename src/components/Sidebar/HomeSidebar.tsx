@@ -14,6 +14,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Text from "../Formatting/Text";
 import CustomDivider from "../Divider/CustomDivider";
+import LoadingPage from "@/app/loading";
 
 const HomeSidebar = () => {
   const [user, setUser] = useState({
@@ -40,7 +41,7 @@ const HomeSidebar = () => {
     });
   }, [userId, userEmail, userName]);
 
-  if (isLoading || isGuestWorkspacesLoading) return <></>;
+  if (isLoading || isGuestWorkspacesLoading) return <LoadingPage />;
 
   return (
     <Sidebar
@@ -117,7 +118,10 @@ const HomeSidebar = () => {
                           className="w-9 h-7 rounded"
                         />
                       )}
-                      <Text>{board?.title}</Text>
+                      <div>
+                        <Text>{board?.title}</Text>
+                        <Info>(board)</Info>
+                      </div>
                     </div>
                   </Link>
                 ))}

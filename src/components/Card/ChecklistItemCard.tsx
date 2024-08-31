@@ -24,7 +24,6 @@ const ChecklistItemCard = ({ item }: { item: any }) => {
         id: itemId,
         payload: { status },
       }).unwrap();
-      console.log(result);
     }
   };
 

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const BoardCard = ({ board }: { board: any }) => {
   const cardBody = (
-    <div className="h-20 md:h-24 lg:h-28 w-full absolute bg-black bg-opacity-20 top-0 rounded p-2 z-10">
+    <div className="h-20 md:h-24 lg:h-28 w-full absolute bg-slate-900 bg-opacity-20 top-0 rounded p-2 z-10">
       <Text className="text-white font-semibold">{board?.title}</Text>
     </div>
   );

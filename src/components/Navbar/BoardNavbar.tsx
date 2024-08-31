@@ -9,6 +9,7 @@ import Form from "../Forms/Form";
 import FormInput from "../Forms/FormInput";
 import {
   useAddBoardMembersMutation,
+  useDeleteSingleBoardMutation,
   useLeaveBoardMutation,
   useRemoveBoardMemberMutation,
   useUpdateBoardTitleMutation,
@@ -18,7 +19,6 @@ import PrimaryModal from "../Modal/PrimaryModal";
 import Text from "../Formatting/Text";
 import DynamicInputBox from "../Forms/DynamicInputBox";
 import { useGetUsersQuery } from "@/redux/api/userApi";
-import PrimaryButton from "../Button/PrimaryButton";
 import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
 import AvatarLayout from "../Layout/AvatarLayout";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -38,6 +38,8 @@ const BoardNavbar = ({ board }: { board: any }) => {
 
   const [leaveBoard] = useLeaveBoardMutation();
 
+  const [deleteSingleBoard] = useDeleteSingleBoardMutation();
+
   const { data: usersData, isLoading: isUsersLoading } =
     useGetUsersQuery(undefined);
 
@@ -47,6 +49,12 @@ const BoardNavbar = ({ board }: { board: any }) => {
     isOpen: isMembersModalOpen,
     onOpen: onMembersModalOpen,
     onOpenChange: onMembersModalOpenChange,
+  } = useDisclosure();
+
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onOpenChange: onDeleteModalOpenChange,
   } = useDisclosure();
 
   const handleSubmit = async (data: any) => {
@@ -109,13 +117,21 @@ const BoardNavbar = ({ board }: { board: any }) => {
     }
   };
 
+  const handleDeleteSingleBoard = async () => {
+    const result = await deleteSingleBoard(board?.id);
+    if (result) {
+      toast.error("Board Deleted");
+      router.push(`/w/${board?.workspaceId}`);
+    }
+  };
+
   if (isUsersLoading) return <></>;
 
   const excludedUsers =
     board?.BoardMembers?.map((boardMember: any) => boardMember?.user?.id) || [];
 
   return (
-    <div className="backdrop-filter backdrop-blur-md bg-black bg-opacity-50 w-full flex justify-between p-1 md:p-2 lg:p-3 items-center flex-wrap">
+    <div className="backdrop-filter backdrop-blur-md bg-slate-900 bg-opacity-50 w-full flex justify-between p-1 md:p-2 lg:p-3 items-center flex-wrap">
       <div className="flex items-center gap-2">
         {clicked ? (
           <Form submitHandler={handleSubmit} doReset={false}>
@@ -166,9 +182,10 @@ const BoardNavbar = ({ board }: { board: any }) => {
             <Button
               onPress={onMembersModalOpen}
               size="sm"
-              className="rounded flex items-center space-x-2"
+              className="rounded flex items-center "
+              color="primary"
             >
-              <TbUsersPlus className="font-semibold " />
+              <TbUsersPlus className="font-semibold text-base" />
               <Text>Add</Text>
             </Button>
           }
@@ -187,9 +204,23 @@ const BoardNavbar = ({ board }: { board: any }) => {
                 />
                 <div className="flex justify-end mt-2">
                   {isLoading ? (
-                    <PrimaryButton type="button" size="sm" label="..." />
+                    <Button
+                      size="sm"
+                      disabled
+                      className="rounded "
+                      color="primary"
+                    >
+                      ...
+                    </Button>
                   ) : (
-                    <PrimaryButton type="submit" size="sm" label="Add" />
+                    <Button
+                      size="sm"
+                      type="submit"
+                      className="rounded "
+                      color="primary"
+                    >
+                      Add
+                    </Button>
                   )}
                 </div>
               </Form>
@@ -280,9 +311,40 @@ const BoardNavbar = ({ board }: { board: any }) => {
             </div>
           </div>
         </PrimaryModal>
-        {/* <Button size="sm" variant="light" className="rounded" isIconOnly>
-          <TbDots className="text-white" />
-        </Button> */}
+        {board?.admin === userId && (
+          <PrimaryModal
+            title="Delete"
+            btnChildren={
+              <Button
+                isIconOnly
+                onPress={onDeleteModalOpen}
+                size="sm"
+                className="rounded text-red-500 lg:text-lg"
+                variant="light"
+              >
+                <FaRegTrashAlt />
+              </Button>
+            }
+            isOpen={isDeleteModalOpen}
+            onOpenChange={onDeleteModalOpenChange}
+            size="xl"
+          >
+            <div>
+              <Text className="text-white">
+                Are you sure you want to delete this board?
+              </Text>
+              <div className="mt-2 md:mt-6 flex justify-end space-x-2">
+                <Button
+                  onClick={() => handleDeleteSingleBoard()}
+                  size="sm"
+                  className="text-white bg-red-500"
+                >
+                  Delete
+                </Button>
+              </div>
+            </div>
+          </PrimaryModal>
+        )}
       </div>
     </div>
   );

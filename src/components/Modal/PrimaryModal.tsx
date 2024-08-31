@@ -1,5 +1,4 @@
 import {
-  Button,
   Modal,
   ModalBody,
   ModalContent,
@@ -35,7 +34,7 @@ const PrimaryModal = ({
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className="rounded bg-black bg-opacity-90"
+        className="rounded bg-slate-900 bg-opacity-50 backdrop-filter backdrop-blur-md"
         scrollBehavior="inside"
         size={size}
       >
