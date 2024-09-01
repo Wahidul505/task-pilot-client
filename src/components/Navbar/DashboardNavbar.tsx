@@ -29,7 +29,6 @@ const DashboardNavbar = () => {
     email: "",
     name: "",
   });
-  const [isSelected, setIsSelected] = useState(true);
   const { data, isLoading } = useGetAllWorkspacesOfAdminQuery(undefined);
   const router = useRouter();
   const { userId, userEmail, userName } = getUserInfo() as {
@@ -87,20 +86,6 @@ const DashboardNavbar = () => {
         </div>
       </NavbarBrand>
       <NavbarContent justify="end">
-        <Switch
-          defaultSelected
-          size="lg"
-          className="w-full"
-          isSelected={isSelected}
-          onValueChange={setIsSelected}
-          thumbIcon={({ isSelected }) =>
-            isSelected ? (
-              <CiDark className="text-black text-base md:text-lg lg:text-xl" />
-            ) : (
-              <CiLight className="text-black text-base md:text-lg lg:text-xl" />
-            )
-          }
-        ></Switch>
         {user?.email && (
           <PopoverModal
             htmlFor="user-profile"

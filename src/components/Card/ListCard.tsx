@@ -13,6 +13,10 @@ import {
   useUpdateListIdMutation,
 } from "@/redux/api/cardApi";
 import CardCard from "./CardCard";
+import { Button, useDisclosure } from "@nextui-org/react";
+import { FaRegTrashAlt } from "react-icons/fa";
+import PrimaryModal from "../Modal/PrimaryModal";
+import Text from "../Formatting/Text";
 
 const ListCard = ({ list }: { list: any }) => {
   const [clicked, setClicked] = useState(false);
@@ -21,6 +25,12 @@ const ListCard = ({ list }: { list: any }) => {
   const [createCard] = useCreateCardMutation();
   const [updateListId] = useUpdateListIdMutation();
   const [removeList] = useRemoveListMutation();
+
+  const {
+    isOpen: isDeleteListOpen,
+    onOpen: onDeleteListOpen,
+    onOpenChange: onDeleteListOpenChange,
+  } = useDisclosure();
 
   const handleUpdateListTitleSubmit = async (data: any) => {
     setClicked(false);
@@ -111,14 +121,38 @@ const ListCard = ({ list }: { list: any }) => {
             />
           </Form>
         </PopupForm>
-        {/* <Button
-          size="sm"
-          className="bg-transparent rounded"
-          onClick={() => handleRemoveList(list?.id)}
-          isIconOnly
+
+        <PrimaryModal
+          title="Delete"
+          btnChildren={
+            <Button
+              isIconOnly
+              onPress={onDeleteListOpen}
+              size="sm"
+              className="bg-transparent rounded"
+            >
+              <FaRegTrashAlt className="text-red-500 text-medium" />
+            </Button>
+          }
+          isOpen={isDeleteListOpen}
+          onOpenChange={onDeleteListOpenChange}
+          size="xl"
         >
-          <FaRegTrashAlt className="text-red-500 text-lg" />
-        </Button> */}
+          <div>
+            <Text className="text-white">
+              Are you sure you want to delete this list?
+            </Text>
+            <div className="mt-2 md:mt-6 flex justify-end space-x-2">
+              <Button
+                onClick={() => handleRemoveList(list?.id)}
+                size="sm"
+                className="text-white bg-red-500"
+              >
+                Delete
+              </Button>
+            </div>
+          </div>
+        </PrimaryModal>
       </div>
       <div>
         {list?.Cards?.length > 0 &&

@@ -64,46 +64,49 @@ const BoardPage = ({ params }: { params: any }) => {
       }
       navbar={<BoardNavbar board={data} />}
     >
-      <div className="flex space-x-1 md:space-x-2 lg:space-x-3 w-full">
+      <div className="flex space-x-1 md:space-x-2 lg:space-x-3 w-full h-full ">
         {listsData?.length > 0 &&
           listsData?.map((list: any) => (
             <div key={list?.id} className="h-full">
               <ListCard list={list} />
             </div>
           ))}
+
         {isFormOpen ? (
-          <div className="bg-slate-900 rounded bg-opacity-70 p-3">
-            <Form
-              submitHandler={handleCreateListSubmit}
-              doReset={false}
-              resolver={yupResolver(listSchema)}
-            >
-              <FormInput
-                type="text"
-                name="title"
-                size="sm"
-                placeholder="Enter List Title"
-                className="w-32 mb-3 text-white"
-                autoFocus={true}
-                margin={false}
-              />
-              <div className="flex justify-between items-center">
-                <PrimaryButton size="sm" label="Add" type="submit" />
-                <Button
-                  isIconOnly
-                  variant="light"
+          <div className="h-full">
+            <div className="bg-slate-900 rounded bg-opacity-70 p-3 w-32 md:w-56 min-h-32">
+              <Form
+                submitHandler={handleCreateListSubmit}
+                doReset={false}
+                resolver={yupResolver(listSchema)}
+              >
+                <FormInput
+                  type="text"
+                  name="title"
                   size="sm"
-                  onClick={() => setIsFormOpen(false)}
-                >
-                  <Text className="text-white">x</Text>
-                </Button>
-              </div>
-            </Form>
+                  placeholder="Enter List Title"
+                  className="w-32 mb-3 text-white"
+                  autoFocus={true}
+                  margin={false}
+                />
+                <div className="flex justify-between items-center">
+                  <PrimaryButton size="sm" label="Add" type="submit" />
+                  <Button
+                    isIconOnly
+                    variant="light"
+                    size="sm"
+                    onClick={() => setIsFormOpen(false)}
+                  >
+                    <Text className="text-white">x</Text>
+                  </Button>
+                </div>
+              </Form>
+            </div>
           </div>
         ) : (
           <Button
             onClick={() => setIsFormOpen(true)}
-            className="rounded bg-slate-900 text-white bg-opacity-80 w-32"
+            className="rounded bg-slate-900 text-white bg-opacity-80 w-32 z-0"
             size="lg"
           >
             + Add list

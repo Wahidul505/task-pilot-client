@@ -20,7 +20,6 @@ const AddDueDate = ({
   setDate: any;
   time: string;
   setTime: (params: string) => void;
-  // handleSetDateTime: () => void;
 }) => {
   const [updateSingleCard] = useUpdateSingleCardMutation();
 

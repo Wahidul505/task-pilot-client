@@ -118,11 +118,9 @@ const BoardNavbar = ({ board }: { board: any }) => {
   };
 
   const handleDeleteSingleBoard = async () => {
-    const result = await deleteSingleBoard(board?.id);
-    if (result) {
-      toast.error("Board Deleted");
-      router.push(`/w/${board?.workspaceId}`);
-    }
+    await deleteSingleBoard(board?.id);
+    toast.error("Board Deleted");
+    router.push(`/w/${board?.workspaceId}`);
   };
 
   if (isUsersLoading) return <></>;

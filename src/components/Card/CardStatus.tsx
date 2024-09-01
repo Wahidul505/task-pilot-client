@@ -34,11 +34,13 @@ const CardStatus = ({
                 Complete
               </div>
             )}
-            {card?.dueDate && new Date() > new Date(card?.dueDate) && (
-              <div className="bg-red-500 text-white text-xs py-0.5 px-1 rounded font-semibold ml-2">
-                Overdue
-              </div>
-            )}
+            {card?.status === "pending" &&
+              card?.dueDate &&
+              new Date() > new Date(card?.dueDate) && (
+                <div className="bg-red-500 text-white text-xs py-0.5 px-1 rounded font-semibold ml-2">
+                  Overdue
+                </div>
+              )}
           </div>
         </div>
       )}
