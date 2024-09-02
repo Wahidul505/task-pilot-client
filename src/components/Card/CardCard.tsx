@@ -107,8 +107,6 @@ const CardCard = ({
     }
   };
 
-  console.log(card);
-
   if (isChecklistLoading) return <></>;
 
   return (
