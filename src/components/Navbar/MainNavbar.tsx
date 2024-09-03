@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -14,7 +14,18 @@ import { getUserInfo } from "@/services/auth.service";
 
 const MainNavbar = () => {
   const router = useRouter();
-  const { userId } = getUserInfo() as { userId: string };
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  // const { userId } = getUserInfo() as { userId: string };
+  // const userId = true;
+
+  useEffect(() => {
+    const userInfo = getUserInfo();
+    if (userInfo) {
+      const { userId } = getUserInfo() as { userId: string };
+      setCurrentUserId(userId);
+    }
+  }, []);
+
   return (
     <Navbar className="bg-white max-w-7xl mx-auto " maxWidth="full">
       <NavbarBrand>
@@ -23,7 +34,7 @@ const MainNavbar = () => {
         </p>
       </NavbarBrand>
       <NavbarContent justify="end">
-        {userId ? (
+        {currentUserId ? (
           <NavbarItem className="flex ">
             <Link href="/home" className="text-gray-800">
               Dashboard

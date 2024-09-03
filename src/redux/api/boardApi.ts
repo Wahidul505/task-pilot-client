@@ -19,7 +19,11 @@ export const boardApi = baseApi.injectEndpoints({
         url: BOARD_URL,
         method: "GET",
       }),
-      providesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+      providesTags: [
+        tagTypes.board,
+        //  tagTypes.workspace,
+        tagTypes.user,
+      ],
     }),
 
     getBoardsOfSingleWorkspace: build.query({
@@ -27,7 +31,11 @@ export const boardApi = baseApi.injectEndpoints({
         url: `${BOARD_URL}/${workspaceId}/common`,
         method: "GET",
       }),
-      providesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+      providesTags: [
+        tagTypes.board,
+        //  tagTypes.workspace,
+        tagTypes.user,
+      ],
     }),
 
     getSingleBoard: build.query({
@@ -35,7 +43,11 @@ export const boardApi = baseApi.injectEndpoints({
         url: `${BOARD_URL}/${id}`,
         method: "GET",
       }),
-      providesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+      providesTags: [
+        tagTypes.board,
+        //  tagTypes.workspace,
+        tagTypes.user,
+      ],
     }),
 
     updateBoardTitle: build.mutation({
@@ -44,7 +56,11 @@ export const boardApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: payload,
       }),
-      invalidatesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+      invalidatesTags: [
+        tagTypes.board,
+        // tagTypes.workspace,
+        tagTypes.user,
+      ],
     }),
 
     addBoardMembers: build.mutation({
@@ -59,7 +75,11 @@ export const boardApi = baseApi.injectEndpoints({
         method: "POST",
         data: payload,
       }),
-      invalidatesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+      invalidatesTags: [
+        tagTypes.board,
+        // tagTypes.workspace,
+        tagTypes.user,
+      ],
     }),
 
     removeBoardMember: build.mutation({
@@ -74,7 +94,11 @@ export const boardApi = baseApi.injectEndpoints({
         method: "DELETE",
         data: payload,
       }),
-      invalidatesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+      invalidatesTags: [
+        tagTypes.board,
+        //  tagTypes.workspace,
+        tagTypes.user,
+      ],
     }),
 
     leaveBoard: build.mutation({
@@ -86,8 +110,8 @@ export const boardApi = baseApi.injectEndpoints({
         tagTypes.board,
         tagTypes.workspace,
         tagTypes.user,
-        tagTypes.list,
-        tagTypes.card,
+        // tagTypes.list,
+        // tagTypes.card,
       ],
     }),
 
@@ -98,10 +122,10 @@ export const boardApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [
         tagTypes.board,
-        tagTypes.workspace,
+        // tagTypes.workspace,
         tagTypes.user,
-        tagTypes.list,
-        tagTypes.card,
+        // tagTypes.list,
+        // tagTypes.card,
       ],
     }),
   }),

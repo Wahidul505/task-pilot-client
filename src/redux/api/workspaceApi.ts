@@ -10,7 +10,11 @@ export const workspaceApi = baseApi.injectEndpoints({
         url: `${WORKSPACE_URL}/admin`,
         method: "GET",
       }),
-      providesTags: [tagTypes.workspace, tagTypes.board, tagTypes.user],
+      providesTags: [
+        tagTypes.workspace,
+        // tagTypes.board,
+        tagTypes.user,
+      ],
     }),
 
     getAllWorkspacesOfGuest: build.query({
@@ -18,7 +22,11 @@ export const workspaceApi = baseApi.injectEndpoints({
         url: `${WORKSPACE_URL}/guest`,
         method: "GET",
       }),
-      providesTags: [tagTypes.workspace, tagTypes.board, tagTypes.user],
+      providesTags: [
+        tagTypes.workspace,
+        //  tagTypes.board,
+        tagTypes.user,
+      ],
     }),
 
     getSingleWorkspace: build.query({
@@ -26,7 +34,10 @@ export const workspaceApi = baseApi.injectEndpoints({
         url: `${WORKSPACE_URL}/${id}`,
         method: "GET",
       }),
-      providesTags: [tagTypes.workspace, tagTypes.board],
+      providesTags: [
+        tagTypes.workspace,
+        // tagTypes.board
+      ],
     }),
 
     updateSingleWorkspace: build.mutation({
@@ -35,7 +46,10 @@ export const workspaceApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: payload,
       }),
-      invalidatesTags: [tagTypes.workspace, tagTypes.board],
+      invalidatesTags: [
+        tagTypes.workspace,
+        //  tagTypes.board
+      ],
     }),
 
     createWorkspace: build.mutation({
@@ -44,7 +58,10 @@ export const workspaceApi = baseApi.injectEndpoints({
         method: "POST",
         data: payload,
       }),
-      invalidatesTags: [tagTypes.workspace, tagTypes.board],
+      invalidatesTags: [
+        tagTypes.workspace,
+        // tagTypes.board
+      ],
     }),
 
     addWorkspaceAdmins: build.mutation({
@@ -59,7 +76,11 @@ export const workspaceApi = baseApi.injectEndpoints({
         method: "POST",
         data: payload,
       }),
-      invalidatesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+      invalidatesTags: [
+        // tagTypes.board,
+        tagTypes.workspace,
+        tagTypes.user,
+      ],
     }),
 
     removeWorkspaceAdmin: build.mutation({
@@ -74,7 +95,11 @@ export const workspaceApi = baseApi.injectEndpoints({
         method: "DELETE",
         data: payload,
       }),
-      invalidatesTags: [tagTypes.board, tagTypes.workspace, tagTypes.user],
+      invalidatesTags: [
+        // tagTypes.board,
+        tagTypes.workspace,
+        tagTypes.user,
+      ],
     }),
   }),
 });

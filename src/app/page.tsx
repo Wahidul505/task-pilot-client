@@ -1,3 +1,4 @@
+"use client";
 import Banner from "@/components/HomePageComps/Banner";
 import MainNavbar from "@/components/Navbar/MainNavbar";
 import React from "react";

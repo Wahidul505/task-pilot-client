@@ -13,8 +13,8 @@ export const listApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [
         tagTypes.list,
-        tagTypes.board,
-        tagTypes.workspace,
+        // tagTypes.board,
+        // tagTypes.workspace,
         tagTypes.user,
       ],
     }),
@@ -26,10 +26,10 @@ export const listApi = baseApi.injectEndpoints({
       }),
       providesTags: [
         tagTypes.list,
-        tagTypes.board,
-        tagTypes.workspace,
+        // tagTypes.board,
+        // tagTypes.workspace,
         tagTypes.user,
-        tagTypes.card,
+        // tagTypes.card,
       ],
     }),
 
@@ -40,10 +40,10 @@ export const listApi = baseApi.injectEndpoints({
       }),
       providesTags: [
         tagTypes.list,
-        tagTypes.board,
-        tagTypes.workspace,
+        // tagTypes.board,
+        // tagTypes.workspace,
         tagTypes.user,
-        tagTypes.card,
+        // tagTypes.card,
       ],
     }),
 
@@ -61,8 +61,8 @@ export const listApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [
         tagTypes.list,
-        tagTypes.board,
-        tagTypes.workspace,
+        // tagTypes.board,
+        // tagTypes.workspace,
         tagTypes.user,
       ],
     }),
@@ -74,8 +74,8 @@ export const listApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [
         tagTypes.list,
-        tagTypes.board,
-        tagTypes.workspace,
+        // tagTypes.board,
+        // tagTypes.workspace,
         tagTypes.user,
       ],
     }),
