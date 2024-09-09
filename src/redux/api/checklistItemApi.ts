@@ -60,22 +60,6 @@ export const checklistItemApi = baseApi.injectEndpoints({
         tagTypes.checklistItem,
       ],
     }),
-
-    getAllItems: build.query({
-      query: (checklistId: string) => ({
-        url: `${CHECKLIST_ITEM_URL}/${checklistId}`,
-        method: "GET",
-      }),
-      providesTags: [
-        // tagTypes.list,
-        // tagTypes.board,
-        // tagTypes.workspace,
-        tagTypes.user,
-        // tagTypes.card,
-        // tagTypes.checklist,
-        tagTypes.checklistItem,
-      ],
-    }),
   }),
 });
 
@@ -83,5 +67,4 @@ export const {
   useCreateItemMutation,
   useUpdateSingleItemMutation,
   useRemoveSingleItemMutation,
-  useGetAllItemsQuery,
 } = checklistItemApi;

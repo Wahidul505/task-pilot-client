@@ -8,7 +8,6 @@ import Form from "../Forms/Form";
 import FormInput from "../Forms/FormInput";
 import {
   useCreateItemMutation,
-  useGetAllItemsQuery,
   useUpdateSingleItemMutation,
 } from "@/redux/api/checklistItemApi";
 import ChecklistItemCard from "./ChecklistItemCard";
@@ -17,10 +16,6 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
   const [isEditChecklistTitleOpen, setIsEditChecklistTitleOpen] =
     useState(false);
   const [isAddItemOpen, setIsAddItemOpen] = useState(false);
-
-  const { data: items, isLoading: isItemsLoading } = useGetAllItemsQuery(
-    checklist?.id
-  );
 
   const [updateChecklistTitle] = useUpdateChecklistTitleMutation();
   const [createItem] = useCreateItemMutation();
@@ -42,8 +37,6 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
       const result = await createItem(data).unwrap();
     }
   };
-
-  if (isItemsLoading) return <></>;
 
   return (
     <div>

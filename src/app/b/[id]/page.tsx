@@ -50,6 +50,8 @@ const BoardPage = ({ params }: { params: any }) => {
     }
   };
 
+  console.log(data);
+
   if (isLoading || isListsLoading || isBoardsLoading) return <LoadingPage />;
 
   if (data?.template?.bgColor)
@@ -64,7 +66,7 @@ const BoardPage = ({ params }: { params: any }) => {
       }
       navbar={<BoardNavbar board={data} />}
     >
-      <div className="flex space-x-1 md:space-x-2 lg:space-x-3 w-full h-full ">
+      <div className="flex space-x-1 lg:space-x-2 w-full h-full ">
         {listsData?.length > 0 &&
           listsData?.map((list: any) => (
             <div key={list?.id} className="h-full">

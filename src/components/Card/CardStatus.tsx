@@ -48,7 +48,7 @@ const CardStatus = ({
         <Button
           type="button"
           onClick={() => handleUpdateCard({ status: "done" })}
-          className="rounded"
+          className="rounded mt-3"
           size="sm"
           color="primary"
         >

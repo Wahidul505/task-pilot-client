@@ -93,7 +93,7 @@ const ListCard = ({ list }: { list: any }) => {
     <div
       onDrop={handleOnDrop}
       onDragOver={handleDragOver}
-      className="rounded bg-slate-900 bg-opacity-90 p-1 md:p-2 lg:p-3 w-32 md:w-56 min-h-32"
+      className="rounded bg-slate-900 bg-opacity-90 p-1 lg:p-2 w-40 md:w-64 lg:w-72 min-h-32"
     >
       <div className="flex justify-between">
         <PopupForm
@@ -101,7 +101,7 @@ const ListCard = ({ list }: { list: any }) => {
           setClicked={setClicked}
           button={
             <button
-              className="bg-transparent border-none py-1 cursor-pointer text-white px-2 w-full text-start text-lg"
+              className="bg-transparent border-none py-1 cursor-pointer text-white px-2 w-full text-start text-xl mb-3"
               onClick={() => setClicked(true)}
               id="click"
             >

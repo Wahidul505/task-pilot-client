@@ -1,7 +1,7 @@
 import { getSlicedText } from "@/utils/getSlicedText";
 import React, { useState } from "react";
 import PrimaryModal from "../Modal/PrimaryModal";
-import { Avatar, Button, useDisclosure } from "@nextui-org/react";
+import { Avatar, AvatarGroup, Button, useDisclosure } from "@nextui-org/react";
 import { FaRegEye } from "react-icons/fa";
 import Info from "../Formatting/Info";
 import Heading from "../Formatting/Heading";
@@ -28,6 +28,7 @@ import CardStatus from "./CardStatus";
 import CardTitle from "./CardTitle";
 import PopoverModal from "../Modal/PopoverModal";
 import Text from "../Formatting/Text";
+import CustomAvatar from "../Formatting/CustomAvatar";
 
 type ValuePiece = Date | null;
 
@@ -111,25 +112,10 @@ const CardCard = ({
 
   return (
     <div
-      className="bg-gray-700 text-white mb-2 rounded text-base p-1 cursor-pointer border-2 border-solid border-gray-700 hover:border-[#0099ff] flex justify-between items-center"
+      className="bg-black bg-opacity-30 text-white rounded text-base mb-2 cursor-pointer border-2 border-solid border-gray-800 hover:border-[#0099ff] "
       onDragStart={(e) => handleOnDrag(e, card?.id)}
       draggable
     >
-      <div>
-        <Text>{getSlicedText(card?.title, 12)}</Text>
-        {card?.status === "done" && (
-          <div className="bg-green-600 text-white text-xs py-0.5 px-1 rounded font-semibold">
-            Complete
-          </div>
-        )}
-        {card?.status === "pending" &&
-          card?.dueDate &&
-          new Date() > new Date(card?.dueDate) && (
-            <div className="bg-red-500 text-white text-xs py-0.5 px-1 rounded font-semibold">
-              Overdue
-            </div>
-          )}
-      </div>
       <PrimaryModal
         title={
           <CardTitle
@@ -140,14 +126,38 @@ const CardCard = ({
           />
         }
         btnChildren={
-          <Button
-            onPress={onCardModalOpen}
-            size="sm"
-            className="rounded bg-slate-900 bg-opacity-50 text-white "
-            isIconOnly
-          >
-            <FaRegEye className="text-base" />
-          </Button>
+          <div className="w-full p-1 lg:p-2" onClick={onCardModalOpen}>
+            <Text>{getSlicedText(card?.title, 12)}</Text>
+            {card?.description && (
+              <Info className="text-gray-300">
+                {card?.description?.length > 150
+                  ? card?.description?.slice(0, 149) + "..."
+                  : card?.description}
+              </Info>
+            )}
+            {card?.status === "done" && (
+              <div className="bg-green-600 text-white text-sm py-0.5 px-1 rounded font-semibold my-2 lg:my-3">
+                Complete
+              </div>
+            )}
+            {card?.status === "pending" &&
+              card?.dueDate &&
+              new Date() > new Date(card?.dueDate) && (
+                <div className="bg-red-500 text-white text-sm py-0.5 px-1 rounded font-semibold my-2 lg:my-3">
+                  Overdue
+                </div>
+              )}
+            <div className="flex items-center ml-2">
+              {card?.CardMembers?.map((member: any) => (
+                <div
+                  title={member?.user?.name}
+                  className="rounded-full w-6 h-6 flex justify-center items-center bg-white bg-opacity-70 text-sm text-black -ml-1.5 border border-gray-700"
+                >
+                  {getTheFirstLetter(member?.user?.name)}
+                </div>
+              ))}
+            </div>
+          </div>
         }
         isOpen={isCardModalOpen}
         onOpenChange={onCardModalOpenChange}
@@ -163,8 +173,9 @@ const CardCard = ({
                     {card?.CardMembers?.map((member: any) => (
                       <Avatar
                         key={member?.user?.id}
-                        name={getTheFirstLetter(member?.user?.email)}
-                        className="bg-white"
+                        name={getTheFirstLetter(member?.user?.name)}
+                        title={member?.user?.name}
+                        className="bg-white cursor-pointer"
                         size="sm"
                       />
                     ))}
