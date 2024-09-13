@@ -148,8 +148,9 @@ const CardCard = ({
                 </div>
               )}
             <div className="flex items-center ml-2">
-              {card?.CardMembers?.map((member: any) => (
+              {card?.CardMembers?.map((member: any, index: number) => (
                 <div
+                  key={index}
                   title={member?.user?.name}
                   className="rounded-full w-6 h-6 flex justify-center items-center bg-white bg-opacity-70 text-sm text-black -ml-1.5 border border-gray-700"
                 >
