@@ -8,11 +8,11 @@ import Image from "next/image";
 import { GiCheckMark } from "react-icons/gi";
 import { Button, useDisclosure } from "@nextui-org/react";
 import { useGetAllWorkspacesOfAdminQuery } from "@/redux/api/workspaceApi";
-import { useGetTemplatesQuery } from "@/redux/api/templateApi";
 import { useCreateBoardMutation } from "@/redux/api/boardApi";
 import toast from "react-hot-toast";
 import { boardSchema } from "@/schema/board";
 import LoadingPage from "@/app/loading";
+import { useGetThemesQuery } from "@/redux/api/themeApi";
 
 const checkedComponent = (
   <div className="md:h-20 lg:h-24 w-full absolute bg-slate-900 bg-opacity-15 top-0 rounded flex justify-center items-center">
@@ -38,19 +38,15 @@ const CreateBoardForm = ({
   const { data: workspaces, isLoading: isWorkspacesLoading } =
     useGetAllWorkspacesOfAdminQuery(undefined);
 
-  const { data: templateData, isLoading: isTemplateLoading } =
-    useGetTemplatesQuery(undefined);
+  const { data: themeData, isLoading: isThemeLoading } =
+    useGetThemesQuery(undefined);
 
-  const [selectedTemplate, setSelectedTemplate] = useState("");
+  const [selectedTheme, setSelectedTheme] = useState("");
 
   const [createBoard] = useCreateBoardMutation();
 
-  const templateColors = templateData?.filter(
-    (template: any) => template?.bgColor
-  );
-  const templateImages = templateData?.filter(
-    (template: any) => template?.bgImg
-  );
+  const themeColors = themeData?.filter((theme: any) => theme?.bgColor);
+  const themeImages = themeData?.filter((theme: any) => theme?.bgImg);
 
   const options = workspaces?.map((item: any) => ({
     value: item?.workspace?.id,
@@ -58,11 +54,11 @@ const CreateBoardForm = ({
   }));
 
   const handleCreateBoardSubmit = async (data: any) => {
-    if (!selectedTemplate) {
-      toast.error("Please select a template first");
+    if (!selectedTheme) {
+      toast.error("Please select a theme first");
       return;
     }
-    data.templateId = selectedTemplate;
+    data.themeId = selectedTheme;
     const result = await createBoard(data).unwrap();
     if (result) {
       toast.success("Board Created");
@@ -73,7 +69,7 @@ const CreateBoardForm = ({
     }
   };
 
-  if (isWorkspacesLoading || isTemplateLoading) return <LoadingPage />;
+  if (isWorkspacesLoading || isThemeLoading) return <LoadingPage />;
 
   return (
     <>
@@ -111,40 +107,40 @@ const CreateBoardForm = ({
             selectedLabel={workspace?.title || options[0].label}
           />
           <div>
-            <Text className="my-1 lg:my-2 text-black">Template Colors</Text>
+            <Text className="my-1 lg:my-2 text-black">Theme Colors</Text>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 lg:gap-2">
-              {templateColors?.map((template: any) => (
+              {themeColors?.map((theme: any) => (
                 <div
-                  key={template?.id}
-                  style={{ backgroundColor: template?.bgColor }}
+                  key={theme?.id}
+                  style={{ backgroundColor: theme?.bgColor }}
                   className="md:h-20 lg:h-24 w-full cursor-pointer rounded overflow-hidden relative"
-                  onClick={() => setSelectedTemplate(template?.id)}
+                  onClick={() => setSelectedTheme(theme?.id)}
                 >
-                  {selectedTemplate &&
-                    selectedTemplate === template?.id &&
+                  {selectedTheme &&
+                    selectedTheme === theme?.id &&
                     checkedComponent}
                 </div>
               ))}
             </div>
           </div>
           <div>
-            <Text className="my-1 lg:my-2 text-black">Template Photos</Text>
+            <Text className="my-1 lg:my-2 text-black">Theme Photos</Text>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 lg:gap-2">
-              {templateImages?.map((template: any) => (
+              {themeImages?.map((theme: any) => (
                 <div
-                  key={template?.id}
+                  key={theme?.id}
                   className="cursor-pointer rounded overflow-hidden relative"
-                  onClick={() => setSelectedTemplate(template?.id)}
+                  onClick={() => setSelectedTheme(theme?.id)}
                 >
                   <Image
-                    src={template?.bgImg}
+                    src={theme?.bgImg}
                     alt=""
                     width={100}
                     height={100}
                     className="md:h-20 lg:h-24 w-full"
                   />
-                  {selectedTemplate &&
-                    selectedTemplate === template?.id &&
+                  {selectedTheme &&
+                    selectedTheme === theme?.id &&
                     checkedComponent}
                 </div>
               ))}

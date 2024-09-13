@@ -103,15 +103,15 @@ const HomeSidebar = () => {
                     className="mb-1 lg:mb-2 block"
                   >
                     <div className="flex items-center space-x-1 lg:space-x-2">
-                      {board?.template?.bgColor && (
+                      {board?.theme?.bgColor && (
                         <div
-                          style={{ backgroundColor: board?.template?.bgColor }}
+                          style={{ backgroundColor: board?.theme?.bgColor }}
                           className="w-9 h-7 rounded"
                         ></div>
                       )}
-                      {board?.template?.bgImg && (
+                      {board?.theme?.bgImg && (
                         <Image
-                          src={board?.template?.bgImg}
+                          src={board?.theme?.bgImg}
                           alt=""
                           height={50}
                           width={50}

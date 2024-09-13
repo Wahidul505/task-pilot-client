@@ -50,12 +50,14 @@ const BoardPage = ({ params }: { params: any }) => {
     }
   };
 
+  console.log(data);
+
   if (isLoading || isListsLoading || isBoardsLoading) return <LoadingPage />;
 
-  if (data?.template?.bgColor)
-    dispatch(saveBg({ color: data?.template?.bgColor, img: "" }));
-  if (data?.template?.bgImg)
-    dispatch(saveBg({ color: "", img: data?.template?.bgImg }));
+  if (data?.theme?.bgColor)
+    dispatch(saveBg({ color: data?.theme?.bgColor, img: "" }));
+  if (data?.theme?.bgImg)
+    dispatch(saveBg({ color: "", img: data?.theme?.bgImg }));
 
   return (
     <DashboardLayout

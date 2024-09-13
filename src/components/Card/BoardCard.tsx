@@ -16,11 +16,11 @@ const BoardCard = ({ board }: { board: any }) => {
 
   return (
     <>
-      {"workspace" && board?.template?.bgColor && (
+      {"workspace" && board?.theme?.bgColor && (
         <Link href={`/b/${board?.id}`}>
           <div
-            key={board?.template?.id}
-            style={{ backgroundColor: board?.template?.bgColor }}
+            key={board?.theme?.id}
+            style={{ backgroundColor: board?.theme?.bgColor }}
             className={className}
           >
             {cardBody}
@@ -28,11 +28,11 @@ const BoardCard = ({ board }: { board: any }) => {
         </Link>
       )}
 
-      {"workspace" && board?.template?.bgImg && (
+      {"workspace" && board?.theme?.bgImg && (
         <Link href={`/b/${board?.id}`}>
-          <div key={board?.template?.id} className={className}>
+          <div key={board?.theme?.id} className={className}>
             <Image
-              src={board?.template?.bgImg}
+              src={board?.theme?.bgImg}
               alt=""
               width={100}
               height={100}
