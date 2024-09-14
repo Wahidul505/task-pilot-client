@@ -50,8 +50,6 @@ const BoardPage = ({ params }: { params: any }) => {
     }
   };
 
-  console.log(data);
-
   if (isLoading || isListsLoading || isBoardsLoading) return <LoadingPage />;
 
   if (data?.theme?.bgColor)

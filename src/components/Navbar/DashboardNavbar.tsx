@@ -7,6 +7,7 @@ import {
   NavbarBrand,
   NavbarContent,
   Switch,
+  useDisclosure,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import NavbarDropdown from "../Dropdown/NavbarDropdown";
@@ -19,9 +20,8 @@ import { authKey } from "@/constants/authToken";
 import CreateBoardForm from "../Forms/CreateBoardForm";
 import CreateWorkspaceForm from "../Forms/CreateWorkspaceForm";
 import Link from "next/link";
-import { CiDark } from "react-icons/ci";
-import { CiLight } from "react-icons/ci";
 import LoadingPage from "@/app/loading";
+import CreateTemplateBoard from "../Forms/CreateTemplateBoard";
 
 const DashboardNavbar = () => {
   const [user, setUser] = useState({
@@ -30,6 +30,7 @@ const DashboardNavbar = () => {
     name: "",
   });
   const { data, isLoading } = useGetAllWorkspacesOfAdminQuery(undefined);
+
   const router = useRouter();
   const { userId, userEmail, userName } = getUserInfo() as {
     userId: string;
@@ -79,10 +80,16 @@ const DashboardNavbar = () => {
         <NavbarDropdown label="workspace" href="/w" items={items} />
         <div className="flex space-x-1 lg:space-x-3">
           <CreateWorkspaceForm
-            btnClassName="w-full"
+            btnClassName="w-28 lg:w-32"
             btnLabel="Create Workspace"
           />
-          <CreateBoardForm btnClassName="w-full" btnLabel="Create Board" />
+          <CreateBoardForm
+            btnClassName="w-28 lg:w-32"
+            btnLabel="Create Board"
+          />
+          {/* starts  */}
+          <CreateTemplateBoard />
+          {/* ends */}
         </div>
       </NavbarBrand>
       <NavbarContent justify="end">

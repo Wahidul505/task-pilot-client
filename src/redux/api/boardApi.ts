@@ -14,6 +14,15 @@ export const boardApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.board, tagTypes.workspace],
     }),
 
+    createBoardFromTemplate: build.mutation({
+      query: (data: { templateId: string; workspaceId: string }) => ({
+        url: `${BOARD_URL}/from-template`,
+        method: "POST",
+        data: data,
+      }),
+      invalidatesTags: [tagTypes.board, tagTypes.workspace],
+    }),
+
     getBoards: build.query({
       query: () => ({
         url: BOARD_URL,
@@ -133,6 +142,7 @@ export const boardApi = baseApi.injectEndpoints({
 
 export const {
   useCreateBoardMutation,
+  useCreateBoardFromTemplateMutation,
   useGetBoardsQuery,
   useGetBoardsOfSingleWorkspaceQuery,
   useGetSingleBoardQuery,

@@ -110,6 +110,8 @@ const CardCard = ({
 
   if (isChecklistLoading) return <></>;
 
+  console.log(card);
+
   return (
     <div
       className="bg-black bg-opacity-30 text-white rounded text-base mb-2 cursor-pointer border-2 border-solid border-gray-800 hover:border-[#0099ff] "

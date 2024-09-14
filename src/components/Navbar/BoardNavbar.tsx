@@ -23,6 +23,9 @@ import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
 import AvatarLayout from "../Layout/AvatarLayout";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import FormModal from "../Modal/FormModal";
+import { templateSchema } from "@/schema/template";
+import { useCreateTemplateMutation } from "@/redux/api/templateApi";
 
 const BoardNavbar = ({ board }: { board: any }) => {
   const [items, setItems] = useState([]);
@@ -40,6 +43,8 @@ const BoardNavbar = ({ board }: { board: any }) => {
 
   const [deleteSingleBoard] = useDeleteSingleBoardMutation();
 
+  const [createTemplate] = useCreateTemplateMutation();
+
   const { data: usersData, isLoading: isUsersLoading } =
     useGetUsersQuery(undefined);
 
@@ -55,6 +60,12 @@ const BoardNavbar = ({ board }: { board: any }) => {
     isOpen: isDeleteModalOpen,
     onOpen: onDeleteModalOpen,
     onOpenChange: onDeleteModalOpenChange,
+  } = useDisclosure();
+
+  const {
+    isOpen: isSaveTemplateModalOpen,
+    onOpen: onSaveTemplateModalOpen,
+    onOpenChange: onSaveTemplateModalOpenChange,
   } = useDisclosure();
 
   const handleSubmit = async (data: any) => {
@@ -123,6 +134,15 @@ const BoardNavbar = ({ board }: { board: any }) => {
     router.push(`/w/${board?.workspaceId}`);
   };
 
+  const handleSaveTemplate = async (data: any) => {
+    if (!board?.id) return;
+    await createTemplate({
+      templateTitle: data?.templateTitle,
+      boardId: board?.id,
+    });
+    toast.success("Saved as template");
+  };
+
   if (isUsersLoading) return <></>;
 
   const excludedUsers =
@@ -174,6 +194,33 @@ const BoardNavbar = ({ board }: { board: any }) => {
             />
           ))}
         </AvatarGroup>
+        {/* start  */}
+        <FormModal
+          title="Save Board as Template"
+          button={
+            <Button
+              onPress={onSaveTemplateModalOpen}
+              size="sm"
+              className="rounded flex items-center "
+              color="primary"
+            >
+              <Text>Save as Template</Text>
+            </Button>
+          }
+          modalBtnLabel="Save"
+          submitHandler={handleSaveTemplate}
+          isOpen={isSaveTemplateModalOpen}
+          onOpenChange={onSaveTemplateModalOpenChange}
+          resolver={templateSchema}
+        >
+          <FormInput
+            name="templateTitle"
+            placeholder="Template Title"
+            label="Title"
+            size="sm"
+          />
+        </FormModal>
+        {/* end  */}
         <PrimaryModal
           title="Add Members"
           btnChildren={

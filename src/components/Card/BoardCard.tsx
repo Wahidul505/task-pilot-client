@@ -3,14 +3,9 @@ import React from "react";
 import Text from "../Formatting/Text";
 import Image from "next/image";
 import Link from "next/link";
+import BoardTitle from "../Formatting/BoardTitle";
 
 const BoardCard = ({ board }: { board: any }) => {
-  const cardBody = (
-    <div className="h-20 md:h-24 lg:h-28 w-full absolute bg-slate-900 bg-opacity-20 top-0 rounded p-2 z-10">
-      <Text className="text-white font-semibold">{board?.title}</Text>
-    </div>
-  );
-
   const className =
     "h-20 md:h-24 lg:h-28 w-full cursor-pointer rounded overflow-hidden relative";
 
@@ -23,7 +18,7 @@ const BoardCard = ({ board }: { board: any }) => {
             style={{ backgroundColor: board?.theme?.bgColor }}
             className={className}
           >
-            {cardBody}
+            <BoardTitle title={board?.title} position="top" />
           </div>
         </Link>
       )}
@@ -38,7 +33,7 @@ const BoardCard = ({ board }: { board: any }) => {
               height={100}
               className="h-full w-full rounded"
             />
-            {cardBody}
+            <BoardTitle title={board?.title} position="top" />
           </div>
         </Link>
       )}
