@@ -21,7 +21,7 @@ import { saveBg } from "@/redux/slices/bgSlice";
 import { listSchema } from "@/schema/list";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 const BoardPage = ({ params }: { params: any }) => {
