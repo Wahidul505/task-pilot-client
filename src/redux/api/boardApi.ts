@@ -110,6 +110,25 @@ export const boardApi = baseApi.injectEndpoints({
       ],
     }),
 
+    updateBoardMember: build.mutation({
+      query: ({
+        id,
+        payload,
+      }: {
+        id: string;
+        payload: { userId: string; access: "read_only" | "editor" };
+      }) => ({
+        url: `${BOARD_URL}/${id}/member`,
+        method: "PATCH",
+        data: payload,
+      }),
+      invalidatesTags: [
+        tagTypes.board,
+        // tagTypes.workspace,
+        tagTypes.user,
+      ],
+    }),
+
     leaveBoard: build.mutation({
       query: (id) => ({
         url: `${BOARD_URL}/${id}/self`,
@@ -149,6 +168,7 @@ export const {
   useUpdateBoardTitleMutation,
   useAddBoardMembersMutation,
   useRemoveBoardMemberMutation,
+  useUpdateBoardMemberMutation,
   useLeaveBoardMutation,
   useDeleteSingleBoardMutation,
 } = boardApi;

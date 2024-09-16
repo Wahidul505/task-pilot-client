@@ -11,6 +11,7 @@ import Image from "next/image";
 import BoardTitle from "../Formatting/BoardTitle";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Text from "../Formatting/Text";
 
 const className =
   "h-20 md:h-24 lg:h-28 w-full cursor-pointer rounded overflow-hidden relative";
@@ -74,10 +75,11 @@ const CreateTemplateBoard = () => {
         onOpenChange={onCreateFromTemplateOpenChange}
         size="xl"
       >
-        <div className="flex flex-col space-y-2">
+        <div>
+          <Text className="mb-2">Select Workspace</Text>
           <select
             onChange={(e) => setSelectedWorkspace(e.target.value)}
-            className="mt-1 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border text-white rounded border-2 border-solid border-gray-300 focus:border-[#0099ff] h-6 md:h-7 lg:h-9 text-xs md:text-sm lg:text-base"
+            className="mb-4 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border text-white rounded border-2 border-solid border-gray-300 focus:border-[#0099ff] h-6 md:h-7 lg:h-9 text-xs md:text-sm lg:text-base"
           >
             {options?.length > 0 &&
               options?.map((option: any, index: number) => (
@@ -86,43 +88,50 @@ const CreateTemplateBoard = () => {
                 </option>
               ))}
           </select>
-          {templatesData?.length > 0 &&
-            templatesData?.map((template: any) => {
-              if (template?.theme?.bgColor)
-                return (
-                  <div
-                    key={template?.id}
-                    style={{ backgroundColor: template?.theme?.bgColor }}
-                    className={className}
-                    onClick={() => handleCreateBoardFromTemplate(template?.id)}
-                  >
-                    <BoardTitle
-                      title={template?.templateTitle}
-                      position="middle"
-                    />
-                  </div>
-                );
-              else if (template?.theme?.bgImg)
-                return (
-                  <div
-                    key={template?.id}
-                    className={className}
-                    onClick={() => handleCreateBoardFromTemplate(template?.id)}
-                  >
-                    <Image
-                      src={template?.theme?.bgImg}
-                      alt=""
-                      width={100}
-                      height={100}
-                      className="h-full w-full rounded"
-                    />
-                    <BoardTitle
-                      title={template?.templateTitle}
-                      position="middle"
-                    />
-                  </div>
-                );
-            })}
+          <Text className="mb-2">Select Template</Text>
+          <div className="flex flex-col space-y-2">
+            {templatesData?.length > 0 &&
+              templatesData?.map((template: any) => {
+                if (template?.theme?.bgColor)
+                  return (
+                    <div
+                      key={template?.id}
+                      style={{ backgroundColor: template?.theme?.bgColor }}
+                      className={className}
+                      onClick={() =>
+                        handleCreateBoardFromTemplate(template?.id)
+                      }
+                    >
+                      <BoardTitle
+                        title={template?.templateTitle}
+                        position="middle"
+                      />
+                    </div>
+                  );
+                else if (template?.theme?.bgImg)
+                  return (
+                    <div
+                      key={template?.id}
+                      className={className}
+                      onClick={() =>
+                        handleCreateBoardFromTemplate(template?.id)
+                      }
+                    >
+                      <Image
+                        src={template?.theme?.bgImg}
+                        alt=""
+                        width={100}
+                        height={100}
+                        className="h-full w-full rounded"
+                      />
+                      <BoardTitle
+                        title={template?.templateTitle}
+                        position="middle"
+                      />
+                    </div>
+                  );
+              })}
+          </div>
         </div>
       </PrimaryModal>
       {/* ends  */}

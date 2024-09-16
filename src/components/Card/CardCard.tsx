@@ -110,8 +110,6 @@ const CardCard = ({
 
   if (isChecklistLoading) return <></>;
 
-  console.log(card);
-
   return (
     <div
       className="bg-black bg-opacity-30 text-white rounded text-base mb-2 cursor-pointer border-2 border-solid border-gray-800 hover:border-[#0099ff] "
@@ -128,7 +126,10 @@ const CardCard = ({
           />
         }
         btnChildren={
-          <div className="w-full p-1 lg:p-2" onClick={onCardModalOpen}>
+          <div
+            className="w-full p-1 lg:p-2 flex flex-col space-y-2"
+            onClick={onCardModalOpen}
+          >
             <Text>{getSlicedText(card?.title, 12)}</Text>
             {card?.description && (
               <Info className="text-gray-300">
@@ -138,14 +139,14 @@ const CardCard = ({
               </Info>
             )}
             {card?.status === "done" && (
-              <div className="bg-green-600 text-white text-sm py-0.5 px-1 rounded font-semibold my-2 lg:my-3">
+              <div className="bg-green-600 text-white text-sm py-0.5 px-1 rounded font-semibold">
                 Complete
               </div>
             )}
             {card?.status === "pending" &&
               card?.dueDate &&
               new Date() > new Date(card?.dueDate) && (
-                <div className="bg-red-500 text-white text-sm py-0.5 px-1 rounded font-semibold my-2 lg:my-3">
+                <div className="bg-red-500 text-white text-sm py-0.5 px-1 rounded font-semibold">
                   Overdue
                 </div>
               )}

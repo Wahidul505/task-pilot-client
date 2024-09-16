@@ -12,6 +12,7 @@ import {
   useDeleteSingleBoardMutation,
   useLeaveBoardMutation,
   useRemoveBoardMemberMutation,
+  useUpdateBoardMemberMutation,
   useUpdateBoardTitleMutation,
 } from "@/redux/api/boardApi";
 import toast from "react-hot-toast";
@@ -21,7 +22,7 @@ import DynamicInputBox from "../Forms/DynamicInputBox";
 import { useGetUsersQuery } from "@/redux/api/userApi";
 import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
 import AvatarLayout from "../Layout/AvatarLayout";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaEdit, FaEye, FaRegTrashAlt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import FormModal from "../Modal/FormModal";
 import { templateSchema } from "@/schema/template";
@@ -38,6 +39,8 @@ const BoardNavbar = ({ board }: { board: any }) => {
   const [addBoardMembers] = useAddBoardMembersMutation();
 
   const [removeBoardMember] = useRemoveBoardMemberMutation();
+
+  const [updateBoardMember] = useUpdateBoardMemberMutation();
 
   const [leaveBoard] = useLeaveBoardMutation();
 
@@ -116,6 +119,15 @@ const BoardNavbar = ({ board }: { board: any }) => {
     }
   };
 
+  const handleUpdateBoardMember = async (
+    memberId: string,
+    access: "read_only" | "editor"
+  ) => {
+    const payload = { userId: memberId, access };
+    const result = await updateBoardMember({ id: board?.id, payload });
+    console.log(result);
+  };
+
   const handleLeaveBoard = async (id: string) => {
     if (id) {
       const result = await leaveBoard(id).unwrap();
@@ -144,6 +156,8 @@ const BoardNavbar = ({ board }: { board: any }) => {
   };
 
   if (isUsersLoading) return <></>;
+
+  console.log(board?.BoardMembers);
 
   const excludedUsers =
     board?.BoardMembers?.map((boardMember: any) => boardMember?.user?.id) || [];
@@ -275,7 +289,7 @@ const BoardNavbar = ({ board }: { board: any }) => {
               {board?.user && (
                 <AvatarLayout
                   text={`${board?.user?.name || ""} ${
-                    board?.user?.id === userId ? "(You)" : ""
+                    board?.user?.id === userId ? "(You | admin)" : ""
                   }`}
                   info={board?.user?.email}
                 >
@@ -307,7 +321,13 @@ const BoardNavbar = ({ board }: { board: any }) => {
                           >
                             <AvatarLayout
                               text={`${boardMember?.user?.name || ""} ${
-                                boardMember?.user?.id === userId ? "(You)" : ""
+                                boardMember?.user?.id === userId
+                                  ? boardMember?.access === "editor"
+                                    ? "(You | editor)"
+                                    : "(You | viewer)"
+                                  : boardMember?.access === "editor"
+                                  ? "(editor)"
+                                  : "(viewer)"
                               }`}
                               info={boardMember?.user?.email}
                             >
@@ -326,27 +346,53 @@ const BoardNavbar = ({ board }: { board: any }) => {
                                 className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
                               />
                             </AvatarLayout>
-                            {board?.admin === userId && (
-                              <Button
-                                size="sm"
-                                className="bg-transparent rounded"
-                                onClick={() =>
-                                  handleRemoveBoardMember(boardMember?.userId)
-                                }
-                                isIconOnly
-                              >
-                                <FaRegTrashAlt className="text-red-500 text-xl" />
-                              </Button>
-                            )}
-                            {boardMember?.userId === userId && (
-                              <Button
-                                size="sm"
-                                className=" rounded"
-                                onClick={() => handleLeaveBoard(board?.id)}
-                              >
-                                Leave
-                              </Button>
-                            )}
+                            <div className="flex items-center ">
+                              {board?.admin === userId && (
+                                <Button
+                                  size="sm"
+                                  className="bg-transparent rounded"
+                                  onClick={() =>
+                                    boardMember?.access === "editor"
+                                      ? handleUpdateBoardMember(
+                                          boardMember?.userId,
+                                          "read_only"
+                                        )
+                                      : handleUpdateBoardMember(
+                                          boardMember?.userId,
+                                          "editor"
+                                        )
+                                  }
+                                  isIconOnly
+                                >
+                                  {boardMember?.access === "editor" ? (
+                                    <FaEye className="text-white text-xl" />
+                                  ) : (
+                                    <FaEdit className="text-white text-xl" />
+                                  )}
+                                </Button>
+                              )}
+                              {board?.admin === userId && (
+                                <Button
+                                  size="sm"
+                                  className="bg-transparent rounded"
+                                  onClick={() =>
+                                    handleRemoveBoardMember(boardMember?.userId)
+                                  }
+                                  isIconOnly
+                                >
+                                  <FaRegTrashAlt className="text-red-500 text-xl" />
+                                </Button>
+                              )}
+                              {boardMember?.userId === userId && (
+                                <Button
+                                  size="sm"
+                                  className=" rounded"
+                                  onClick={() => handleLeaveBoard(board?.id)}
+                                >
+                                  Leave
+                                </Button>
+                              )}
+                            </div>
                           </div>
                         )
                       )}
