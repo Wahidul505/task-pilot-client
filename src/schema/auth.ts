@@ -15,3 +15,7 @@ export const userSchema = yup.object().shape({
   phone: yup.string().required("Contact Number is Required"),
   address: yup.string().required("Address is Required"),
 });
+
+export const emailSchema = yup.object().shape({
+  email: yup.string().email().required("Email is Required"),
+});

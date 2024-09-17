@@ -35,6 +35,15 @@ export const boardApi = baseApi.injectEndpoints({
       ],
     }),
 
+    getBoardsOfSingleAdmin: build.mutation({
+      query: (data: { email: string }) => ({
+        url: `${BOARD_URL}/admin`,
+        method: "POST",
+        data: data,
+      }),
+      invalidatesTags: [tagTypes.board, tagTypes.workspace],
+    }),
+
     getBoardsOfSingleWorkspace: build.query({
       query: (workspaceId: string) => ({
         url: `${BOARD_URL}/${workspaceId}/common`,
@@ -144,6 +153,7 @@ export const {
   useCreateBoardMutation,
   useCreateBoardFromTemplateMutation,
   useGetBoardsQuery,
+  useGetBoardsOfSingleAdminMutation,
   useGetBoardsOfSingleWorkspaceQuery,
   useGetSingleBoardQuery,
   useUpdateBoardTitleMutation,

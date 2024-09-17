@@ -10,6 +10,7 @@ export enum tagTypes {
   checklistItem = "checklistItem",
   comment = "comment",
   template = "template",
+  collab = "collab",
 }
 
 export const tagTypesList = [
@@ -24,4 +25,5 @@ export const tagTypesList = [
   tagTypes.checklistItem,
   tagTypes.comment,
   tagTypes.template,
+  tagTypes.collab,
 ];

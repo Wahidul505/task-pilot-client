@@ -22,6 +22,14 @@ import CreateWorkspaceForm from "../Forms/CreateWorkspaceForm";
 import Link from "next/link";
 import LoadingPage from "@/app/loading";
 import CreateTemplateBoard from "../Forms/CreateTemplateBoard";
+import {
+  useCollabActionMutation,
+  useGetUserReceivedCollabRequestsQuery,
+} from "@/redux/api/collabApi";
+import { FaRegBell } from "react-icons/fa";
+import Text from "../Formatting/Text";
+import PrimaryModal from "../Modal/PrimaryModal";
+import Heading from "../Formatting/Heading";
 
 const DashboardNavbar = () => {
   const [user, setUser] = useState({
@@ -29,14 +37,29 @@ const DashboardNavbar = () => {
     email: "",
     name: "",
   });
-  const { data, isLoading } = useGetAllWorkspacesOfAdminQuery(undefined);
 
   const router = useRouter();
+
+  const { data, isLoading } = useGetAllWorkspacesOfAdminQuery(undefined);
+
+  const [collabAction] = useCollabActionMutation();
+
+  const {
+    data: receivedCollabRequests,
+    isLoading: isReceivedCollabRequestsLoading,
+  } = useGetUserReceivedCollabRequestsQuery(undefined);
+
   const { userId, userEmail, userName } = getUserInfo() as {
     userId: string;
     userEmail: string;
     userName: string;
   };
+
+  const {
+    isOpen: isRequestModalOpen,
+    onOpen: onRequestModalOpen,
+    onOpenChange: onRequestModalOpenChange,
+  } = useDisclosure();
 
   const handleLogout = () => {
     removeUserInfo(authKey);
@@ -48,6 +71,15 @@ const DashboardNavbar = () => {
     router.push("/login");
   };
 
+  const handleCollabAction = async (
+    requestId: string,
+    board2Id: string,
+    status: "accept" | "decline"
+  ) => {
+    const result = await collabAction({ board2Id, status, requestId });
+    console.log(result);
+  };
+
   useEffect(() => {
     setUser({
       id: userId,
@@ -56,12 +88,14 @@ const DashboardNavbar = () => {
     });
   }, [userId, userEmail, userName]);
 
-  if (isLoading) return <LoadingPage />;
+  if (isLoading || isReceivedCollabRequestsLoading) return <LoadingPage />;
 
   const items = data?.map((item: any) => ({
     id: item?.workspace?.id,
     label: item?.workspace?.title,
   }));
+
+  console.log(receivedCollabRequests);
 
   return (
     <Navbar
@@ -93,6 +127,72 @@ const DashboardNavbar = () => {
         </div>
       </NavbarBrand>
       <NavbarContent justify="end">
+        {/* start  */}
+        <PrimaryModal
+          title="Collab Requests"
+          btnChildren={
+            <Button
+              onPress={onRequestModalOpen}
+              className="bg-transparent"
+              size="md"
+            >
+              <FaRegBell className="text-3xl text-white" />
+            </Button>
+          }
+          isOpen={isRequestModalOpen}
+          onOpenChange={onRequestModalOpenChange}
+          size="xl"
+        >
+          <div className="">
+            {receivedCollabRequests?.length > 0 ? (
+              receivedCollabRequests?.map((request: any) => (
+                <div>
+                  {" "}
+                  <Text>
+                    <b>{request?.admin?.name}</b> has requested you for a{" "}
+                    <b>collab</b> with <b>"{request?.board?.title}"</b> board in
+                    your <b>"{request?.board?.workspace?.title}"</b> workspace
+                  </Text>
+                  <div className="flex justify-end gap-1 md:gap-2 mt-1 mb-1 md:mb-4">
+                    <Button
+                      onClick={() =>
+                        handleCollabAction(
+                          request?.id,
+                          request?.board?.id,
+                          "decline"
+                        )
+                      }
+                      color="danger"
+                      variant="light"
+                      size="sm"
+                      className="rounded"
+                    >
+                      Decline
+                    </Button>
+                    <Button
+                      onClick={() =>
+                        handleCollabAction(
+                          request?.id,
+                          request?.board?.id,
+                          "accept"
+                        )
+                      }
+                      color="primary"
+                      className="rounded"
+                      size="sm"
+                    >
+                      Accept
+                    </Button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <Heading>You have no New Requests</Heading>
+            )}
+          </div>
+        </PrimaryModal>
+
+        {/* end  */}
         {user?.email && (
           <PopoverModal
             htmlFor="user-profile"

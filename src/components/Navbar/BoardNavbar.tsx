@@ -1,59 +1,44 @@
 "use client";
 import React, { useState } from "react";
-import Heading from "../Formatting/Heading";
-import { TbUsersPlus } from "react-icons/tb";
-import { TbDots } from "react-icons/tb";
 import { Avatar, AvatarGroup, Button, useDisclosure } from "@nextui-org/react";
 import { getUserInfo } from "@/services/auth.service";
 import Form from "../Forms/Form";
 import FormInput from "../Forms/FormInput";
 import {
-  useAddBoardMembersMutation,
   useDeleteSingleBoardMutation,
-  useLeaveBoardMutation,
-  useRemoveBoardMemberMutation,
-  useUpdateBoardTitleMutation,
+  useGetBoardsOfSingleAdminMutation,
 } from "@/redux/api/boardApi";
 import toast from "react-hot-toast";
 import PrimaryModal from "../Modal/PrimaryModal";
 import Text from "../Formatting/Text";
-import DynamicInputBox from "../Forms/DynamicInputBox";
-import { useGetUsersQuery } from "@/redux/api/userApi";
 import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
-import AvatarLayout from "../Layout/AvatarLayout";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import FormModal from "../Modal/FormModal";
-import { templateSchema } from "@/schema/template";
-import { useCreateTemplateMutation } from "@/redux/api/templateApi";
+import { useCollabRequestMutation } from "@/redux/api/collabApi";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { emailSchema } from "@/schema/auth";
+import BoardTitleNav from "./BoardTitleNav";
+import SaveBoardTemplateNav from "./SaveBoardTemplateNav";
+import AddMemberNav from "./AddMemberNav";
+import Image from "next/image";
+import Heading from "../Formatting/Heading";
 
 const BoardNavbar = ({ board }: { board: any }) => {
-  const [items, setItems] = useState([]);
-  const [clicked, setClicked] = useState(false);
   const { userId } = getUserInfo() as { userId: string };
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [updateBoardTitle] = useUpdateBoardTitleMutation();
-
-  const [addBoardMembers] = useAddBoardMembersMutation();
-
-  const [removeBoardMember] = useRemoveBoardMemberMutation();
-
-  const [leaveBoard] = useLeaveBoardMutation();
+  const [adminBoards, setAdminBoards] = useState([]);
 
   const [deleteSingleBoard] = useDeleteSingleBoardMutation();
 
-  const [createTemplate] = useCreateTemplateMutation();
+  const [getBoardsOfSingleAdmin] = useGetBoardsOfSingleAdminMutation();
 
-  const { data: usersData, isLoading: isUsersLoading } =
-    useGetUsersQuery(undefined);
+  const [collabRequest] = useCollabRequestMutation();
 
   const router = useRouter();
 
   const {
-    isOpen: isMembersModalOpen,
-    onOpen: onMembersModalOpen,
-    onOpenChange: onMembersModalOpenChange,
+    isOpen: isCollabModalOpen,
+    onOpen: onCollabModalOpen,
+    onOpenChange: onCollabModalOpenChange,
   } = useDisclosure();
 
   const {
@@ -62,126 +47,26 @@ const BoardNavbar = ({ board }: { board: any }) => {
     onOpenChange: onDeleteModalOpenChange,
   } = useDisclosure();
 
-  const {
-    isOpen: isSaveTemplateModalOpen,
-    onOpen: onSaveTemplateModalOpen,
-    onOpenChange: onSaveTemplateModalOpenChange,
-  } = useDisclosure();
-
-  const handleSubmit = async (data: any) => {
-    setClicked(false);
-    data.title = data?.title ? data?.title : board?.title;
-    const result = await updateBoardTitle({
-      id: board?.id,
-      payload: data,
-    }).unwrap();
-    if (!result) {
-      toast.error("Something Went Wrong");
-    }
-  };
-
-  const handleAddMemberSubmit = async (data: any) => {
-    setIsLoading(true);
-    if (items?.length < 1) {
-      toast.error("You didn't add any member");
-      setIsLoading(false);
-      return;
-    }
-    data.members = items?.map((item: any) => item?.id);
-    const result = await addBoardMembers({
-      id: board?.id,
-      payload: data,
-    }).unwrap();
-
-    if (result) {
-      setIsLoading(false);
-      toast("Added");
-      setItems([]);
-    }
-    setIsLoading(false);
-  };
-
-  const handleRemoveBoardMember = async (id: string) => {
-    if (id) {
-      const payload = { memberId: id };
-      const result = await removeBoardMember({
-        id: board?.id,
-        payload,
-      }).unwrap();
-      if (result) {
-        toast("Removed");
-      } else {
-        toast.error("Something Went Wrong");
-      }
-    }
-  };
-
-  const handleLeaveBoard = async (id: string) => {
-    if (id) {
-      const result = await leaveBoard(id).unwrap();
-      if (result) {
-        toast("You left the board");
-        router.push("/home");
-      } else {
-        toast.error("Something Went Wrong");
-      }
-    }
-  };
-
   const handleDeleteSingleBoard = async () => {
     await deleteSingleBoard(board?.id);
     toast.error("Board Deleted");
     router.push(`/w/${board?.workspaceId}`);
   };
 
-  const handleSaveTemplate = async (data: any) => {
-    if (!board?.id) return;
-    await createTemplate({
-      templateTitle: data?.templateTitle,
-      boardId: board?.id,
-    });
-    toast.success("Saved as template");
+  const handleGetBoardsOfSingleAdmin = async (data: any) => {
+    const boards = await getBoardsOfSingleAdmin(data).unwrap();
+    setAdminBoards(boards);
   };
 
-  if (isUsersLoading) return <></>;
-
-  const excludedUsers =
-    board?.BoardMembers?.map((boardMember: any) => boardMember?.user?.id) || [];
+  const handleCollabRequest = async (board2Id: string) => {
+    const data = { board1Id: board?.id, board2Id };
+    const result = await collabRequest(data);
+    if (!result) return;
+  };
 
   return (
     <div className="backdrop-filter backdrop-blur-md bg-slate-900 bg-opacity-50 w-full flex justify-between p-1 md:p-2 lg:p-3 items-center flex-wrap">
-      <div className="flex items-center gap-2">
-        {clicked ? (
-          <Form submitHandler={handleSubmit} doReset={false}>
-            <FormInput
-              name="title"
-              defaultValue={board?.title || ""}
-              placeholder="Board Name"
-              margin={false}
-              autoFocus={true}
-              size="sm"
-              className="text-white"
-            />
-          </Form>
-        ) : (
-          <>
-            {board?.admin === userId ? (
-              <Button
-                size="sm"
-                variant="light"
-                className="rounded"
-                onClick={() => setClicked(true)}
-              >
-                <Heading className="text-white">{board?.title}</Heading>
-              </Button>
-            ) : (
-              <Button size="sm" variant="light" className="rounded">
-                <Heading className="text-white">{board?.title}</Heading>
-              </Button>
-            )}
-          </>
-        )}
-      </div>
+      <BoardTitleNav board={board} userId={userId} />
 
       <div className="flex items-center gap-2 lg:gap-3">
         <AvatarGroup isBordered>
@@ -194,168 +79,97 @@ const BoardNavbar = ({ board }: { board: any }) => {
             />
           ))}
         </AvatarGroup>
+
         {/* start  */}
-        <FormModal
-          title="Save Board as Template"
-          button={
-            <Button
-              onPress={onSaveTemplateModalOpen}
-              size="sm"
-              className="rounded flex items-center "
-              color="primary"
-            >
-              <Text>Save as Template</Text>
-            </Button>
-          }
-          modalBtnLabel="Save"
-          submitHandler={handleSaveTemplate}
-          isOpen={isSaveTemplateModalOpen}
-          onOpenChange={onSaveTemplateModalOpenChange}
-          resolver={templateSchema}
-        >
-          <FormInput
-            name="templateTitle"
-            placeholder="Template Title"
-            label="Title"
-            size="sm"
-          />
-        </FormModal>
-        {/* end  */}
         <PrimaryModal
-          title="Add Members"
+          title="Make a Collab Request"
           btnChildren={
             <Button
-              onPress={onMembersModalOpen}
+              onPress={onCollabModalOpen}
               size="sm"
               className="rounded flex items-center "
               color="primary"
             >
-              <TbUsersPlus className="font-semibold text-base" />
-              <Text>Add</Text>
+              <Text>Collab</Text>
             </Button>
           }
-          isOpen={isMembersModalOpen}
-          onOpenChange={onMembersModalOpenChange}
+          isOpen={isCollabModalOpen}
+          onOpenChange={onCollabModalOpenChange}
           size="xl"
         >
           <div>
-            <div>
-              <Form submitHandler={handleAddMemberSubmit} doReset={false}>
-                <DynamicInputBox
-                  excludedUsers={[...excludedUsers, board?.admin]}
-                  items={items}
-                  setItems={setItems}
-                  users={usersData}
-                />
-                <div className="flex justify-end mt-2">
-                  {isLoading ? (
-                    <Button
-                      size="sm"
-                      disabled
-                      className="rounded "
-                      color="primary"
-                    >
-                      ...
-                    </Button>
-                  ) : (
-                    <Button
-                      size="sm"
-                      type="submit"
-                      className="rounded "
-                      color="primary"
-                    >
-                      Add
-                    </Button>
-                  )}
-                </div>
-              </Form>
-            </div>
-            <div>
-              <Heading className="mb-1 md:mb-2 lg:mb-3">Admin</Heading>
-              {board?.user && (
-                <AvatarLayout
-                  text={`${board?.user?.name || ""} ${
-                    board?.user?.id === userId ? "(You)" : ""
-                  }`}
-                  info={board?.user?.email}
-                >
-                  <Avatar
-                    as="button"
-                    name={
-                      board?.user?.name?.slice(0, 1).toUpperCase() ||
-                      board?.user?.email?.slice(0, 1).toUpperCase()
-                    }
-                    radius="full"
-                    size="sm"
-                    className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-                  />
-                </AvatarLayout>
-              )}
+            <Form
+              submitHandler={handleGetBoardsOfSingleAdmin}
+              doReset={false}
+              resolver={yupResolver(emailSchema)}
+            >
+              <FormInput
+                name="email"
+                type="email"
+                placeholder="Email"
+                theme="light"
+                size="sm"
+              />
 
-              {board?.BoardMembers?.length > 0 && (
-                <>
-                  <Heading className="mb-1 md:mb-2 lg:mb-3 mt-3">
-                    Members
-                  </Heading>
-                  <div className="flex flex-col space-y-2 lg:space-y-5">
-                    {board?.BoardMembers?.length > 0 &&
-                      board?.BoardMembers?.map(
-                        (boardMember: any, index: number) => (
-                          <div
-                            key={index}
-                            className="flex justify-between items-center"
-                          >
-                            <AvatarLayout
-                              text={`${boardMember?.user?.name || ""} ${
-                                boardMember?.user?.id === userId ? "(You)" : ""
-                              }`}
-                              info={boardMember?.user?.email}
-                            >
-                              <Avatar
-                                as="button"
-                                name={
-                                  boardMember?.user?.name
-                                    ?.slice(0, 1)
-                                    .toUpperCase() ||
-                                  boardMember?.user?.email
-                                    ?.slice(0, 1)
-                                    .toUpperCase()
-                                }
-                                radius="full"
-                                size="sm"
-                                className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-                              />
-                            </AvatarLayout>
-                            {board?.admin === userId && (
-                              <Button
-                                size="sm"
-                                className="bg-transparent rounded"
-                                onClick={() =>
-                                  handleRemoveBoardMember(boardMember?.userId)
-                                }
-                                isIconOnly
-                              >
-                                <FaRegTrashAlt className="text-red-500 text-xl" />
-                              </Button>
-                            )}
-                            {boardMember?.userId === userId && (
-                              <Button
-                                size="sm"
-                                className=" rounded"
-                                onClick={() => handleLeaveBoard(board?.id)}
-                              >
-                                Leave
-                              </Button>
-                            )}
-                          </div>
-                        )
+              <div className="flex justify-end">
+                <Button
+                  size="sm"
+                  type="submit"
+                  className="rounded "
+                  color="primary"
+                >
+                  Search
+                </Button>
+              </div>
+            </Form>
+            <div className="mt-3">
+              {adminBoards?.length > 0 ? (
+                adminBoards?.map((board: any) => (
+                  <div
+                    key={board?.id}
+                    className="flex justify-between items-center space-y-2"
+                  >
+                    <div className="flex items-center space-x-1 lg:space-x-2">
+                      {board?.theme?.bgColor && (
+                        <div
+                          style={{ backgroundColor: board?.theme?.bgColor }}
+                          className="w-11 h-8 rounded"
+                        ></div>
                       )}
+                      {board?.theme?.bgImg && (
+                        <Image
+                          src={board?.theme?.bgImg}
+                          alt=""
+                          height={50}
+                          width={50}
+                          className="w-11 h-8 rounded"
+                        />
+                      )}
+                      <Text>{board?.title}</Text>
+                    </div>
+                    <Button
+                      onClick={() => handleCollabRequest(board?.id)}
+                      size="sm"
+                      className="rounded"
+                    >
+                      Send Request
+                    </Button>
                   </div>
-                </>
+                ))
+              ) : (
+                <Heading className="mt-3">No Boards found</Heading>
               )}
             </div>
           </div>
         </PrimaryModal>
+        {/* end  */}
+
+        {/* start  */}
+        <SaveBoardTemplateNav board={board} />
+        {/* end  */}
+
+        <AddMemberNav board={board} userId={userId} />
+
         {board?.admin === userId && (
           <PrimaryModal
             title="Delete"
