@@ -16,7 +16,6 @@ const WorkspaceSidebar = ({
   boards: any[];
 }) => {
   const { userId } = getUserInfo() as { userId: string };
-  console.log(workspace);
   return (
     <Sidebar
       avatarLayout={

@@ -30,15 +30,16 @@ import { FaRegBell } from "react-icons/fa";
 import Text from "../Formatting/Text";
 import PrimaryModal from "../Modal/PrimaryModal";
 import Heading from "../Formatting/Heading";
+import Profile from "../Profile/Profile";
 
 const DashboardNavbar = () => {
   const [user, setUser] = useState({
     id: "",
     email: "",
     name: "",
+    dp: "",
+    cover: "",
   });
-
-  const router = useRouter();
 
   const { data, isLoading } = useGetAllWorkspacesOfAdminQuery(undefined);
 
@@ -49,10 +50,12 @@ const DashboardNavbar = () => {
     isLoading: isReceivedCollabRequestsLoading,
   } = useGetUserReceivedCollabRequestsQuery(undefined);
 
-  const { userId, userEmail, userName } = getUserInfo() as {
+  const { userId, userEmail, userName, userDp, userCover } = getUserInfo() as {
     userId: string;
     userEmail: string;
     userName: string;
+    userDp: string;
+    userCover: string;
   };
 
   const {
@@ -60,16 +63,6 @@ const DashboardNavbar = () => {
     onOpen: onRequestModalOpen,
     onOpenChange: onRequestModalOpenChange,
   } = useDisclosure();
-
-  const handleLogout = () => {
-    removeUserInfo(authKey);
-    setUser({
-      id: "",
-      email: "",
-      name: "",
-    });
-    router.push("/login");
-  };
 
   const handleCollabAction = async (
     requestId: string,
@@ -84,8 +77,10 @@ const DashboardNavbar = () => {
       id: userId,
       email: userEmail,
       name: userName,
+      dp: userDp,
+      cover: userCover,
     });
-  }, [userId, userEmail, userName]);
+  }, [userId, userEmail, userName, userDp, userCover]);
 
   if (isLoading || isReceivedCollabRequestsLoading) return <LoadingPage />;
 
@@ -190,49 +185,7 @@ const DashboardNavbar = () => {
         </PrimaryModal>
 
         {/* end  */}
-        {user?.email && (
-          <PopoverModal
-            htmlFor="user-profile"
-            placement="bottom"
-            button={
-              <Avatar
-                as="button"
-                name={
-                  user?.name?.slice(0, 1).toUpperCase() ||
-                  user?.email?.slice(0, 1).toUpperCase()
-                }
-                radius="full"
-                size="sm"
-                className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-              />
-            }
-          >
-            <div className="">
-              <AvatarLayout text={user?.name || ""} info={user?.email}>
-                <Avatar
-                  as="button"
-                  name={
-                    user?.name?.slice(0, 1).toUpperCase() ||
-                    user?.email?.slice(0, 1).toUpperCase()
-                  }
-                  radius="full"
-                  size="sm"
-                  className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-                  // onClick={() => router.push("/dashboard/profile")}
-                />
-              </AvatarLayout>
-              <CustomDivider size="sm" />
-              <Button
-                size="sm"
-                className="rounded w-full text-white"
-                onClick={handleLogout}
-                variant="light"
-              >
-                Logout
-              </Button>
-            </div>
-          </PopoverModal>
-        )}
+        {user?.email && <Profile user={user} setUser={setUser} />}
       </NavbarContent>
     </Navbar>
   );
