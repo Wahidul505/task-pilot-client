@@ -77,7 +77,6 @@ const DashboardNavbar = () => {
     status: "accept" | "decline"
   ) => {
     const result = await collabAction({ board2Id, status, requestId });
-    console.log(result);
   };
 
   useEffect(() => {
@@ -94,8 +93,6 @@ const DashboardNavbar = () => {
     id: item?.workspace?.id,
     label: item?.workspace?.title,
   }));
-
-  console.log(receivedCollabRequests);
 
   return (
     <Navbar
@@ -133,10 +130,10 @@ const DashboardNavbar = () => {
           btnChildren={
             <Button
               onPress={onRequestModalOpen}
-              className="bg-transparent"
-              size="md"
+              className="bg-transparent -mr-2"
+              isIconOnly
             >
-              <FaRegBell className="text-3xl text-white" />
+              <FaRegBell className="text-2xl text-white" />
             </Button>
           }
           isOpen={isRequestModalOpen}
