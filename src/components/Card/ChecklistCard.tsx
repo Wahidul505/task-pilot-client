@@ -6,11 +6,9 @@ import PopupForm from "../Forms/PopupForm";
 import { getSlicedText } from "@/utils/getSlicedText";
 import Form from "../Forms/Form";
 import FormInput from "../Forms/FormInput";
-import {
-  useCreateItemMutation,
-  useUpdateSingleItemMutation,
-} from "@/redux/api/checklistItemApi";
+import { useCreateItemMutation } from "@/redux/api/checklistItemApi";
 import ChecklistItemCard from "./ChecklistItemCard";
+import { useAppSelector } from "@/redux/hooks";
 
 const ChecklistCard = ({ checklist }: { checklist: any }) => {
   const [isEditChecklistTitleOpen, setIsEditChecklistTitleOpen] =
@@ -19,7 +17,8 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
 
   const [updateChecklistTitle] = useUpdateChecklistTitleMutation();
   const [createItem] = useCreateItemMutation();
-  const [updateSingleItem] = useUpdateSingleItemMutation();
+
+  const theme = useAppSelector((store: any) => store.theme.theme);
 
   const handleUpdateChecklistTitle = async (data: { title: string }) => {
     if (data?.title) {
@@ -34,7 +33,7 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
   const handleAddChecklistItem = async (data: any) => {
     if (checklist?.id && data?.title) {
       data.checklistId = checklist?.id;
-      const result = await createItem(data).unwrap();
+      await createItem(data).unwrap();
     }
   };
 
@@ -46,7 +45,9 @@ const ChecklistCard = ({ checklist }: { checklist: any }) => {
           setClicked={setIsEditChecklistTitleOpen}
           button={
             <button
-              className="bg-transparent border-none py-1 cursor-pointer text-white w-full text-start text-lg"
+              className={`bg-transparent border-none py-1 cursor-pointer w-full text-start text-lg ${
+                theme === "dark" ? "text-light" : "text-dark"
+              }`}
               onClick={() => setIsEditChecklistTitleOpen(true)}
               id="click"
               title={checklist?.title || ""}

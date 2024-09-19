@@ -5,6 +5,7 @@ import AvatarLayout from "../Layout/AvatarLayout";
 import { IoMdCheckmark } from "react-icons/io";
 import { getUserInfo } from "@/services/auth.service";
 import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
+import { useAppSelector } from "@/redux/hooks";
 
 const AddCardMember = ({
   card,
@@ -16,6 +17,8 @@ const AddCardMember = ({
   handleAddCardMember: (params: string) => void;
 }) => {
   const { userId } = getUserInfo() as { userId: string };
+  const theme = useAppSelector((store: any) => store.theme.theme);
+
   return (
     <>
       {[...card?.list?.board?.BoardMembers, { user: card?.list?.board?.user }]
@@ -41,7 +44,9 @@ const AddCardMember = ({
                 <div
                   onClick={() => handleRemoveCardMember(member?.user?.id)}
                   key={index}
-                  className="flex justify-between items-center hover:bg-gray-500 rounded cursor-pointer px-1 py-1"
+                  className={`flex justify-between items-center  rounded cursor-pointer px-1 py-1 ${
+                    theme === "dark" ? "hover-bg-dark" : "hover-bg-light"
+                  }`}
                 >
                   <AvatarLayout
                     text={`${member?.user?.name || ""} ${
@@ -67,7 +72,9 @@ const AddCardMember = ({
                 <div
                   onClick={() => handleAddCardMember(member?.user?.id)}
                   key={index}
-                  className="flex justify-between items-center hover:bg-gray-500 rounded cursor-pointer px-1 py-1"
+                  className={`flex justify-between items-center  rounded cursor-pointer px-1 py-1 ${
+                    theme === "dark" ? "hover-bg-dark" : "hover-bg-light"
+                  }`}
                 >
                   <AvatarLayout
                     text={`${member?.user?.name || ""} ${

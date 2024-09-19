@@ -92,7 +92,7 @@ const DashboardNavbar = () => {
   return (
     <Navbar
       className={` h-14 border-b border-solid ${
-        theme === "dark" ? "bg-dark-border-light" : "bg-light-border-dark"
+        theme === "dark" ? "bg-dark border-light" : "bg-light border-dark"
       }`}
       maxWidth="full"
     >

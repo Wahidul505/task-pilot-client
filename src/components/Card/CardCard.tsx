@@ -27,6 +27,7 @@ import CardStatus from "./CardStatus";
 import CardTitle from "./CardTitle";
 import PopoverModal from "../Modal/PopoverModal";
 import Text from "../Formatting/Text";
+import { useAppSelector } from "@/redux/hooks";
 
 type ValuePiece = Date | null;
 
@@ -46,6 +47,8 @@ const CardCard = ({
   const [isEditTitleOpen, setIsEditTitleOpen] = useState(false);
   const [date, setDate] = useState<Value>(new Date());
   const [time, setTime] = useState("00:00:00");
+
+  const theme = useAppSelector((store: any) => store.theme.theme);
 
   const {
     isOpen: isCardModalOpen,
@@ -110,7 +113,11 @@ const CardCard = ({
 
   return (
     <div
-      className="bg-black bg-opacity-30 text-white rounded text-base mb-2 cursor-pointer border-2 border-solid border-gray-800 hover:border-[#0099ff] "
+      className={`bg-opacity-30 rounded text-base mb-2 cursor-pointer border-2 border-solid ${
+        theme === "dark"
+          ? "text-light bg-dark border-light"
+          : "text-dark bg-light border-dark"
+      }`}
       onDragStart={(e) => handleOnDrag(e, card?.id)}
       draggable
     >

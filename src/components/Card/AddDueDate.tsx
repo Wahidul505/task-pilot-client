@@ -6,6 +6,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useUpdateSingleCardMutation } from "@/redux/api/cardApi";
 import toast from "react-hot-toast";
+import { useAppSelector } from "@/redux/hooks";
 
 const AddDueDate = ({
   card,
@@ -22,6 +23,7 @@ const AddDueDate = ({
   setTime: (params: string) => void;
 }) => {
   const [updateSingleCard] = useUpdateSingleCardMutation();
+  const theme = useAppSelector((store: any) => store.theme.theme);
 
   const handleSetDateTime = async () => {
     if (time) {
@@ -80,7 +82,11 @@ const AddDueDate = ({
               onChange={(e) => setTime(e.target.value + ":00")}
               type="time"
               id="time"
-              className=" border leading-none border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-transparent dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className={`border leading-none text-sm rounded block w-full p-2.5 bg-transparent focus:border-[#0099ff] ${
+                theme === "dark"
+                  ? "text-light border-light"
+                  : "text-dark border-dark"
+              }`}
               value={time}
               required
             />

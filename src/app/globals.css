@@ -20,16 +20,6 @@
   background-image: linear-gradient(180deg, #00cba9, #0099ff);
 }
 
-.bg-dark-border-light {
-  background-color: darkblue;
-  border-color: white;
-}
-
-.bg-light-border-dark {
-  background-color: white;
-  border-color: black;
-}
-
 .text-dark {
   color: black;
 }
@@ -52,4 +42,11 @@
 
 .border-light {
   border-color: white;
+}
+
+.hover-bg-dark:hover {
+  background-color: rgb(1, 1, 157);
+}
+.hover-bg-light:hover {
+  background-color: rgb(237, 237, 237);
 }

@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/redux/hooks";
 import React, { useState, KeyboardEvent, ChangeEvent } from "react";
 
 const DynamicInputBox = ({
@@ -47,6 +48,7 @@ const DynamicInputBox = ({
       : users?.filter((user: any) => !excludedUsers.includes(user?.id));
 
   // const newUsers = users?.filter((user: any) => user?.id !== excludedUsers);
+  const theme = useAppSelector((store: any) => store.theme.theme);
 
   return (
     <div className="flex items-start gap-1 lg:gap-2 w-full flex-wrap mt-1 p-1 md:p-2 lg:p-3 focus:outline-none bg-transparent box-border text-black rounded border-2 border-solid border-[#0099ff] relative">
@@ -70,7 +72,9 @@ const DynamicInputBox = ({
       ))}
       <input
         type="text"
-        className="bg-transparent border-none focus:outline-none focus:border-transparent w-fit text-white"
+        className={`bg-transparent border-none focus:outline-none focus:border-transparent w-fit  ${
+          theme === "dark" ? "text-light" : "text-dark"
+        }`}
         placeholder="new@gmail.com"
         value={inputText}
         onChange={handleInputChange}

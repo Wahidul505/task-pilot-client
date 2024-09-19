@@ -12,6 +12,7 @@ import BoardTitle from "../Formatting/BoardTitle";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Text from "../Formatting/Text";
+import { useAppSelector } from "@/redux/hooks";
 
 const className =
   "h-20 md:h-24 lg:h-28 w-full cursor-pointer rounded overflow-hidden relative";
@@ -24,6 +25,7 @@ const CreateTemplateBoard = () => {
     useGetAllTemplatesOfSingleUserQuery(undefined);
   const [createBoardFromTemplate] = useCreateBoardFromTemplateMutation();
   const router = useRouter();
+  const theme = useAppSelector((store: any) => store.theme.theme);
 
   const {
     isOpen: isCreateFromTemplateOpen,
@@ -79,7 +81,11 @@ const CreateTemplateBoard = () => {
           <Text className="mb-2">Select Workspace</Text>
           <select
             onChange={(e) => setSelectedWorkspace(e.target.value)}
-            className="mb-4 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border text-white rounded border-2 border-solid border-gray-300 focus:border-[#0099ff] h-6 md:h-7 lg:h-9 text-xs md:text-sm lg:text-base"
+            className={`mb-4 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border rounded border-2 border-solid  focus:border-[#0099ff] h-6 md:h-7 lg:h-9 text-xs md:text-sm lg:text-base ${
+              theme === "dark"
+                ? "text-light border-light"
+                : "text-dark border-dark"
+            }`}
           >
             {options?.length > 0 &&
               options?.map((option: any, index: number) => (

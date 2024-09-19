@@ -3,6 +3,7 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import PublicInfo from "../Formatting/PublicInfo";
 import Text from "../Formatting/Text";
+import { useAppSelector } from "@/redux/hooks";
 
 type ISelectOptions = {
   value: string;
@@ -34,6 +35,7 @@ const FormSelect = ({
   const restOptions = options.filter(
     (option) => option.value !== selectedValue
   );
+  const theme = useAppSelector((store: any) => store.theme.theme);
   return (
     <div className="mb-5">
       {label && size === "lg" && <PublicInfo>{label ? label : ""}</PublicInfo>}
@@ -46,7 +48,11 @@ const FormSelect = ({
         render={({ field: { value, onChange } }) => (
           <select
             onChange={onChange}
-            className={`mt-1 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border text-white rounded border-2 border-solid border-gray-300 focus:border-[#0099ff] ${
+            className={`mt-1 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border  rounded border-2 border-solid  focus:border-[#0099ff] ${
+              theme === "dark"
+                ? "text-light border-light"
+                : "text-dark border-dark"
+            } ${
               size === "lg" &&
               "h-8 md:h-9 lg:h-12 text-base md:text-lg lg:text-xl"
             } ${

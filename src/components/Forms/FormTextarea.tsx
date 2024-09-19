@@ -3,6 +3,7 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import PublicInfo from "../Formatting/PublicInfo";
 import Text from "../Formatting/Text";
+import { useAppSelector } from "@/redux/hooks";
 
 interface IProps {
   name: string;
@@ -29,6 +30,7 @@ const FormTextArea = ({
   } = useFormContext();
 
   const errorMessage = getErrorMessageByPropertyName(name, errors);
+  const theme = useAppSelector((store: any) => store.theme.theme);
 
   return (
     <div className="mb-5">
@@ -44,9 +46,13 @@ const FormTextArea = ({
             {...field}
             value={value ? value : field?.value}
             defaultValue={defaultValue}
-            className={`mt-1 px-1 md:px-2 py-1 lg:px-3 focus:outline-none md:text-lg w-full bg-transparent box-border text-white rounded border-2 border-solid border-gray-300 focus:border-[#0099ff]${
-              size === "lg" && "text-base md:text-lg lg:text-xl"
-            } ${size === "md" && "text-sm md:text-base lg:text-lg"} ${
+            className={`mt-1 px-1 md:px-2 py-1 lg:px-3 focus:outline-none md:text-lg w-full bg-transparent box-border rounded border-2 border-solid focus:border-[#0099ff] ${
+              theme === "dark"
+                ? "text-light border-light"
+                : "text-dark border-dark"
+            } ${size === "lg" && "text-base md:text-lg lg:text-xl"} ${
+              size === "md" && "text-sm md:text-base lg:text-lg"
+            } ${
               size === "sm" && "text-xs md:text-sm lg:text-base"
             } ${className}`}
           />
