@@ -11,6 +11,7 @@ import { authKey } from "@/constants/authToken";
 import { useRouter } from "next/navigation";
 import ProfileSelectCard from "./ProfileSelectCard";
 import Heading from "../Formatting/Heading";
+import toast from "react-hot-toast";
 
 const icons = ["🦋", "🌷", "🎈", "🕊", "🐱", "🦊", "🌻", "🧸"];
 const colors = [
@@ -50,10 +51,12 @@ const Profile = ({ user, setUser }: { user: IUser; setUser: any }) => {
     data.cover = currentCover;
     data.id = user?.id;
     delete data.email;
-    console.log(data);
     const result = await updateUser(data).unwrap();
-    // removeUserInfo(authKey);
-    // storeUserInfo({ accessToken: result });
+    if (result) {
+      storeUserInfo({ accessToken: result });
+      setUpdate(false);
+      toast.success("Profile Updated");
+    }
   };
 
   const handleLogout = () => {
@@ -76,18 +79,20 @@ const Profile = ({ user, setUser }: { user: IUser; setUser: any }) => {
 
   return (
     <PrimaryModal
-      title="Delete"
+      title="Profile Preferences"
       btnChildren={
         <Avatar
           onClick={onProfileOpen}
           as="button"
           name={
+            user?.dp ||
             user?.name?.slice(0, 1).toUpperCase() ||
             user?.email?.slice(0, 1).toUpperCase()
           }
           radius="full"
-          size="sm"
-          className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+          size="md"
+          className="text-white font-semibold text-sm md:text-base lg:text-lg"
+          style={{ backgroundColor: user?.cover || "blue" }}
         />
       }
       isOpen={isProfileOpen}

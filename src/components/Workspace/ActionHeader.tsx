@@ -220,12 +220,16 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
                             <Avatar
                               as="button"
                               name={
-                                admin?.user?.name?.slice(0, 1).toUpperCase() ||
-                                admin?.user?.email?.slice(0, 1).toUpperCase()
+                                admin?.user?.dp ||
+                                getTheFirstLetter(admin?.user?.name) ||
+                                getTheFirstLetter(admin?.user?.email)
                               }
                               radius="full"
                               size="sm"
-                              className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+                              className=" text-white font-semibold text-sm md:text-base lg:text-lg"
+                              style={{
+                                backgroundColor: admin?.user?.cover || "blue",
+                              }}
                             />
                           </AvatarLayout>
                           {userId !== admin?.userId ? (

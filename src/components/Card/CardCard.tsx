@@ -1,8 +1,7 @@
 import { getSlicedText } from "@/utils/getSlicedText";
 import React, { useState } from "react";
 import PrimaryModal from "../Modal/PrimaryModal";
-import { Avatar, AvatarGroup, Button, useDisclosure } from "@nextui-org/react";
-import { FaRegEye } from "react-icons/fa";
+import { Avatar, Button, useDisclosure } from "@nextui-org/react";
 import Info from "../Formatting/Info";
 import Heading from "../Formatting/Heading";
 import {
@@ -28,7 +27,6 @@ import CardStatus from "./CardStatus";
 import CardTitle from "./CardTitle";
 import PopoverModal from "../Modal/PopoverModal";
 import Text from "../Formatting/Text";
-import CustomAvatar from "../Formatting/CustomAvatar";
 
 type ValuePiece = Date | null;
 
@@ -155,9 +153,12 @@ const CardCard = ({
                 <div
                   key={index}
                   title={member?.user?.name}
-                  className="rounded-full w-6 h-6 flex justify-center items-center bg-white bg-opacity-70 text-sm text-black -ml-1.5 border border-gray-700"
+                  className="rounded-full w-8 h-8 flex justify-center items-center text-sm text-black -ml-1.5 border border-gray-700"
+                  style={{ backgroundColor: member?.user?.cover || "white" }}
                 >
-                  {getTheFirstLetter(member?.user?.name)}
+                  {member?.user?.dp ||
+                    getTheFirstLetter(member?.user?.name) ||
+                    getTheFirstLetter(member?.user?.email)}
                 </div>
               ))}
             </div>
@@ -177,10 +178,17 @@ const CardCard = ({
                     {card?.CardMembers?.map((member: any) => (
                       <Avatar
                         key={member?.user?.id}
-                        name={getTheFirstLetter(member?.user?.name)}
+                        name={
+                          member?.user?.dp ||
+                          getTheFirstLetter(member?.user?.name) ||
+                          getTheFirstLetter(member?.user?.email)
+                        }
                         title={member?.user?.name}
-                        className="bg-white cursor-pointer"
+                        className="cursor-pointer"
                         size="sm"
+                        style={{
+                          backgroundColor: member?.user?.cover || "white",
+                        }}
                       />
                     ))}
                   </div>

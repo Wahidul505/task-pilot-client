@@ -69,16 +69,21 @@ const BoardNavbar = ({ board }: { board: any }) => {
       <BoardTitleNav board={board} userId={userId} />
 
       <div className="flex items-center gap-2 lg:gap-3">
-        <AvatarGroup isBordered>
+        <div className="flex items-center">
           {board?.BoardMembers?.map((boardMember: any, index: number) => (
             <Avatar
               key={index}
-              name={getTheFirstLetter(boardMember?.user?.email)}
-              className="bg-white"
+              name={
+                getTheFirstLetter(
+                  boardMember?.user?.dp || boardMember?.user?.name
+                ) || getTheFirstLetter(boardMember?.user?.email)
+              }
+              style={{ backgroundColor: boardMember?.user?.cover || "white" }}
               size="sm"
+              className="-ml-2"
             />
           ))}
-        </AvatarGroup>
+        </div>
 
         {/* start  */}
         <PrimaryModal

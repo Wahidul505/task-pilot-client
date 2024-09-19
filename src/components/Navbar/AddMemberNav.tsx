@@ -16,6 +16,7 @@ import {
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useGetUsersQuery } from "@/redux/api/userApi";
+import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
 
 const AddMemberNav = ({ board, userId }: { board: any; userId: string }) => {
   const [items, setItems] = useState([]);
@@ -147,12 +148,14 @@ const AddMemberNav = ({ board, userId }: { board: any; userId: string }) => {
               <Avatar
                 as="button"
                 name={
-                  board?.user?.name?.slice(0, 1).toUpperCase() ||
-                  board?.user?.email?.slice(0, 1).toUpperCase()
+                  board?.user?.dp ||
+                  getTheFirstLetter(board?.user?.name) ||
+                  getTheFirstLetter(board?.user?.email)
                 }
                 radius="full"
                 size="sm"
-                className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+                className=" text-white font-semibold text-sm md:text-base lg:text-lg"
+                style={{ backgroundColor: board?.user?.cover || "blue" }}
               />
             </AvatarLayout>
           )}
@@ -177,16 +180,17 @@ const AddMemberNav = ({ board, userId }: { board: any; userId: string }) => {
                           <Avatar
                             as="button"
                             name={
-                              boardMember?.user?.name
-                                ?.slice(0, 1)
-                                .toUpperCase() ||
-                              boardMember?.user?.email
-                                ?.slice(0, 1)
-                                .toUpperCase()
+                              boardMember?.user?.dp ||
+                              getTheFirstLetter(boardMember?.user?.name) ||
+                              getTheFirstLetter(boardMember?.user?.email)
                             }
                             radius="full"
                             size="sm"
-                            className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+                            className="text-white font-semibold text-sm md:text-base lg:text-lg"
+                            style={{
+                              backgroundColor:
+                                boardMember?.user?.cover || "blue",
+                            }}
                           />
                         </AvatarLayout>
                         {board?.admin === userId && (

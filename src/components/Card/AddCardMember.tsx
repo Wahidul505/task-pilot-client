@@ -4,6 +4,7 @@ import { Avatar, Button } from "@nextui-org/react";
 import AvatarLayout from "../Layout/AvatarLayout";
 import { IoMdCheckmark } from "react-icons/io";
 import { getUserInfo } from "@/services/auth.service";
+import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
 
 const AddCardMember = ({
   card,
@@ -50,12 +51,14 @@ const AddCardMember = ({
                   >
                     <Avatar
                       name={
-                        member?.user?.name?.slice(0, 1).toUpperCase() ||
-                        member?.user?.email?.slice(0, 1).toUpperCase()
+                        member?.user?.dp ||
+                        getTheFirstLetter(member?.user?.name) ||
+                        getTheFirstLetter(member?.user?.email)
                       }
                       radius="full"
                       size="sm"
-                      className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+                      className="text-white font-semibold text-sm md:text-base lg:text-lg"
+                      style={{ backgroundColor: member?.user?.cover || "blue" }}
                     />
                   </AvatarLayout>
                   <IoMdCheckmark className="text-white text-base" />
@@ -74,12 +77,14 @@ const AddCardMember = ({
                   >
                     <Avatar
                       name={
-                        member?.user?.name?.slice(0, 1).toUpperCase() ||
-                        member?.user?.email?.slice(0, 1).toUpperCase()
+                        member?.dp ||
+                        getTheFirstLetter(member?.user?.name) ||
+                        getTheFirstLetter(member?.user?.email)
                       }
                       radius="full"
                       size="sm"
-                      className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+                      className="text-white font-semibold text-sm md:text-base lg:text-lg"
+                      style={{ backgroundColor: member?.cover || "blue" }}
                     />
                   </AvatarLayout>
                 </div>

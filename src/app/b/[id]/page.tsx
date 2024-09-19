@@ -16,7 +16,7 @@ import {
   useCreateListMutation,
   useGetAllListsQuery,
 } from "@/redux/api/listApi";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { saveBg } from "@/redux/slices/bgSlice";
 import { listSchema } from "@/schema/list";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -27,6 +27,7 @@ import toast from "react-hot-toast";
 const BoardPage = ({ params }: { params: any }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const dispatch = useAppDispatch();
+  const theme = useAppSelector((store: any) => store.theme);
 
   const { id } = params;
 

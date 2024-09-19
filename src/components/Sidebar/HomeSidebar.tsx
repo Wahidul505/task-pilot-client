@@ -15,22 +15,27 @@ import Image from "next/image";
 import Text from "../Formatting/Text";
 import CustomDivider from "../Divider/CustomDivider";
 import LoadingPage from "@/app/loading";
+import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
 
 const HomeSidebar = () => {
   const [user, setUser] = useState({
     id: "",
     email: "",
     name: "",
+    dp: "",
+    cover: "",
   });
 
   const { data, isLoading } = useGetAllWorkspacesOfAdminQuery(undefined);
   const { data: guestWorkspacesData, isLoading: isGuestWorkspacesLoading } =
     useGetAllWorkspacesOfGuestQuery(undefined);
 
-  const { userId, userEmail, userName } = getUserInfo() as {
+  const { userId, userEmail, userName, userDp, userCover } = getUserInfo() as {
     userId: string;
     userEmail: string;
     userName: string;
+    userDp: string;
+    userCover: string;
   };
 
   useEffect(() => {
@@ -38,8 +43,10 @@ const HomeSidebar = () => {
       id: userId,
       email: userEmail,
       name: userName,
+      dp: userDp,
+      cover: userCover,
     });
-  }, [userId, userEmail, userName]);
+  }, [userId, userEmail, userName, userDp, userCover]);
 
   if (isLoading || isGuestWorkspacesLoading) return <LoadingPage />;
 
@@ -49,12 +56,14 @@ const HomeSidebar = () => {
         <AvatarLayout text={user?.name || ""} info={user?.email}>
           <Avatar
             name={
-              user?.name?.slice(0, 1).toUpperCase() ||
-              user?.email?.slice(0, 1).toUpperCase()
+              user?.dp ||
+              getTheFirstLetter(user?.name) ||
+              getTheFirstLetter(user?.email)
             }
             radius="full"
             size="sm"
-            className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
+            className=" text-white font-semibold text-sm md:text-base lg:text-lg"
+            style={{ backgroundColor: user?.cover || "blue" }}
           />
         </AvatarLayout>
       }
@@ -69,7 +78,7 @@ const HomeSidebar = () => {
                 className="cursor-pointer mb-2"
               >
                 <Avatar
-                  name={item.workspace.title.slice(0, 1).toUpperCase()}
+                  name={getTheFirstLetter(item?.workspace?.title)}
                   radius="sm"
                   size="sm"
                   className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg rounded"
@@ -88,7 +97,7 @@ const HomeSidebar = () => {
             <div key={item?.id} className="mb-4 md:mb-6">
               <AvatarLayout text={item?.title} className="cursor-pointer mb-3">
                 <Avatar
-                  name={item?.title.slice(0, 1).toUpperCase()}
+                  name={getTheFirstLetter(item?.title)}
                   radius="sm"
                   size="sm"
                   className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg rounded"

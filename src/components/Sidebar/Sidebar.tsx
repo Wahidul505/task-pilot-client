@@ -1,9 +1,8 @@
 "use client";
-import { Avatar, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
 import { BiLeftArrow } from "react-icons/bi";
 import { BiRightArrow } from "react-icons/bi";
-import AvatarLayout from "../Layout/AvatarLayout";
 import { IChildrenProps } from "@/types/common";
 import CustomDivider from "../Divider/CustomDivider";
 

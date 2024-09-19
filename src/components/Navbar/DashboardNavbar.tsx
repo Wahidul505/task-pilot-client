@@ -1,22 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {
-  Avatar,
   Button,
   Navbar,
   NavbarBrand,
   NavbarContent,
-  Switch,
   useDisclosure,
 } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import NavbarDropdown from "../Dropdown/NavbarDropdown";
 import { useGetAllWorkspacesOfAdminQuery } from "@/redux/api/workspaceApi";
-import PopoverModal from "../Modal/PopoverModal";
-import AvatarLayout from "../Layout/AvatarLayout";
-import CustomDivider from "../Divider/CustomDivider";
-import { getUserInfo, removeUserInfo } from "@/services/auth.service";
-import { authKey } from "@/constants/authToken";
+import { getUserInfo } from "@/services/auth.service";
 import CreateBoardForm from "../Forms/CreateBoardForm";
 import CreateWorkspaceForm from "../Forms/CreateWorkspaceForm";
 import Link from "next/link";
@@ -27,10 +20,14 @@ import {
   useGetUserReceivedCollabRequestsQuery,
 } from "@/redux/api/collabApi";
 import { FaRegBell } from "react-icons/fa";
+import { BiMoon } from "react-icons/bi";
+import { BiSun } from "react-icons/bi";
 import Text from "../Formatting/Text";
 import PrimaryModal from "../Modal/PrimaryModal";
 import Heading from "../Formatting/Heading";
 import Profile from "../Profile/Profile";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { changeTheme } from "@/redux/slices/themeSlice";
 
 const DashboardNavbar = () => {
   const [user, setUser] = useState({
@@ -40,10 +37,11 @@ const DashboardNavbar = () => {
     dp: "",
     cover: "",
   });
-
   const { data, isLoading } = useGetAllWorkspacesOfAdminQuery(undefined);
-
   const [collabAction] = useCollabActionMutation();
+  const theme = useAppSelector((store: any) => store.theme.theme);
+
+  const dispatch = useAppDispatch();
 
   const {
     data: receivedCollabRequests,
@@ -120,6 +118,21 @@ const DashboardNavbar = () => {
       </NavbarBrand>
       <NavbarContent justify="end">
         {/* start  */}
+        <Button
+          onClick={async () => {
+            theme === "light"
+              ? await dispatch(changeTheme("dark"))
+              : await dispatch(changeTheme("light"));
+          }}
+          className="bg-transparent -mr-2"
+          isIconOnly
+        >
+          {theme === "light" ? (
+            <BiMoon className="text-2xl text-black" />
+          ) : (
+            <BiSun className="text-2xl text-white" />
+          )}
+        </Button>
         <PrimaryModal
           title="Collab Requests"
           btnChildren={
