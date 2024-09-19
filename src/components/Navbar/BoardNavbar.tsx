@@ -22,6 +22,7 @@ import SaveBoardTemplateNav from "./SaveBoardTemplateNav";
 import AddMemberNav from "./AddMemberNav";
 import Image from "next/image";
 import Heading from "../Formatting/Heading";
+import { useAppSelector } from "@/redux/hooks";
 
 const BoardNavbar = ({ board }: { board: any }) => {
   const { userId } = getUserInfo() as { userId: string };
@@ -34,6 +35,8 @@ const BoardNavbar = ({ board }: { board: any }) => {
   const [collabRequest] = useCollabRequestMutation();
 
   const router = useRouter();
+
+  const theme = useAppSelector((store: any) => store.theme.theme);
 
   const {
     isOpen: isCollabModalOpen,
@@ -65,7 +68,11 @@ const BoardNavbar = ({ board }: { board: any }) => {
   };
 
   return (
-    <div className="backdrop-filter backdrop-blur-md bg-slate-900 bg-opacity-50 w-full flex justify-between p-1 md:p-2 lg:p-3 items-center flex-wrap">
+    <div
+      className={`backdrop-filter backdrop-blur-md bg-opacity-50 w-full flex justify-between p-1 md:p-2 lg:p-3 items-center flex-wrap ${
+        theme === "dark" ? "bg-dark" : "bg-light"
+      }`}
+    >
       <BoardTitleNav board={board} userId={userId} />
 
       <div className="flex items-center gap-2 lg:gap-3">

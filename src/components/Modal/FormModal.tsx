@@ -11,6 +11,7 @@ import Form from "../Forms/Form";
 import { IChildrenProps } from "@/types/common";
 import { yupResolver } from "@hookform/resolvers/yup";
 import PublicHeading2 from "../Formatting/PublicHeading2";
+import { useAppSelector } from "@/redux/hooks";
 
 type IModalProps = {
   children: IChildrenProps;
@@ -37,6 +38,8 @@ const FormModal = ({
   size = "sm",
   gradientHeading = false,
 }: IModalProps) => {
+  const theme = useAppSelector((store: any) => store.theme.theme);
+
   const handleSubmit = async (data: any) => {
     // Call submitHandler and wait for it to complete
     await submitHandler(data);
@@ -50,7 +53,9 @@ const FormModal = ({
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className="rounded bg-slate-900 bg-opacity-50 backdrop-filter backdrop-blur-md"
+        className={`rounded bg-opacity-50 backdrop-filter backdrop-blur-md ${
+          theme === "dark" ? "bg-dark" : "bg-light"
+        }`}
         scrollBehavior="inside"
         size={size}
       >

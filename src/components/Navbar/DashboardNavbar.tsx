@@ -28,6 +28,7 @@ import Heading from "../Formatting/Heading";
 import Profile from "../Profile/Profile";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { changeTheme } from "@/redux/slices/themeSlice";
+import toast from "react-hot-toast";
 
 const DashboardNavbar = () => {
   const [user, setUser] = useState({
@@ -67,7 +68,8 @@ const DashboardNavbar = () => {
     board2Id: string,
     status: "accept" | "decline"
   ) => {
-    const result = await collabAction({ board2Id, status, requestId });
+    const result = await collabAction({ board2Id, status, requestId }).unwrap();
+    if (result) toast.success("Request accepted");
   };
 
   useEffect(() => {
@@ -89,7 +91,9 @@ const DashboardNavbar = () => {
 
   return (
     <Navbar
-      className="bg-slate-900 h-14 border-b border-solid border-white"
+      className={` h-14 border-b border-solid ${
+        theme === "dark" ? "bg-dark-border-light" : "bg-light-border-dark"
+      }`}
       maxWidth="full"
     >
       <NavbarBrand className="flex space-x-2 lg:space-x-6">
@@ -128,9 +132,9 @@ const DashboardNavbar = () => {
           isIconOnly
         >
           {theme === "light" ? (
-            <BiMoon className="text-2xl text-black" />
+            <BiMoon className="text-2xl text-dark" />
           ) : (
-            <BiSun className="text-2xl text-white" />
+            <BiSun className="text-2xl text-light" />
           )}
         </Button>
         <PrimaryModal
@@ -141,7 +145,11 @@ const DashboardNavbar = () => {
               className="bg-transparent -mr-2"
               isIconOnly
             >
-              <FaRegBell className="text-2xl text-white" />
+              <FaRegBell
+                className={`text-2xl ${
+                  theme === "dark" ? "text-light" : "text-dark"
+                }`}
+              />
             </Button>
           }
           isOpen={isRequestModalOpen}

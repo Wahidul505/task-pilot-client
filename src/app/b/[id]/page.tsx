@@ -27,9 +27,10 @@ import toast from "react-hot-toast";
 const BoardPage = ({ params }: { params: any }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const theme = useAppSelector((store: any) => store.theme);
 
   const { id } = params;
+
+  const theme = useAppSelector((store: any) => store.theme.theme);
 
   const { data, isLoading } = useGetSingleBoardQuery(id);
 
@@ -75,7 +76,11 @@ const BoardPage = ({ params }: { params: any }) => {
 
         {isFormOpen ? (
           <div className="h-full">
-            <div className="bg-slate-900 rounded bg-opacity-70 p-3 w-32 md:w-56 min-h-32">
+            <div
+              className={`rounded bg-opacity-70 p-3 w-32 md:w-56 min-h-32 ${
+                theme === "dark" ? "bg-dark" : "bg-light"
+              }`}
+            >
               <Form
                 submitHandler={handleCreateListSubmit}
                 doReset={false}
@@ -91,7 +96,14 @@ const BoardPage = ({ params }: { params: any }) => {
                   margin={false}
                 />
                 <div className="flex justify-between items-center">
-                  <PrimaryButton size="sm" label="Add" type="submit" />
+                  <Button
+                    type="submit"
+                    color="primary"
+                    className="rounded"
+                    size="sm"
+                  >
+                    Add
+                  </Button>
                   <Button
                     isIconOnly
                     variant="light"
@@ -107,7 +119,9 @@ const BoardPage = ({ params }: { params: any }) => {
         ) : (
           <Button
             onClick={() => setIsFormOpen(true)}
-            className="rounded bg-slate-900 text-white bg-opacity-80 w-32 z-0"
+            className={`rounded bg-opacity-80 w-32 z-0 ${
+              theme === "dark" ? "bg-dark text-light" : "bg-light text-dark"
+            }`}
             size="lg"
           >
             + Add list

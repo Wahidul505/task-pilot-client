@@ -17,6 +17,7 @@ import { Button, useDisclosure } from "@nextui-org/react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import PrimaryModal from "../Modal/PrimaryModal";
 import Text from "../Formatting/Text";
+import { useAppSelector } from "@/redux/hooks";
 
 const ListCard = ({ list }: { list: any }) => {
   const [clicked, setClicked] = useState(false);
@@ -25,6 +26,8 @@ const ListCard = ({ list }: { list: any }) => {
   const [createCard] = useCreateCardMutation();
   const [updateListId] = useUpdateListIdMutation();
   const [removeList] = useRemoveListMutation();
+
+  const theme = useAppSelector((store: any) => store.theme.theme);
 
   const {
     isOpen: isDeleteListOpen,
@@ -93,7 +96,9 @@ const ListCard = ({ list }: { list: any }) => {
     <div
       onDrop={handleOnDrop}
       onDragOver={handleDragOver}
-      className="rounded bg-slate-900 bg-opacity-90 p-1 lg:p-2 w-40 md:w-64 lg:w-72 min-h-32"
+      className={`rounded bg-opacity-90 p-1 lg:p-2 w-40 md:w-64 lg:w-72 min-h-32 ${
+        theme === "dark" ? "bg-dark" : "bg-light"
+      }`}
     >
       <div className="flex justify-between">
         <PopupForm
@@ -101,7 +106,9 @@ const ListCard = ({ list }: { list: any }) => {
           setClicked={setClicked}
           button={
             <button
-              className="bg-transparent border-none py-1 cursor-pointer text-white px-2 w-full text-start text-xl mb-3"
+              className={`bg-transparent border-none py-1 cursor-pointer px-2 w-full text-start text-xl mb-3 ${
+                theme === "dark" ? "text-light" : "text-dark"
+              }`}
               onClick={() => setClicked(true)}
               id="click"
             >

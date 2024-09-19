@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/redux/hooks";
 import { IChildrenProps } from "@/types/common";
 import React from "react";
 
@@ -8,7 +9,16 @@ const Text = ({
   children: IChildrenProps;
   className?: string;
 }) => {
-  return <div className={`text-base text-white ${className}`}>{children}</div>;
+  const theme = useAppSelector((store: any) => store.theme.theme);
+  return (
+    <div
+      className={`text-base ${className} ${
+        theme === "dark" ? "text-light" : "text-dark"
+      }`}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default Text;

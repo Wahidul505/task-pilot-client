@@ -3,6 +3,7 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import PublicInfo from "../Formatting/PublicInfo";
 import Text from "../Formatting/Text";
+import { useAppSelector } from "@/redux/hooks";
 
 interface IProps {
   name: string;
@@ -19,7 +20,7 @@ interface IProps {
   className?: string;
   margin?: boolean;
   autoFocus?: boolean;
-  theme?: "dark" | "light";
+  themeExist?: boolean;
 }
 
 const FormInput = ({
@@ -35,7 +36,7 @@ const FormInput = ({
   className,
   margin = true,
   autoFocus = false,
-  theme = "dark",
+  themeExist = true,
 }: IProps) => {
   const {
     control,
@@ -43,6 +44,7 @@ const FormInput = ({
   } = useFormContext();
 
   const errorMessage = getErrorMessageByPropertyName(name, errors);
+  const theme = useAppSelector((store: any) => store.theme.theme);
 
   return (
     <div
@@ -70,10 +72,12 @@ const FormInput = ({
             disabled={disabled}
             defaultValue={defaultValue}
             className={`mt-1 px-1 md:px-2 lg:px-3 focus:outline-none w-full bg-transparent box-border rounded ${
-              theme === "dark" ? "text-white" : "text-black"
+              themeExist && theme === "dark" ? "text-light" : "text-dark"
             } ${
               bordered
-                ? " border-2 border-solid border-gray-300 focus:border-[#0099ff]"
+                ? `border-2 border-solid focus:border-[#0099ff] ${
+                    theme === "dark" ? "border-light" : "border-dark"
+                  }`
                 : "border-none"
             } ${
               size === "lg" &&

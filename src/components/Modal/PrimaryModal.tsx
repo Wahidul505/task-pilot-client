@@ -8,6 +8,7 @@ import {
 import React from "react";
 import { IChildrenProps } from "@/types/common";
 import PublicHeading2 from "../Formatting/PublicHeading2";
+import { useAppSelector } from "@/redux/hooks";
 
 type IModalProps = {
   children: IChildrenProps;
@@ -28,20 +29,25 @@ const PrimaryModal = ({
   size = "sm",
   gradientHeading = false,
 }: IModalProps) => {
+  const theme = useAppSelector((store: any) => store.theme.theme);
   return (
     <>
       <>{btnChildren}</>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className="rounded bg-slate-900 bg-opacity-50 backdrop-filter backdrop-blur-md"
+        className={`rounded bg-opacity-50 backdrop-filter backdrop-blur-md ${
+          theme === "dark" ? "bg-dark" : "bg-light"
+        }`}
         scrollBehavior="inside"
         size={size}
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="text-white">
+              <ModalHeader
+                className={theme === "dark" ? "text-light" : "text-dark"}
+              >
                 {gradientHeading ? (
                   <PublicHeading2>{title}</PublicHeading2>
                 ) : (

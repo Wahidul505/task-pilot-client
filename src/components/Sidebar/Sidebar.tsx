@@ -5,6 +5,7 @@ import { BiLeftArrow } from "react-icons/bi";
 import { BiRightArrow } from "react-icons/bi";
 import { IChildrenProps } from "@/types/common";
 import CustomDivider from "../Divider/CustomDivider";
+import { useAppSelector } from "@/redux/hooks";
 
 const Sidebar = ({
   children,
@@ -14,19 +15,19 @@ const Sidebar = ({
   avatarLayout: IChildrenProps;
 }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const theme = useAppSelector((store: any) => store.theme.theme);
   return (
     <div
-      className={`h-full overflow-y-auto bg-slate-950 bg-opacity-80 backdrop-filter backdrop-blur-md text-white transition-all duration-250 relative border-r border-solid border-l-gray-500  ${
+      className={`h-full overflow-y-auto  bg-opacity-80 backdrop-filter backdrop-blur-md  transition-all duration-250 relative border-r border-solid  ${
         isOpen ? "w-64" : "w-8"
-      }`}
+      } ${theme === "dark" ? "bg-dark-border-light" : "bg-light-border-dark"}`}
     >
       {!isOpen && (
         <div className="pt-1 md:pt-2 lg:pt-4">
           <Button
-            variant="light"
             isIconOnly
             size="sm"
-            className="text-black"
+            className="text-black bg-transparent"
             onClick={() => setIsOpen(true)}
           >
             <BiRightArrow className="text-white" />
@@ -37,10 +38,9 @@ const Sidebar = ({
         <div className="flex justify-between items-center text-white">
           {avatarLayout}
           <Button
-            variant="light"
             isIconOnly
             size="sm"
-            className="text-white"
+            className="text-white bg-transparent"
             onClick={() => setIsOpen(false)}
           >
             <BiLeftArrow className="text-white" />

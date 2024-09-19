@@ -14,6 +14,7 @@ const DashboardLayout = ({
   navbar?: IChildrenProps;
 }) => {
   const bg = useAppSelector((store: any) => store.bg);
+  const theme = useAppSelector((store: any) => store.theme.theme);
 
   return (
     <div className="h-screen overflow-y-hidden fixed z-10 top-0 bottom-0 right-0 left-0">

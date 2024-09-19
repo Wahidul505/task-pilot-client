@@ -1,6 +1,7 @@
 import { IChildrenProps } from "@/types/common";
 import React from "react";
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
+import { useAppSelector } from "@/redux/hooks";
 
 const PopoverModal = ({
   button,
@@ -26,6 +27,7 @@ const PopoverModal = ({
     | "right"
     | "right-end";
 }) => {
+  const theme = useAppSelector((store: any) => store.theme.theme);
   return (
     <Popover
       key={htmlFor}
@@ -33,7 +35,11 @@ const PopoverModal = ({
       className="bg-slate-900 rounded "
     >
       <PopoverTrigger>{button}</PopoverTrigger>
-      <PopoverContent className="p-2 md:p-2 lg:p-3 rounded bg-slate-900 bg-opacity-80">
+      <PopoverContent
+        className={`p-2 md:p-2 lg:p-3 rounded bg-opacity-80 ${
+          theme === "dark" ? "bg-dark" : "bg-light"
+        }`}
+      >
         {children}
       </PopoverContent>
     </Popover>
