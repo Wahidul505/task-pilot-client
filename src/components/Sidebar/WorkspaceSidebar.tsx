@@ -7,6 +7,7 @@ import { Avatar } from "@nextui-org/react";
 import { getTheFirstLetter } from "@/utils/getTheFirstLetter";
 import BoardCardSidebar from "../Card/BoardCardSidebar";
 import { getUserInfo } from "@/services/auth.service";
+import { useAppSelector } from "@/redux/hooks";
 
 const WorkspaceSidebar = ({
   workspace,
@@ -16,6 +17,7 @@ const WorkspaceSidebar = ({
   boards: any[];
 }) => {
   const { userId } = getUserInfo() as { userId: string };
+  const theme = useAppSelector((store: any) => store.theme.theme);
   return (
     <Sidebar
       avatarLayout={
@@ -44,7 +46,11 @@ const WorkspaceSidebar = ({
           {boards?.map((board: any) => (
             <>
               {board?.boardCollab?.Boards?.length > 0 ? (
-                <div className="border border-white p-2 mb-1 lg:mb-2">
+                <div
+                  className={`border p-2 mb-1 lg:mb-2 ${
+                    theme === "dark" ? "border-light" : "border-dark"
+                  }`}
+                >
                   {/** Sort between the actual board and the collab board */}
                   {[board, board?.boardCollab?.Boards[0]]
                     .sort(

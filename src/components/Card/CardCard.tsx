@@ -28,6 +28,8 @@ import CardTitle from "./CardTitle";
 import PopoverModal from "../Modal/PopoverModal";
 import Text from "../Formatting/Text";
 import { useAppSelector } from "@/redux/hooks";
+import LayoutButton from "../Button/LayoutButton";
+import CustomAvatar from "../Formatting/CustomAvatar";
 
 type ValuePiece = Date | null;
 
@@ -113,10 +115,10 @@ const CardCard = ({
 
   return (
     <div
-      className={`bg-opacity-30 rounded text-base mb-2 cursor-pointer border-2 border-solid ${
+      className={`rounded text-base mb-2 cursor-pointer border-2 border-solid ${
         theme === "dark"
-          ? "text-light bg-dark border-light"
-          : "text-dark bg-light border-dark"
+          ? "text-light bg-dark-30 border-light"
+          : "text-dark bg-light-30 border-dark"
       }`}
       onDragStart={(e) => handleOnDrag(e, card?.id)}
       draggable
@@ -157,16 +159,15 @@ const CardCard = ({
               )}
             <div className="flex items-center ml-2">
               {card?.CardMembers?.map((member: any, index: number) => (
-                <div
-                  key={index}
-                  title={member?.user?.name}
-                  className="rounded-full w-8 h-8 flex justify-center items-center text-sm text-black -ml-1.5 border border-gray-700"
-                  style={{ backgroundColor: member?.user?.cover || "white" }}
-                >
-                  {member?.user?.dp ||
+                <CustomAvatar
+                  popupText={member?.user?.name || member?.user?.email}
+                  text={
+                    member?.user?.dp ||
                     getTheFirstLetter(member?.user?.name) ||
-                    getTheFirstLetter(member?.user?.email)}
-                </div>
+                    getTheFirstLetter(member?.user?.email)
+                  }
+                  bg={member?.user?.cover}
+                />
               ))}
             </div>
           </div>
@@ -181,21 +182,16 @@ const CardCard = ({
               {card?.CardMembers?.length > 0 && (
                 <div>
                   <Info className="mb-1 lg:mb-2">Members</Info>
-                  <div className="flex space-x-1">
+                  <div className="flex">
                     {card?.CardMembers?.map((member: any) => (
-                      <Avatar
-                        key={member?.user?.id}
-                        name={
+                      <CustomAvatar
+                        popupText={member?.user?.name || member?.user?.email}
+                        text={
                           member?.user?.dp ||
                           getTheFirstLetter(member?.user?.name) ||
                           getTheFirstLetter(member?.user?.email)
                         }
-                        title={member?.user?.name}
-                        className="cursor-pointer"
-                        size="sm"
-                        style={{
-                          backgroundColor: member?.user?.cover || "white",
-                        }}
+                        bg={member?.user?.cover}
                       />
                     ))}
                   </div>
@@ -212,12 +208,20 @@ const CardCard = ({
                     variant="light"
                     onClick={() => setIsEditDescriptionOpen(true)}
                   >
-                    <FiEdit className="text-white text-lg" />
+                    <FiEdit
+                      className={`text-lg ${
+                        theme === "dark" ? "text-light" : "text-dark"
+                      }`}
+                    />
                   </Button>
                 )}
               </div>
               {!isEditDescriptionOpen && (
-                <div className="text-white text-justify whitespace-pre-wrap">
+                <div
+                  className={`text-justify whitespace-pre-wrap ${
+                    theme === "dark" ? "text-light" : "text-dark"
+                  }`}
+                >
                   {card?.description}
                 </div>
               )}
@@ -229,22 +233,10 @@ const CardCard = ({
                     className="h-40 lg:h-56"
                     defaultValue={card?.description}
                   />
-                  <Button
-                    size="sm"
-                    color="primary"
-                    className="rounded mr-2"
-                    type="submit"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="light"
-                    className="text-white rounded"
-                    onClick={() => setIsEditDescriptionOpen(false)}
-                  >
-                    Cancel
-                  </Button>
+                  <LayoutButton
+                    btnLabel="Save"
+                    onClose={() => setIsEditDescriptionOpen(false)}
+                  />
                 </Form>
               )}
               {checklistData?.length > 0 &&

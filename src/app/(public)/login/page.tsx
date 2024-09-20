@@ -44,13 +44,13 @@ const LoginPage = () => {
           name="email"
           type="email"
           placeholder="Email"
-          theme="light"
+          themeExist={false}
         />
         <FormInput
           name="password"
           type="password"
           placeholder="Password"
-          theme="light"
+          themeExist={false}
         />
         <div className="flex justify-between items-center">
           <PrimaryButton label="Login" type="submit" />

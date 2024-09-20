@@ -59,7 +59,7 @@ const Banner = () => {
                     size="lg"
                     bordered={false}
                     className="bg-white hidden md:block"
-                    theme="light"
+                    themeExist={false}
                   />
                   <FormInput
                     name="email"
@@ -68,7 +68,7 @@ const Banner = () => {
                     size="lg"
                     bordered={true}
                     className="bg-white md:hidden"
-                    theme="light"
+                    themeExist={false}
                   />
                   <PrimaryButton label="Sign up" type="submit" />
                 </div>

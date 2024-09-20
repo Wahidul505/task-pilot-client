@@ -23,6 +23,7 @@ import AddMemberNav from "./AddMemberNav";
 import Image from "next/image";
 import Heading from "../Formatting/Heading";
 import { useAppSelector } from "@/redux/hooks";
+import CustomAvatar from "../Formatting/CustomAvatar";
 
 const BoardNavbar = ({ board }: { board: any }) => {
   const { userId } = getUserInfo() as { userId: string };
@@ -69,8 +70,8 @@ const BoardNavbar = ({ board }: { board: any }) => {
 
   return (
     <div
-      className={`backdrop-filter backdrop-blur-md bg-opacity-50 w-full flex justify-between p-1 md:p-2 lg:p-3 items-center flex-wrap ${
-        theme === "dark" ? "bg-dark" : "bg-light"
+      className={`backdrop-filter backdrop-blur-md w-full flex justify-between p-1 md:p-2 lg:p-3 items-center flex-wrap ${
+        theme === "dark" ? "bg-dark-50" : "bg-light-50"
       }`}
     >
       <BoardTitleNav board={board} userId={userId} />
@@ -78,16 +79,14 @@ const BoardNavbar = ({ board }: { board: any }) => {
       <div className="flex items-center gap-2 lg:gap-3">
         <div className="flex items-center">
           {board?.BoardMembers?.map((boardMember: any, index: number) => (
-            <Avatar
-              key={index}
-              name={
+            <CustomAvatar
+              text={
                 getTheFirstLetter(
                   boardMember?.user?.dp || boardMember?.user?.name
                 ) || getTheFirstLetter(boardMember?.user?.email)
               }
-              style={{ backgroundColor: boardMember?.user?.cover || "white" }}
-              size="sm"
-              className="-ml-2"
+              popupText={boardMember?.user?.name || boardMember?.user?.email}
+              bg={boardMember?.user?.cover}
             />
           ))}
         </div>
@@ -119,7 +118,6 @@ const BoardNavbar = ({ board }: { board: any }) => {
                 name="email"
                 type="email"
                 placeholder="Email"
-                theme="light"
                 size="sm"
               />
 

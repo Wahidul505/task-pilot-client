@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --dark: 24, 28, 20;
+  --light: 245, 245, 245;
+}
+
 * {
   margin: 0px;
   padding: 0px;
@@ -21,27 +26,27 @@
 }
 
 .text-dark {
-  color: black;
+  color: rgb(var(--dark));
 }
 
 .text-light {
-  color: white;
+  color: rgb(var(--light));
 }
 
 .bg-dark {
-  background-color: darkblue;
+  background-color: rgb(var(--dark));
 }
 
 .bg-light {
-  background-color: white;
+  background-color: rgb(var(--light));
 }
 
 .border-dark {
-  border-color: black;
+  border-color: rgb(var(--dark));
 }
 
 .border-light {
-  border-color: white;
+  border-color: rgb(var(--light));
 }
 
 .hover-bg-dark:hover {
@@ -50,3 +55,61 @@
 .hover-bg-light:hover {
   background-color: rgb(237, 237, 237);
 }
+
+.bg-dark-90 {
+  background-color: rgb(var(--dark), 0.9);
+}
+
+.bg-dark-80 {
+  background-color: rgb(var(--dark), 0.8);
+}
+
+.bg-dark-70 {
+  background-color: rgb(var(--dark), 0.7);
+}
+
+.bg-dark-50 {
+  background-color: rgb(var(--dark), 0.5);
+}
+
+.bg-dark-40 {
+  background-color: rgb(var(--dark), 0.4);
+}
+
+.bg-dark-30 {
+  background-color: rgb(var(--dark), 0.3);
+}
+
+.bg-dark-20 {
+  background-color: rgb(var(--dark), 0.2);
+}
+
+.bg-light-90 {
+  background-color: rgb(var(--light), 0.9);
+}
+
+.bg-light-80 {
+  background-color: rgb(var(--light), 0.8);
+}
+
+.bg-light-70 {
+  background-color: rgb(var(--light), 0.7);
+}
+
+.bg-light-50 {
+  background-color: rgb(var(--light), 0.5);
+}
+
+.bg-light-40 {
+  background-color: rgb(var(--light), 0.4);
+}
+
+.bg-light-30 {
+  background-color: rgb(var(--light), 0.3);
+}
+
+.bg-light-20 {
+  background-color: rgb(var(--light), 0.2);
+}
+
+/* #E9EFEC */

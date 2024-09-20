@@ -18,9 +18,11 @@ const Sidebar = ({
   const theme = useAppSelector((store: any) => store.theme.theme);
   return (
     <div
-      className={`h-full overflow-y-auto  bg-opacity-80 backdrop-filter backdrop-blur-md  transition-all duration-250 relative border-r border-solid  ${
+      className={`h-full overflow-y-auto  backdrop-filter backdrop-blur-md  transition-all duration-250 relative border-r border-solid  ${
         isOpen ? "w-64" : "w-8"
-      } ${theme === "dark" ? "bg-dark border-light" : "bg-light border-dark"}`}
+      } ${
+        theme === "dark" ? "bg-dark-80 border-light" : "bg-light-80 border-dark"
+      }`}
     >
       {!isOpen && (
         <div className="pt-1 md:pt-2 lg:pt-4">

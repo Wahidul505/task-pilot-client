@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import ProfileSelectCard from "./ProfileSelectCard";
 import Heading from "../Formatting/Heading";
 import toast from "react-hot-toast";
+import LayoutButton from "../Button/LayoutButton";
 
 const icons = ["🦋", "🌷", "🎈", "🕊", "🐱", "🦊", "🌻", "🧸"];
 const colors = [
@@ -191,26 +192,7 @@ const Profile = ({ user, setUser }: { user: IUser; setUser: any }) => {
                 size="sm"
                 className="text-white"
               />
-              <div className="flex justify-end items-center gap-1 md:gap-2 mt-1 md:mt-2">
-                <Button
-                  color="danger"
-                  variant="light"
-                  size="sm"
-                  className="rounded"
-                  onPress={handleDiscardUpdate}
-                >
-                  Discard
-                </Button>
-                <Button
-                  color="primary"
-                  className="rounded"
-                  size="sm"
-                  type="submit"
-                  onPress={handleUpdateProfile}
-                >
-                  Update
-                </Button>
-              </div>
+              <LayoutButton btnLabel="Update" onClose={handleDiscardUpdate} />
             </Form>
           </div>
         )}

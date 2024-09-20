@@ -77,8 +77,8 @@ const BoardPage = ({ params }: { params: any }) => {
         {isFormOpen ? (
           <div className="h-full">
             <div
-              className={`rounded bg-opacity-70 p-3 w-32 md:w-56 min-h-32 ${
-                theme === "dark" ? "bg-dark" : "bg-light"
+              className={`rounded p-3 w-32 md:w-56 min-h-32 ${
+                theme === "dark" ? "bg-dark-80" : "bg-light-80"
               }`}
             >
               <Form
@@ -119,8 +119,10 @@ const BoardPage = ({ params }: { params: any }) => {
         ) : (
           <Button
             onClick={() => setIsFormOpen(true)}
-            className={`rounded bg-opacity-80 w-32 z-0 ${
-              theme === "dark" ? "bg-dark text-light" : "bg-light text-dark"
+            className={`rounded w-32 z-0 ${
+              theme === "dark"
+                ? "bg-dark-80 text-light"
+                : "bg-light-80 text-dark"
             }`}
             size="lg"
           >

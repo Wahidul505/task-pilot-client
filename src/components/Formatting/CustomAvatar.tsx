@@ -1,9 +1,21 @@
 import React from "react";
 
-const CustomAvatar = () => {
+const CustomAvatar = ({
+  text,
+  popupText,
+  bg,
+}: {
+  text: string;
+  popupText: string;
+  bg: string;
+}) => {
   return (
-    <div className="rounded-full w-6 h-6 flex justify-center items-center bg-white text-black">
-      R
+    <div
+      title={popupText}
+      className="rounded-full w-8 h-8 flex justify-center items-center text-sm text-black -ml-1.5 border border-gray-700 cursor-pointer"
+      style={{ backgroundColor: bg || "white" }}
+    >
+      {text}
     </div>
   );
 };

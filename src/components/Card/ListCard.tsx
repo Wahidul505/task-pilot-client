@@ -96,8 +96,8 @@ const ListCard = ({ list }: { list: any }) => {
     <div
       onDrop={handleOnDrop}
       onDragOver={handleDragOver}
-      className={`rounded bg-opacity-90 p-1 lg:p-2 w-40 md:w-64 lg:w-72 min-h-32 ${
-        theme === "dark" ? "bg-dark" : "bg-light"
+      className={`rounded p-1 lg:p-2 w-40 md:w-64 lg:w-72 min-h-32 ${
+        theme === "dark" ? "bg-dark-90" : "bg-light-90"
       }`}
     >
       <div className="flex justify-between">
@@ -177,7 +177,9 @@ const ListCard = ({ list }: { list: any }) => {
           setClicked={setAddCardClicked}
           button={
             <button
-              className="bg-transparent border-none py-1 cursor-pointer text-white px-2 w-full text-start text-sm"
+              className={`bg-transparent border-none py-1 cursor-pointer px-2 w-full text-start text-sm ${
+                theme === "dark" ? "text-light" : "text-dark"
+              }`}
               onClick={() => setAddCardClicked(true)}
               id="click"
             >

@@ -36,8 +36,8 @@ const PrimaryModal = ({
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className={`rounded bg-opacity-50 backdrop-filter backdrop-blur-md ${
-          theme === "dark" ? "bg-dark" : "bg-light"
+        className={`rounded  backdrop-filter backdrop-blur-md ${
+          theme === "dark" ? "bg-dark-50" : "bg-light-50"
         }`}
         scrollBehavior="inside"
         size={size}

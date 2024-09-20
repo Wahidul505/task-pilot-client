@@ -36,8 +36,8 @@ const PopoverModal = ({
     >
       <PopoverTrigger>{button}</PopoverTrigger>
       <PopoverContent
-        className={`p-2 md:p-2 lg:p-3 rounded bg-opacity-80 ${
-          theme === "dark" ? "bg-dark" : "bg-light"
+        className={`p-2 md:p-2 lg:p-3 rounded ${
+          theme === "dark" ? "bg-dark-80" : "bg-light-80"
         }`}
       >
         {children}

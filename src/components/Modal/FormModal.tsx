@@ -12,6 +12,7 @@ import { IChildrenProps } from "@/types/common";
 import { yupResolver } from "@hookform/resolvers/yup";
 import PublicHeading2 from "../Formatting/PublicHeading2";
 import { useAppSelector } from "@/redux/hooks";
+import LayoutButton from "../Button/LayoutButton";
 
 type IModalProps = {
   children: IChildrenProps;
@@ -53,8 +54,8 @@ const FormModal = ({
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className={`rounded bg-opacity-50 backdrop-filter backdrop-blur-md ${
-          theme === "dark" ? "bg-dark" : "bg-light"
+        className={`rounded  backdrop-filter backdrop-blur-md ${
+          theme === "dark" ? "bg-dark-50" : "bg-light-50"
         }`}
         scrollBehavior="inside"
         size={size}
@@ -76,26 +77,7 @@ const FormModal = ({
                   resolver={resolver ? yupResolver(resolver) : ""}
                 >
                   {children}
-                  <div className="flex justify-end gap-1 md:gap-2 mt-1 md:mt-3">
-                    <Button
-                      color="danger"
-                      variant="light"
-                      onPress={onClose}
-                      size="sm"
-                      className="rounded"
-                    >
-                      Close
-                    </Button>
-                    <Button
-                      color="primary"
-                      className="rounded"
-                      size="sm"
-                      // onPress={onClose}
-                      type="submit"
-                    >
-                      {modalBtnLabel}
-                    </Button>
-                  </div>
+                  <LayoutButton btnLabel={modalBtnLabel} onClose={onClose} />
                 </Form>
               </ModalBody>
               <ModalFooter></ModalFooter>

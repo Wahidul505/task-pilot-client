@@ -128,7 +128,7 @@ const DashboardNavbar = () => {
               ? await dispatch(changeTheme("dark"))
               : await dispatch(changeTheme("light"));
           }}
-          className="bg-transparent -mr-2"
+          className="bg-transparent -mr-4"
           isIconOnly
         >
           {theme === "light" ? (
