@@ -51,7 +51,7 @@ const DynamicInputBox = ({
   const theme = useAppSelector((store: any) => store.theme.theme);
 
   return (
-    <div className="flex items-start gap-1 lg:gap-2 w-full flex-wrap mt-1 p-1 md:p-2 lg:p-3 focus:outline-none bg-transparent box-border text-black rounded border-2 border-solid border-[#0099ff] relative">
+    <div className="flex items-start gap-1 lg:gap-2 w-full flex-wrap mt-1 p-1 md:p-2 lg:p-3 focus:outline-none bg-transparent box-border text-black rounded border-2 border-solid border-[#3C88F0] relative">
       {items?.map((item: any, index: number) => (
         <div
           key={index}

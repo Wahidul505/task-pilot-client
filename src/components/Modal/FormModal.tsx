@@ -1,5 +1,4 @@
 import {
-  Button,
   Modal,
   ModalBody,
   ModalContent,
@@ -13,6 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import PublicHeading2 from "../Formatting/PublicHeading2";
 import { useAppSelector } from "@/redux/hooks";
 import LayoutButton from "../Button/LayoutButton";
+import Heading from "../Formatting/Heading";
 
 type IModalProps = {
   children: IChildrenProps;
@@ -54,7 +54,7 @@ const FormModal = ({
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className={`rounded  backdrop-filter backdrop-blur-md ${
+        className={`rounded  backdrop-filter backdrop-blur-2xl ${
           theme === "dark" ? "bg-dark-50" : "bg-light-50"
         }`}
         scrollBehavior="inside"
@@ -63,11 +63,11 @@ const FormModal = ({
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="text-white">
+              <ModalHeader>
                 {gradientHeading ? (
                   <PublicHeading2>{title}</PublicHeading2>
                 ) : (
-                  <>{title}</>
+                  <Heading>{title}</Heading>
                 )}
               </ModalHeader>
               <ModalBody>

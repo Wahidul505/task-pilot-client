@@ -102,7 +102,7 @@ const AddMemberNav = ({ board, userId }: { board: any; userId: string }) => {
           color="primary"
         >
           <TbUsersPlus className="font-semibold text-base" />
-          <Text>Add</Text>
+          Add
         </Button>
       }
       isOpen={isMembersModalOpen}
@@ -155,7 +155,7 @@ const AddMemberNav = ({ board, userId }: { board: any; userId: string }) => {
                 radius="full"
                 size="sm"
                 className=" text-white font-semibold text-sm md:text-base lg:text-lg"
-                style={{ backgroundColor: board?.user?.cover || "blue" }}
+                style={{ backgroundColor: board?.user?.cover || "#3C88F0" }}
               />
             </AvatarLayout>
           )}
@@ -189,7 +189,7 @@ const AddMemberNav = ({ board, userId }: { board: any; userId: string }) => {
                             className="text-white font-semibold text-sm md:text-base lg:text-lg"
                             style={{
                               backgroundColor:
-                                boardMember?.user?.cover || "blue",
+                                boardMember?.user?.cover || "#3C88F0",
                             }}
                           />
                         </AvatarLayout>

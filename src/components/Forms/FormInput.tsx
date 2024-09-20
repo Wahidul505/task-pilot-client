@@ -75,7 +75,7 @@ const FormInput = ({
               themeExist && theme === "dark" ? "text-light" : "text-dark"
             } ${
               bordered
-                ? `border-2 border-solid focus:border-[#0099ff] ${
+                ? `border-2 border-solid focus:border-[#3C88F0] ${
                     theme === "dark" ? "border-light" : "border-dark"
                   }`
                 : "border-none"

@@ -48,7 +48,7 @@ const FormSelect = ({
         render={({ field: { value, onChange } }) => (
           <select
             onChange={onChange}
-            className={`mt-1 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border  rounded border-2 border-solid  focus:border-[#0099ff] ${
+            className={`mt-1 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border  rounded border-2 border-solid  focus:border-[#3C88F0] ${
               theme === "dark"
                 ? "text-light border-light"
                 : "text-dark border-dark"

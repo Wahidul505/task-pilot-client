@@ -35,7 +35,7 @@ const SaveBoardTemplateNav = ({ board }: { board: any }) => {
           className="rounded flex items-center "
           color="primary"
         >
-          <Text>Save as Template</Text>
+          Save as Template
         </Button>
       }
       modalBtnLabel="Save"

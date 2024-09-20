@@ -44,9 +44,7 @@ const AddCardMember = ({
                 <div
                   onClick={() => handleRemoveCardMember(member?.user?.id)}
                   key={index}
-                  className={`flex justify-between items-center  rounded cursor-pointer px-1 py-1 ${
-                    theme === "dark" ? "hover-bg-dark" : "hover-bg-light"
-                  }`}
+                  className="flex justify-between items-center  rounded cursor-pointer px-1 py-1 hover:bg-gray-500 hover:bg-opacity-50"
                 >
                   <AvatarLayout
                     text={`${member?.user?.name || ""} ${
@@ -63,7 +61,9 @@ const AddCardMember = ({
                       radius="full"
                       size="sm"
                       className="text-white font-semibold text-sm md:text-base lg:text-lg"
-                      style={{ backgroundColor: member?.user?.cover || "blue" }}
+                      style={{
+                        backgroundColor: member?.user?.cover || "#3C88F0",
+                      }}
                     />
                   </AvatarLayout>
                   <IoMdCheckmark className="text-white text-base" />
@@ -72,9 +72,7 @@ const AddCardMember = ({
                 <div
                   onClick={() => handleAddCardMember(member?.user?.id)}
                   key={index}
-                  className={`flex justify-between items-center  rounded cursor-pointer px-1 py-1 ${
-                    theme === "dark" ? "hover-bg-dark" : "hover-bg-light"
-                  }`}
+                  className="flex justify-between items-center  rounded cursor-pointer px-1 py-1 hover:bg-gray-500 hover:bg-opacity-50"
                 >
                   <AvatarLayout
                     text={`${member?.user?.name || ""} ${
@@ -91,7 +89,7 @@ const AddCardMember = ({
                       radius="full"
                       size="sm"
                       className="text-white font-semibold text-sm md:text-base lg:text-lg"
-                      style={{ backgroundColor: member?.cover || "blue" }}
+                      style={{ backgroundColor: member?.cover || "#3C88F0" }}
                     />
                   </AvatarLayout>
                 </div>

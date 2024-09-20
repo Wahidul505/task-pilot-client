@@ -24,6 +24,7 @@ import Heading from "../Formatting/Heading";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { getUserInfo } from "@/services/auth.service";
 import { FiEdit } from "react-icons/fi";
+import { useAppSelector } from "@/redux/hooks";
 
 const ActionHeader = ({ workspace }: { workspace: any }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +33,7 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
   const [addWorkspaceAdmins] = useAddWorkspaceAdminsMutation();
   const [removeWorkspaceAdmin] = useRemoveWorkspaceAdminMutation();
   const { userId } = getUserInfo() as { userId: string };
+  const theme = useAppSelector((store: any) => store.theme.theme);
   const { data: usersData, isLoading: isUsersLoading } =
     useGetUsersQuery(undefined);
   const {
@@ -113,7 +115,9 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
                   isIconOnly
                   onPress={onWorkspaceEditModalOpen}
                   size="sm"
-                  className="rounded text-white lg:text-lg"
+                  className={`rounded lg:text-lg ${
+                    theme === "dark" ? "text-light" : "text-dark"
+                  }`}
                   variant="light"
                 >
                   <FiEdit />
@@ -162,7 +166,7 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
             color="primary"
           >
             <TbUsersPlus className="text-base" />
-            <Text>Members</Text>
+            Members
           </Button>
         }
         isOpen={isAdminsModalOpen}
@@ -228,7 +232,8 @@ const ActionHeader = ({ workspace }: { workspace: any }) => {
                               size="sm"
                               className=" text-white font-semibold text-sm md:text-base lg:text-lg"
                               style={{
-                                backgroundColor: admin?.user?.cover || "blue",
+                                backgroundColor:
+                                  admin?.user?.cover || "#3C88F0",
                               }}
                             />
                           </AvatarLayout>

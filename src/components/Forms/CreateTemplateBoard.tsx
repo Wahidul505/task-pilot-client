@@ -81,7 +81,7 @@ const CreateTemplateBoard = () => {
           <Text className="mb-2">Select Workspace</Text>
           <select
             onChange={(e) => setSelectedWorkspace(e.target.value)}
-            className={`mb-4 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border rounded border-2 border-solid  focus:border-[#0099ff] h-6 md:h-7 lg:h-9 text-xs md:text-sm lg:text-base ${
+            className={`mb-4 px-1 md:px-2 lg:px-2 focus:outline-none w-full bg-transparent box-border rounded border-2 border-solid  focus:border-[#3C88F0] h-6 md:h-7 lg:h-9 text-xs md:text-sm lg:text-base ${
               theme === "dark"
                 ? "text-light border-light"
                 : "text-dark border-dark"

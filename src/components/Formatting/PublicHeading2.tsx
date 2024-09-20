@@ -10,7 +10,7 @@ const PublicHeading2 = ({
 }) => {
   return (
     <div
-      className={`text-xl md:text-3xl lg:text-4xl mb-3 md:mb-4 lg:mb-6 font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#0099ff] to-[#00cba9] ${className}`}
+      className={`text-xl md:text-3xl lg:text-4xl mb-3 md:mb-4 lg:mb-6 font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#3C88F0] to-[#00b799] ${className}`}
     >
       {children}
     </div>

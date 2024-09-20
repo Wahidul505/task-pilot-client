@@ -29,11 +29,7 @@ const PopoverModal = ({
 }) => {
   const theme = useAppSelector((store: any) => store.theme.theme);
   return (
-    <Popover
-      key={htmlFor}
-      placement={placement}
-      className="bg-slate-900 rounded "
-    >
+    <Popover key={htmlFor} placement={placement} className="rounded">
       <PopoverTrigger>{button}</PopoverTrigger>
       <PopoverContent
         className={`p-2 md:p-2 lg:p-3 rounded ${

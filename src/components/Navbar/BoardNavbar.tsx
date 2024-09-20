@@ -101,7 +101,7 @@ const BoardNavbar = ({ board }: { board: any }) => {
               className="rounded flex items-center "
               color="primary"
             >
-              <Text>Collab</Text>
+              Collab
             </Button>
           }
           isOpen={isCollabModalOpen}

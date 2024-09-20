@@ -100,7 +100,7 @@ const DashboardNavbar = () => {
         <p>
           <Link
             href={"/home"}
-            className="text-base md:text-lg lg:text-2xl mb-3 md:mb-4 lg:mb-6 font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#0099ff] to-[#00cba9]"
+            className="text-base md:text-lg lg:text-2xl mb-3 md:mb-4 lg:mb-6 font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#3C88F0] to-[#00b799]"
           >
             Task Pilot
           </Link>

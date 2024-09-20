@@ -15,7 +15,7 @@ const FormLayout = ({
   return (
     <div
       style={{
-        background: "linear-gradient(10deg, #0099ff -70%, #00cba9 100%)",
+        background: "linear-gradient(10deg, #3C88F0 -70%, #00b799 100%)",
       }}
       className="h-screen"
     >

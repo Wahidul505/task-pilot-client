@@ -93,7 +93,7 @@ const Profile = ({ user, setUser }: { user: IUser; setUser: any }) => {
           radius="full"
           size="md"
           className="text-white font-semibold text-sm md:text-base lg:text-lg"
-          style={{ backgroundColor: user?.cover || "blue" }}
+          style={{ backgroundColor: user?.cover || "#3C88F0" }}
         />
       }
       isOpen={isProfileOpen}
@@ -103,7 +103,7 @@ const Profile = ({ user, setUser }: { user: IUser; setUser: any }) => {
       <div>
         <div className="flex items-center space-x-4">
           <div
-            style={{ backgroundColor: currentCover || "blue" }}
+            style={{ backgroundColor: currentCover || "#3C88F0" }}
             className="w-20 h-20 rounded-full flex justify-center items-center"
           >
             <h1 className="text-lg md:text-3xl text-white">
@@ -112,16 +112,6 @@ const Profile = ({ user, setUser }: { user: IUser; setUser: any }) => {
                 user?.email?.slice(0, 1).toUpperCase()}
             </h1>
           </div>
-          {/* <Avatar
-            as="button"
-            name={
-              user?.name?.slice(0, 1).toUpperCase() ||
-              user?.email?.slice(0, 1).toUpperCase()
-            }
-            radius="full"
-            size="lg"
-            className="bg-gradient text-white font-semibold text-sm md:text-base lg:text-lg"
-          /> */}
           <div className="flex flex-col justify-center space-y-2">
             {!update && (
               <Button

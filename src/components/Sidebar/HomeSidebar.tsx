@@ -63,7 +63,7 @@ const HomeSidebar = () => {
             radius="full"
             size="sm"
             className=" text-white font-semibold text-sm md:text-base lg:text-lg"
-            style={{ backgroundColor: user?.cover || "blue" }}
+            style={{ backgroundColor: user?.cover || "#3C88F0" }}
           />
         </AvatarLayout>
       }

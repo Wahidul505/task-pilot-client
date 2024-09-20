@@ -82,7 +82,7 @@ const AddDueDate = ({
               onChange={(e) => setTime(e.target.value + ":00")}
               type="time"
               id="time"
-              className={`border leading-none text-sm rounded block w-full p-2.5 bg-transparent focus:border-[#0099ff] ${
+              className={`border leading-none text-sm rounded block w-full p-2.5 bg-transparent focus:border-[#3C88F0] ${
                 theme === "dark"
                   ? "text-light border-light"
                   : "text-dark border-dark"

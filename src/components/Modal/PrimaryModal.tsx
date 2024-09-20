@@ -9,6 +9,7 @@ import React from "react";
 import { IChildrenProps } from "@/types/common";
 import PublicHeading2 from "../Formatting/PublicHeading2";
 import { useAppSelector } from "@/redux/hooks";
+import Heading from "../Formatting/Heading";
 
 type IModalProps = {
   children: IChildrenProps;
@@ -36,11 +37,12 @@ const PrimaryModal = ({
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className={`rounded  backdrop-filter backdrop-blur-md ${
+        className={`rounded  backdrop-filter backdrop-blur-2xl ${
           theme === "dark" ? "bg-dark-50" : "bg-light-50"
         }`}
         scrollBehavior="inside"
         size={size}
+        // backdrop="blur"
       >
         <ModalContent>
           {(onClose) => (
@@ -51,7 +53,7 @@ const PrimaryModal = ({
                 {gradientHeading ? (
                   <PublicHeading2>{title}</PublicHeading2>
                 ) : (
-                  <>{title}</>
+                  <Heading>{title}</Heading>
                 )}
               </ModalHeader>
               <ModalBody>{children}</ModalBody>

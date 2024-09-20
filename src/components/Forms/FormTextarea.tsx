@@ -46,7 +46,7 @@ const FormTextArea = ({
             {...field}
             value={value ? value : field?.value}
             defaultValue={defaultValue}
-            className={`mt-1 px-1 md:px-2 py-1 lg:px-3 focus:outline-none md:text-lg w-full bg-transparent box-border rounded border-2 border-solid focus:border-[#0099ff] ${
+            className={`mt-1 px-1 md:px-2 py-1 lg:px-3 focus:outline-none md:text-lg w-full bg-transparent box-border rounded border-2 border-solid focus:border-[#3C88F0] ${
               theme === "dark"
                 ? "text-light border-light"
                 : "text-dark border-dark"

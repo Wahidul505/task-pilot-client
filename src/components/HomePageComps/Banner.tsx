@@ -29,8 +29,8 @@ const Banner = () => {
         >
           <defs>
             <linearGradient id="myGradient" gradientTransform="rotate(110)">
-              <stop offset="0%" style={{ stopColor: "#00cba9" }} />
-              <stop offset="100%" style={{ stopColor: "#0099ff" }} />
+              <stop offset="0%" style={{ stopColor: "#00b799" }} />
+              <stop offset="100%" style={{ stopColor: "#3C88F0" }} />
             </linearGradient>
           </defs>
           <path
